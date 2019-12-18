@@ -11,7 +11,6 @@ public class Protocol
 	// problem with current conditionwrapper system: logical operator in last
 	// condition is redundant
 	private HashMap<NetworkPhase, ProtocolCondition> conditions;
-	
 
 	// TODO
 	private NetworkPhase currentNetworkPhase;
@@ -58,16 +57,13 @@ public class Protocol
 		}
 	}
 
-<<<<<<< HEAD
-	public boolean pass(Packet p, PacketState ps)
-=======
 	/**
 	 * Checks if the packet triggers progresses to another network phase
+	 * 
 	 * @param p
 	 * @return
 	 */
-	public boolean pass(Packet p)
->>>>>>> branch 'master' of https://github.com/Bussard30/jserver_v2
+	public boolean pass(Packet p, PacketState ps)
 	{
 		if (map0.get(p.getClass()).getCondition().isConditionMet() != map0.get(p).getCondition().check(p, ps))
 		{
