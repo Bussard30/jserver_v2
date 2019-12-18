@@ -10,7 +10,8 @@ public class Protocol
 {
 	// problem with current conditionwrapper system: logical operator in last
 	// condition is redundant
-	private HashMap<NetworkPhase, ConditionWrapper[]> conditions;
+	private HashMap<NetworkPhase, ProtocolCondition> conditions;
+	
 
 	// TODO
 	private NetworkPhase currentNetworkPhase;
@@ -26,7 +27,7 @@ public class Protocol
 		// to be used to subclasses for filling conditions hashmap
 	}
 
-	public HashMap<NetworkPhase, ConditionWrapper[]> getConditionsHashMap()
+	public HashMap<NetworkPhase, ProtocolCondition> getConditionsHashMap()
 	{
 		if (conditions != null)
 		{
@@ -37,13 +38,16 @@ public class Protocol
 		}
 	}
 
+	/**
+	 * Creates new mappings of conditions for faster future processing speed
+	 */
 	public void sort()
 	{
 		map0 = new HashMap<>();
 		map1 = new HashMap<>();
-		for (Map.Entry<NetworkPhase, ConditionWrapper[]> m : conditions.entrySet())
+		for (Map.Entry<NetworkPhase, ProtocolCondition> m : conditions.entrySet())
 		{
-			for (ConditionWrapper c : m.getValue())
+			for (ConditionWrapper c : m.getValue().getConditions())
 			{
 				map1.put(c, m.getKey());
 				for (Class<? extends Packet> p : c.getCondition().getPackets())
@@ -54,11 +58,16 @@ public class Protocol
 		}
 	}
 
+	/**
+	 * Checks if the packet triggers progresses to another network phase
+	 * @param p
+	 * @return
+	 */
 	public boolean pass(Packet p)
 	{
 		if (map0.get(p).getCondition().isConditionMet() != map0.get(p).getCondition().check(p))
 		{
-			ConditionWrapper[] c = conditions.get(currentNetworkPhase);
+			ConditionWrapper[] c = conditions.get(currentNetworkPhase).getConditions();
 			boolean b = false;
 			b = c[0].getLogicalOperator().compare(c[0].getCondition().isConditionMet(),
 					c[1].getCondition().isConditionMet());
