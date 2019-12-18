@@ -12,11 +12,11 @@ public class Condition
 	private Class<? extends Packet>[] p;
 	private boolean and;
 	private boolean conditionMet;
-	private int specification;
+	private PacketState packetState;
 
 	/**
 	 * 
-	 * @param specification
+	 * @param packetState
 	 *            0 = received, 1 = successful
 	 * @param and
 	 *            : if true Condition fulfilled when at least one of all package
@@ -26,9 +26,9 @@ public class Condition
 	 * @param p
 	 */
 	@SafeVarargs
-	public Condition(int specification, boolean and, Class<? extends Packet>... p)
+	public Condition(PacketState packetState, boolean and, Class<? extends Packet>... p)
 	{
-		this.specification = specification;
+		this.packetState = packetState;
 		this.p = p;
 		this.and = and;
 		packages = new HashMap<>();
@@ -50,8 +50,10 @@ public class Condition
 	 * @param p
 	 * @return
 	 */
-	public boolean check(Packet p)
+	public boolean check(Packet p, PacketState packetState)
 	{
+		if (packetState != this.packetState)
+			return conditionMet;
 		packages.put(p.getClass(), true);
 		if (!and)
 		{
@@ -83,6 +85,11 @@ public class Condition
 	public boolean isConditionMet()
 	{
 		return conditionMet;
+	}
+
+	public PacketState getPacketState()
+	{
+		return packetState;
 	}
 
 }

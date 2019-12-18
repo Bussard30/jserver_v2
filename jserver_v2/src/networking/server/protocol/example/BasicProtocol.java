@@ -9,6 +9,8 @@ import networking.server.protocol.NetworkPhase;
 import networking.server.protocol.Protocol;
 import networking.server.protocol.example.networkphases.Com;
 import networking.server.protocol.example.networkphases.Pre0;
+import networking.server.protocol.example.packetstates.PacketReceived;
+import networking.server.protocol.example.packetstates.PacketSuccess;
 import networking.server.protocol.message.Header;
 import networking.types.Packet;
 
@@ -20,9 +22,11 @@ public class BasicProtocol extends Protocol
 	{
 		hm = this.getConditionsHashMap();
 		hm.put((NetworkPhase) new Pre0(), new ConditionWrapper[]
-		{ new ConditionWrapper(new Condition(1, false, VersionPacket.class), LogicalOperator.none) });
+		{ new ConditionWrapper(new Condition(PacketReceived.packetReceived, false, VersionPacket.class),
+				LogicalOperator.none) });
 		hm.put((NetworkPhase) new Com(), new ConditionWrapper[]
-		{ new ConditionWrapper(new Condition(1, false, TerminationPacket.class), LogicalOperator.none) });
+		{ new ConditionWrapper(new Condition(PacketSuccess.packetSuccess, false, TerminationPacket.class),
+				LogicalOperator.none) });
 	}
 
 	@Override

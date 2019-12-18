@@ -54,9 +54,9 @@ public class Protocol
 		}
 	}
 
-	public boolean pass(Packet p)
+	public boolean pass(Packet p, PacketState ps)
 	{
-		if (map0.get(p).getCondition().isConditionMet() != map0.get(p).getCondition().check(p))
+		if (map0.get(p.getClass()).getCondition().isConditionMet() != map0.get(p).getCondition().check(p, ps))
 		{
 			ConditionWrapper[] c = conditions.get(currentNetworkPhase);
 			boolean b = false;
@@ -75,11 +75,10 @@ public class Protocol
 	{
 		this.header = h;
 	}
-	
+
 	public String getHeader(Header h, Packet p)
 	{
 		return String.valueOf(p.getConvertedBuffer().length);
 	}
-
 
 }
