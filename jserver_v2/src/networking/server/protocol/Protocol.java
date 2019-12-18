@@ -87,7 +87,8 @@ public class Protocol
 
 	public String getHeader(Header h, Packet p)
 	{
-		return String.valueOf(p.getConvertedBuffer().length);
+		//TODO method that creates string header by taking standard header or something and packet
+		return null;
 	}
 
 }
