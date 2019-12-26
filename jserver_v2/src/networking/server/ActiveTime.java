@@ -42,7 +42,7 @@ public class ActiveTime
 	{
 		long l = 0;
 		l += markTimes.get(0) - threshhold;
-		for (int i = 1; i < markTimes.length; i++)
+		for (int i = 1; i < markTimes.getLength(); i++)
 		{
 			if (!values.get(i))
 				l += markTimes.get(i) - markTimes.get(i - 1);

@@ -1,13 +1,15 @@
 package networking.server;
 
 import java.lang.reflect.Array;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 public class AdvancedArray<T> implements Iterable<T>
 {
-	T[] array;
-	int offset = 0;
-	int length;
+	private T[] array;
+	private int offset = 0;
+	private int length;
+	private boolean concurrentModification;
 
 	public AdvancedArray(Class<T> c, int length)
 	{
@@ -19,36 +21,48 @@ public class AdvancedArray<T> implements Iterable<T>
 
 	public void put(T object, int index)
 	{
-		if (index >= length)
+		if (concurrentModification == false)
 		{
-			throw new ArrayIndexOutOfBoundsException("Index " + index + " is out of bounds.");
-		}
-		if ((index + offset) >= length)
-		{
-			array[(index + offset) - length] = object;
+			if (index >= length)
+			{
+				throw new ArrayIndexOutOfBoundsException("Index [" + index + "] is out of bounds.");
+			}
+			if ((index + offset) >= length)
+			{
+				array[(index + offset) - length] = object;
+			} else
+			{
+				array[index + offset] = object;
+			}
 		} else
-		{
-			array[index + offset] = object;
-		}
+			throw new ConcurrentModificationException();
 	}
 
 	public T get(int index)
 	{
-		if ((index + offset) >= length)
+		if (concurrentModification == false)
 		{
-			return (T) array[(index + offset) - length];
+			if ((index + offset) >= length)
+			{
+				return (T) array[(index + offset) - length];
+			} else
+			{
+				return (T) array[index + offset];
+			}
 		} else
-		{
-			return (T) array[index + offset];
-		}
+			throw new ConcurrentModificationException();
 	}
 
 	public void removeFirst()
 	{
-		array[offset] = null;
-		offset += 1;
-		if (offset >= 10)
-			offset -= 10;
+		if (concurrentModification == false)
+		{
+			array[offset] = null;
+			offset += 1;
+			if (offset >= 10)
+				offset -= 10;
+		} else
+			throw new ConcurrentModificationException();
 	}
 
 	public int getLength()
@@ -59,6 +73,11 @@ public class AdvancedArray<T> implements Iterable<T>
 	public int getOffset()
 	{
 		return offset;
+	}
+
+	public boolean concurrentModification()
+	{
+		return concurrentModification;
 	}
 
 	@Override
@@ -74,7 +93,7 @@ public class AdvancedArray<T> implements Iterable<T>
 			{
 				if (currentIndex == (offset + l))
 				{
-					System.out.println("bra");
+					concurrentModification = false;
 					return false;
 				} else
 					return true;
@@ -84,9 +103,7 @@ public class AdvancedArray<T> implements Iterable<T>
 			@Override
 			public T next()
 			{
-				System.out.println("Current index:" + currentIndex);
-				System.out.println("offset:" + offset);
-				System.out.println("l:" + l);
+				concurrentModification = true;
 				T object = null;
 				if (currentIndex >= length)
 				{
