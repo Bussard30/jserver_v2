@@ -9,7 +9,7 @@ public class Message
 	private char seperator = ';';
 
 	/**
-	 * It is very important to have everything in order in the array
+	 * Order in array matters.
 	 * 
 	 * @param s
 	 */
