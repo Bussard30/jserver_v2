@@ -6,6 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import networking.server.protocol.NetworkPhase;
+import threading.types.ThreadPriority;
+import threading.types.ThreadProcessingSpeed;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

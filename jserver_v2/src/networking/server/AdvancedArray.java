@@ -7,9 +7,9 @@ import java.util.Iterator;
 public class AdvancedArray<T> implements Iterable<T>
 {
 	private T[] array;
-	private int offset = 0;
-	private int length;
-	private boolean concurrentModification;
+	private volatile int offset = 0;
+	private volatile int length;
+	private volatile boolean concurrentModification;
 
 	public AdvancedArray(Class<T> c, int length)
 	{

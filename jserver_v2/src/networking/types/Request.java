@@ -1,35 +1,27 @@
 package networking.types;
 
-import java.io.Serializable;
+import networking.server.protocol.message.Message;
 
 /**
- * This class contains the number of the request,<br>
- * which is actually not in use right now,<br>
- * the Object which is being buffered,<br>
- * and the name of the request (see {@link Requests})
  * 
  * @author Bussard30
  *
  */
-public class Request extends Packet implements Serializable
+public interface Request 
 {
+
+	public static String identifier = "req";
+	
+	public default String getPacketIdentifier()
+	{
+		return identifier;
+	}
+	
 	/**
 	 * 
+	 * @param request Request that can be processed.
 	 */
-	private static final long serialVersionUID = 8977692225934536189L;
+	public void onRequest(Packet request);
 
-	protected int nr;
-	protected Object buffer;
-	protected String name;
-
-	public Request(String name, Object buffer, byte[] convertedBuffer)
-	{
-		super(name, buffer, -1, convertedBuffer);
-	}
-
-	public Request(String name, Object buffer, int nr, byte[] convertedBuffer)
-	{
-		super(name, buffer, nr, convertedBuffer);
-	}
-
+	public Message getRequestMessage();
 }

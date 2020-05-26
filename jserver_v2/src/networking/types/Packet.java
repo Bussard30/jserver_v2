@@ -53,4 +53,14 @@ public abstract class Packet
 	{
 		return convertedBuffer;
 	}
+	
+	// packet identifier in actual packet sent to other client, for example "res" for response
+	/**
+	 * 
+	 * @return unique packet identifier
+	 */
+	public String getPacketIdentifier()
+	{
+		return "";
+	}
 }

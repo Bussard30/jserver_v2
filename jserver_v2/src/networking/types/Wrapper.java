@@ -12,6 +12,7 @@ public class Wrapper
 	
 	public String getString()
 	{
+		// ????
 		String[] tmp = new String[objects.length];
 		int i = 0;
 		for(Object o : objects)

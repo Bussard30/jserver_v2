@@ -48,38 +48,19 @@ public class ServerHandler
 
 	private boolean queueEmpty;
 
-	private long millis;
 
 	private DataInputStream in;
 	private DataOutputStream out;
-
-	private KeyPair kp;
-	private PublicKey pub;
-	private PrivateKey pvt;
-
-	private PublicKey pub1;
 
 	private NetworkPhase phase;
 
 	private int current = 0;
 
+	/**
+	 * TODO conditions
+	 */
 	private HashMap<NetworkPhase, boolean[]> networkphaseprogress;
 
-	private SecretKey key;
-
-	private long lastPing;
-	private boolean pinging;
-	private byte[] ping;
-
-	/**
-	 * Interval in ms in which the server pings the client
-	 */
-	private static final int ping_interval = 5000;
-
-	/**
-	 * Duration in ms server waits for until it terminates the connection
-	 */
-	private static final int ping_timeout = 10000;
 
 	/**
 	 * Generates new server handler to handle socket
@@ -98,40 +79,10 @@ public class ServerHandler
 		this.in = in;
 	}
 
-	boolean bbbb = false;
 
-	/**
-	 * <h1>Connectivity Check</h1> First of all it checks if the server is
-	 * already closed<br>
-	 * and if that's true it closes the Handler<br>
-	 * <h1>Deserialization</h1> First it checks if the queue is empty.<br>
-	 * If not, it's going to read an 32-bit integer,<br>
-	 * which is the length of the incoming packet.<br>
-	 * Then it gets decrypted with the AES key (see {@link #key} &<br>
-	 * {@link #decrypt(SecretKey, byte[])}).<br>
-	 * After that it get deserialized (see {@link #deserialize(byte[])}).<br>
-	 * <h1>Interpretation</h1> Now depending on the type of request/response
-	 * and/or the type of the object<br>
-	 * a different response will be triggered. <br>
-	 * (see {@link Requests} and {@link Responses})
-	 * <h1>The end</h1> Now it is being checked if the conditions for
-	 * advancing<br>
-	 * to the next network phase have been met.<br>
-	 * It also may initiate new requests/responses depending on the network
-	 * phase.<br>
-	 * (see {@link NetworkPhase})
-	 * 
-	 * @throws Exception
-	 * @see Wrapper
-	 * @see Request
-	 * @see Requests
-	 * @see Response
-	 * @see Responses
-	 * @see NetworkPhase
-	 * @see Server
-	 */
 	public void run() throws Exception
 	{
+		//FETCH PACKET
 		
 	}
 

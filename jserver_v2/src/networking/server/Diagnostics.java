@@ -16,9 +16,9 @@ public class Diagnostics
 	private static Diagnostics instance;
 
 	private boolean noThread;
-	private volatile HashMap<ServerThread, Vector<ServerHandler>> handlers;
-	private volatile HashMap<ServerHandler, ActiveTime> uptime;
-	private volatile HashMap<ServerThread, Double> ranking;
+	private HashMap<ServerThread, Vector<ServerHandler>> handlers;
+	private HashMap<ServerHandler, ActiveTime> uptime;
+	private HashMap<ServerThread, Double> ranking;
 
 	int i = 0;
 

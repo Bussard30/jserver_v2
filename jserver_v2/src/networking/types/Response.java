@@ -1,32 +1,28 @@
 package networking.types;
 
-import java.io.Serializable;
+import networking.server.protocol.message.Message;
 
 /**
- * This class contains the number of the response,<br>
- * which is actually not in use right now,<br>
- * the Object which is being buffered,<br>
- * and the name of the response (see {@link Responses})
- * 
  * @author Bussard30
  *
  */
-public class Response extends Packet implements Serializable
+public interface Response 
 {
+	
+	public static String identifier = "res";
+
+
+	public default String getPacketIdentifier()
+	{
+		return identifier;
+	}
 
 	/**
 	 * 
+	 * @param response Response that can processed
+	 * @param request Request on which the Response responded
 	 */
-	private static final long serialVersionUID = -608768784249987736L;
-
-	public Response(String name, Object buffer, byte[] convertedBuffer)
-	{
-		super(name, buffer, -1, convertedBuffer);
-	}
-
-	public Response(String name, Object buffer, int nr, byte[] convertedBuffer)
-	{
-		super(name, buffer, nr, convertedBuffer);
-	}
-
+	public void onResponse(Packet response, Packet request);
+	
+	public Message getResponseMessage();
 }
