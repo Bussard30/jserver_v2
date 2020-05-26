@@ -9,7 +9,7 @@ public class LogicalOperator
 	{
 		return b0 && b1;
 	});
-	
+
 	public static LogicalOperator or = new LogicalOperator((b0, b1) ->
 	{
 		return b0 || b1;
@@ -24,14 +24,13 @@ public class LogicalOperator
 	{
 		return b0 ? !b1 : true;
 	});
-	
+
 	public static LogicalOperator enor = new LogicalOperator((b0, b1) ->
 	{
 		return b0 == b1;
 	});
-	
-	public static LogicalOperator none = null;
 
+	public static LogicalOperator none = null;
 
 	BiPredicate<Boolean, Boolean> bc;
 

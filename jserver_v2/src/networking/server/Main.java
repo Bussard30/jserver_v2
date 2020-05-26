@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.function.Consumer;
 
-import networking.server.protocol.NetworkPhase;
 import networking.types.Handler;
 import networking.types.Packet;
 
