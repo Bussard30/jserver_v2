@@ -1,24 +1,20 @@
-package networking.types;
+package eventhandling;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import networking.server.protocol.NetworkPhase;
 import threading.types.ThreadPriority;
 import threading.types.ThreadProcessingSpeed;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Handler
+public @interface EventHandler
 {
-	/**
-	 * Workaround for annotations not allowing interfaces
-	 * @return
-	 */
 	String[] networkPhase();
-	ThreadPriority tp();
-	ThreadProcessingSpeed tps();
-	Handlertype ht();
+
+	ThreadPriority tp() default ThreadPriority.MID;
+
+	ThreadProcessingSpeed tps() default ThreadProcessingSpeed.FAST;
 }
