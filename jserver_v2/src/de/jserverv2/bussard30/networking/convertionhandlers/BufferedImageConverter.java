@@ -9,10 +9,10 @@ import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
-import de.jserverv2.bussard30.networking.types.ConvertionHandler;
+import de.jserverv2.bussard30.networking.types.ConvertionHandling;
 
-@ConvertionHandler(target = BufferedImage.class)
-public class BufferedImageConverter extends ConvertionHandling
+@ConvertionHandling(target = BufferedImage.class)
+public class BufferedImageConverter extends ConvertionHandler
 {
 
 	@Override

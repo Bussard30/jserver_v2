@@ -2,10 +2,10 @@ package de.jserverv2.bussard30.networking.convertionhandlers;
 
 import java.security.InvalidParameterException;
 
-import de.jserverv2.bussard30.networking.types.ConvertionHandler;
+import de.jserverv2.bussard30.networking.types.ConvertionHandling;
 
-@ConvertionHandler(target = Long.class)
-public class LongConverter extends ConvertionHandling
+@ConvertionHandling(target = Long.class)
+public class LongConverter extends ConvertionHandler
 {
 
 	@Override

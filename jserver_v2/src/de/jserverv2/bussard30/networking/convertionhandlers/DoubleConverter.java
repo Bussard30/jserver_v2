@@ -2,10 +2,10 @@ package de.jserverv2.bussard30.networking.convertionhandlers;
 
 import java.security.InvalidParameterException;
 
-import de.jserverv2.bussard30.networking.types.ConvertionHandler;
+import de.jserverv2.bussard30.networking.types.ConvertionHandling;
 
-@ConvertionHandler(target = Double.class)
-public class DoubleConverter extends ConvertionHandling
+@ConvertionHandling(target = Double.class)
+public class DoubleConverter extends ConvertionHandler
 {
 
 	@Override

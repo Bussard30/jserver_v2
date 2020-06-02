@@ -3,10 +3,10 @@ package de.jserverv2.bussard30.networking.convertionhandlers;
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
-import de.jserverv2.bussard30.networking.types.ConvertionHandler;
+import de.jserverv2.bussard30.networking.types.ConvertionHandling;
 
-@ConvertionHandler(target = Short.class)
-public class ShortConverter extends ConvertionHandling
+@ConvertionHandling(target = Short.class)
+public class ShortConverter extends ConvertionHandler
 {
 
 	@Override

@@ -2,10 +2,10 @@ package de.jserverv2.bussard30.networking.convertionhandlers;
 
 import java.security.InvalidParameterException;
 
-import de.jserverv2.bussard30.networking.types.ConvertionHandler;
+import de.jserverv2.bussard30.networking.types.ConvertionHandling;
 
-@ConvertionHandler(target = Float.class)
-public class FloatConverter extends ConvertionHandling
+@ConvertionHandling(target = Float.class)
+public class FloatConverter extends ConvertionHandler
 {
 
 	@Override

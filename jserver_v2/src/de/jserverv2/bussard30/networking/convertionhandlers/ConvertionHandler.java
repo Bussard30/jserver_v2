@@ -2,7 +2,7 @@ package de.jserverv2.bussard30.networking.convertionhandlers;
 
 import java.security.InvalidParameterException;
 
-public abstract class ConvertionHandling
+public abstract class ConvertionHandler
 {
 	/**
 	 * Converts an object to a string

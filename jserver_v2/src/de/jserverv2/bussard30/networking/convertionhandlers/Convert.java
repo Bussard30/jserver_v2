@@ -3,24 +3,24 @@ package de.jserverv2.bussard30.networking.convertionhandlers;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 
-import de.jserverv2.bussard30.networking.types.ConvertionHandler;
+import de.jserverv2.bussard30.networking.types.ConvertionHandling;
 
 public class Convert
 {
-	private static HashMap<Class<?>, ConvertionHandling> assignments;
+	private static HashMap<Class<?>, ConvertionHandler> assignments;
 
 	static
 	{
-		assignments = new HashMap<Class<?>, ConvertionHandling>();
+		assignments = new HashMap<Class<?>, ConvertionHandler>();
 	}
 
-	public static void register(ConvertionHandling o) throws InvalidParameterException
+	public static void register(ConvertionHandler o) throws InvalidParameterException
 	{
 		try
 		{
-			if (!assignments.containsKey(o.getClass().getAnnotation(ConvertionHandler.class).target()))
+			if (!assignments.containsKey(o.getClass().getAnnotation(ConvertionHandling.class).target()))
 			{
-				assignments.put(o.getClass().getAnnotation(ConvertionHandler.class).target(), o);
+				assignments.put(o.getClass().getAnnotation(ConvertionHandling.class).target(), o);
 			} else
 			{
 				throw new InvalidParameterException("ConvertionHandler for this type already registered!");
