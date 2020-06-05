@@ -12,6 +12,7 @@ import de.jserverv2.bussard30.threading.types.ThreadProcessingSpeed;
 @Target(ElementType.TYPE)
 public @interface EventHandler
 {
+	//all networkphases in which the packet can be handled
 	String[] networkPhase();
 
 	ThreadPriority tp() default ThreadPriority.MID;
