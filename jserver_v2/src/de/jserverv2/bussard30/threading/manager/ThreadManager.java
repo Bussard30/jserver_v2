@@ -65,6 +65,12 @@ public class ThreadManager
 		return (HashMap<ThreadedJob, ThreadPool>)assignments[index];
 	}
 
+	/**
+	 * Quicksort algorithm.
+	 * @param arr
+	 * @param begin
+	 * @param end
+	 */
 	private void quickSort(int arr[], int begin, int end)
 	{
 		if (begin < end)
@@ -76,6 +82,13 @@ public class ThreadManager
 		}
 	}
 
+	/**
+	 * part of quicksort algorithm
+	 * @param arr
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
 	private int partition(int arr[], int begin, int end)
 	{
 		int pivot = arr[end];
