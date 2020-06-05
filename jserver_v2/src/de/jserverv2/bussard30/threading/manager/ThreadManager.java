@@ -16,11 +16,15 @@ public class ThreadManager
 
 	@SuppressWarnings("rawtypes")
 	/**
-	 * HashMap<ThreadedJob, ThreadPool>
+	 * TODO
+	 * HashMap<ThreadedJob, ThreadPool> stores where threadedjobs are being
+	 * processed. should probably be seperated more by starting letters of the
+	 * job or something idk or you just assign every threadedjob an id, an index
+	 * of in what hashmap the threadedjob is !
 	 */
 	private HashMap[] assignments;
 	private Object[] locks;
-	
+
 	public static int maxThreadPools = 30;
 
 	/**
@@ -39,8 +43,7 @@ public class ThreadManager
 		{
 			throw new InstanceAlreadyExistsException();
 		}
-		
-		
+
 		ThreadPriority[] values = ThreadPriority.values();
 		priorityList = new int[values.length];
 
@@ -49,24 +52,25 @@ public class ThreadManager
 			priorityList[i] = values[i].getPriority();
 		}
 		quickSort(priorityList, 0, priorityList.length);
-		
+
 		assignments = new HashMap[maxThreadPools];
-		
+
 	}
-	
+
 	public void handleEvent(ThreadedJob e)
 	{
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public HashMap<ThreadedJob, ThreadPool> getAssignment(int index)
 	{
-		return (HashMap<ThreadedJob, ThreadPool>)assignments[index];
+		return (HashMap<ThreadedJob, ThreadPool>) assignments[index];
 	}
 
 	/**
 	 * Quicksort algorithm.
+	 * 
 	 * @param arr
 	 * @param begin
 	 * @param end
@@ -84,6 +88,7 @@ public class ThreadManager
 
 	/**
 	 * part of quicksort algorithm
+	 * 
 	 * @param arr
 	 * @param begin
 	 * @param end
