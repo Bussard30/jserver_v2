@@ -16,8 +16,7 @@ public class ThreadManager
 
 	@SuppressWarnings("rawtypes")
 	/**
-	 * TODO
-	 * HashMap<ThreadedJob, ThreadPool> stores where threadedjobs are being
+	 * TODO HashMap<ThreadedJob, ThreadPool> stores where threadedjobs are being
 	 * processed. should probably be seperated more by starting letters of the
 	 * job or something idk or you just assign every threadedjob an id, an index
 	 * of in what hashmap the threadedjob is !
@@ -28,9 +27,10 @@ public class ThreadManager
 	public static int maxThreadPools = 30;
 
 	/**
-	 * int[] contains all pool indexes for a certain object so you can identify
-	 * for example all event threadpools, all logger threadpools(which should be
-	 * only one)
+	 * int[] contains all pool indexes for a certain object so you can identify,
+	 * for example, all event threadpools, and get where they are in the
+	 * assignments array Example for Object would be "{static Object EventPools
+	 * = new Object()}"
 	 */
 	private HashMap<Object, int[]> poolAssignments;
 
