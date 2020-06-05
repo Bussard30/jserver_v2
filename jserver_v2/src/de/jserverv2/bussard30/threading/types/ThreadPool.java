@@ -1,6 +1,7 @@
 package de.jserverv2.bussard30.threading.types;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 import java.util.function.Function;
 
@@ -9,55 +10,68 @@ import de.jserverv2.bussard30.threading.exceptions.ThreadJobNotDoneException;
 
 public class ThreadPool
 {
-	private Vector<Thread> threadpool;
+	private Vector<ThreadPoolWorker>[] threadpool;
+	private Object threadpoollock;
 
 	private int[] priorityList;
 
 	private Vector<ThreadedJob>[] jobs;
-
+	private Object[] jobLocks;
 	/**
 	 * This hashmap is used to only store results.
 	 */
 	private HashMap<ThreadedJob, ThreadedJobResult> jobResults;
 	private Object jobResultsLock;
 
-	public ThreadPool()
+	@SuppressWarnings("unchecked")
+	private ThreadPool()
 	{
-		threadpool = new Vector<Thread>();
-		
 		jobResults = new HashMap<ThreadedJob, ThreadedJobResult>();
 		jobResultsLock = new Object();
-	}
-
-	public ThreadPool(Thread... threads)
-	{
-		this();
-
-		for (Thread t : threads)
-		{
-			threadpool.add(t);
-		}
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public ThreadPool(int[] priorityList)
 	{
 		this();
 		this.priorityList = priorityList;
-	}
 
-	public ThreadPool(int[] priorityList, Thread... threads)
-	{
-		this(priorityList);
+		jobs = new Vector[priorityList.length];
+		threadpool = new Vector[priorityList.length];
+		jobLocks = new Object[priorityList.length];
 
-		for (Thread t : threads)
+		for (int i = 0; i < priorityList.length; i++)
 		{
-			threadpool.add(t);
+			jobLocks[i] = new Object();
 		}
 	}
 
+	/**
+	 * Automatically selects normal ThreadPriority
+	 * 
+	 * @param t
+	 */
 	public void addJob(ThreadedJob t)
 	{
+		addJob(t, ThreadPriority.NORMAL);
+	}
+
+	public void addJob(ThreadedJob t, ThreadPriority tp)
+	{
+		int index = 0;
+		for (int i = 0; i < priorityList.length; i++)
+		{
+			if (priorityList[i] == tp.getPriority())
+			{
+				index = i;
+			}
+		}
+		synchronized (jobLocks[index])
+		{
+			t.setQueueTime(System.currentTimeMillis());
+			jobs[index].add(t);
+		}
 	}
 
 	public Object getResult(ThreadedJob t) throws ThreadJobException, ThreadJobNotDoneException
@@ -65,14 +79,14 @@ public class ThreadPool
 		Object o = null;
 		synchronized (jobResultsLock)
 		{
-			if(!jobResults.containsKey(t))
+			if (!jobResults.containsKey(t))
 			{
 				throw new ThreadJobNotDoneException();
 			}
 			o = jobResults.get(t).getResult();
-			if(o == null)
+			if (o == null)
 			{
-				
+
 			}
 			jobResults.remove(t);
 		}
@@ -90,12 +104,43 @@ public class ThreadPool
 		return tp -> getThreadedJob(tp);
 	}
 
-	public ThreadedJob getThreadedJob(ThreadPriority minimum)
+	/**
+	 * fetches a job, removes it from the jobs list
+	 * 
+	 * @param minimum
+	 * @return
+	 * @throws NoSuchElementException
+	 */
+	public ThreadedJob getThreadedJob(ThreadPriority minimum) throws NoSuchElementException
 	{
-		return null;
+		int index = 0;
+		ThreadedJob t = null;
+		for (int i = 0; i < priorityList.length; i++)
+		{
+			if (priorityList[i] == minimum.getPriority())
+			{
+				index = i;
+			}
+		}
+		for (int i = 0; i <= index; i++)
+		{
+			synchronized (jobLocks[i])
+			{
+				t = jobs[i].firstElement();
+				jobs[i].remove(t);
+			}
+		}
+		return t;
 	}
 
-	public void finishTask(ThreadedJob t, Object result)
+	/**
+	 * 
+	 * @param t
+	 *            job that was finished
+	 * @param result
+	 *            result of that job
+	 */
+	public void finishJob(ThreadedJob t, Object result)
 	{
 		if (t.keepNotification())
 		{
@@ -114,8 +159,18 @@ public class ThreadPool
 		}
 	}
 
-	public void finishTask(ThreadedJob t, Object result, Throwable e)
+	/**
+	 * 
+	 * @param t
+	 *            job that was finished
+	 * @param result
+	 *            not used
+	 * @param e
+	 *            exception thrown while executing task
+	 */
+	public void finishJob(ThreadedJob t, Object result, Throwable e)
 	{
+		t.setJobProcessingTime(System.currentTimeMillis() - t.getQueueTime() - t.getDelay());
 		if (t.keepNotification())
 		{
 			ThreadedJobResult temp;
@@ -133,6 +188,52 @@ public class ThreadPool
 		}
 	}
 
+	public int getIndex(ThreadPriority tp)
+	{
+		int index = 0;
+		for (int i = 0; i < priorityList.length; i++)
+		{
+			if (priorityList[i] == tp.getPriority())
+			{
+				index = i;
+			}
+		}
+		return index;
+	}
+
+	/**
+	 * Creates another threadpoolworker which handles jobs with a priority at
+	 * least of @see <"assignment">
+	 * 
+	 * @param assignment
+	 */
+	public void addWorker(ThreadPriority assignment)
+	{
+		int index = getIndex(assignment);
+		synchronized (threadpoollock)
+		{
+			threadpool[index].add(new ThreadPoolWorker(this, assignment));
+		}
+	}
+
+	/**
+	 * Removes a random threadpoolworker which handles jobs with a priority at
+	 * least of @see <"assignment">
+	 * 
+	 * @see {@link #addWorker(ThreadPriority)}
+	 * @param assignment
+	 */
+	public void removeWorker(ThreadPriority assignment)
+	{
+		int index = getIndex(assignment);
+		synchronized (threadpoollock)
+		{
+			ThreadPoolWorker tpw = threadpool[index].firstElement();
+			tpw.stop();
+			threadpool[index].remove(tpw);
+		}
+	}
+
 	private class ThreadPoolWorker
 	{
 		private ThreadPool tp;
@@ -140,32 +241,45 @@ public class ThreadPool
 		private boolean running;
 		private ThreadPriority min;
 
-		public ThreadPoolWorker(ThreadPool tp, ThreadPriority minimum)
+		private ThreadPoolWorker(ThreadPool tp, ThreadPriority minimum)
 		{
 			this.tp = tp;
 			this.min = minimum;
-			
+
 			t = new Thread(() ->
 			{
 				while (running)
 				{
 					ThreadedJob t = tp.getThreadedJob(min);
+					t.setDelay(System.currentTimeMillis() - t.getQueueTime());
 					try
 					{
-						finishTask(t, t.run());
-					}
-					catch(Throwable e)
+						finishJob(t, t.run());
+					} catch (Throwable e)
 					{
-						finishTask(t, null, e);
+						finishJob(t, null, e);
 					}
 				}
 			});
+			start();
 		}
 
-		public void start()
+		private void start()
 		{
 			running = true;
 			t.start();
+		}
+
+		private void stop()
+		{
+			running = false;
+			try
+			{
+				t.join(10000);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 	}

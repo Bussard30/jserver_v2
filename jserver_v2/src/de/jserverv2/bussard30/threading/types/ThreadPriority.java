@@ -2,7 +2,7 @@ package de.jserverv2.bussard30.threading.types;
 
 public enum ThreadPriority
 {
-	LOW(0),MID(1),HIGH(2);
+	LOW(0),NORMAL(1),HIGH(2);
 	
 	private int priority;
 	
