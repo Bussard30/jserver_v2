@@ -1,12 +1,14 @@
 package de.jserverv2.bussard30.threading.manager;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.management.InstanceAlreadyExistsException;
 
 import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadPriority;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
+import de.jserverv2.bussard30.threading.types.ThreadedJobResult;
 
 public class ThreadManager
 {
@@ -21,9 +23,20 @@ public class ThreadManager
 	 * of in what hashmap the threadedjob is !
 	 */
 	private HashMap<ThreadedJob, ThreadPool>[] assignments;
-	private Object[] locks;
+	private HashMap<ThreadedJob, Integer> jobindexes;
+	private HashMap<Object, int[]> poolAssignments;
+
+	private Object[] locks0;
+	private Object[] locks1;
+	private Object[] locks2;
+
+	private ThreadPool[] threadpools;
 
 	public static int maxThreadPools = 30;
+
+	public static final Object EventPools = new Object();
+	public static final Object LoggerPools = new Object();
+	public static final Object HashingPools = new Object();
 
 	/**
 	 * int[] contains all pool indexes for a certain object so you can identify,
@@ -31,7 +44,6 @@ public class ThreadManager
 	 * assignments array Example for Object would be "{static Object EventPools
 	 * = new Object()}"
 	 */
-	private HashMap<Object, int[]> poolAssignments;
 
 	@SuppressWarnings("unchecked")
 	public ThreadManager() throws InstanceAlreadyExistsException
@@ -54,23 +66,82 @@ public class ThreadManager
 		quickSort(priorityList, 0, priorityList.length);
 
 		assignments = new HashMap[maxThreadPools];
+		poolAssignments = new HashMap<Object, int[]>();
+		jobindexes = new HashMap<>();
+	}
+
+	public void handleEvent(Object o, ThreadedJob e)
+	{
+		// diagnostics still necessary but this should be fine for now
+		int[] temp = poolAssignments.get(o);
+		int tasks = 0;
+		int index = 0;
+		boolean firstrun = true;
+		for (int i = temp[0]; i < temp[temp.length]; i++)
+		{
+			if (threadpools[i].getQueuedTasks() == 0)
+			{
+				// queues job
+				synchronized (locks0[i])
+				{
+					assignments[i].put(e, threadpools[i]);
+				}
+				synchronized (locks1[i])
+				{
+					jobindexes.put(e, new Integer(i));
+				}
+				threadpools[i].addJob(e);
+				return;
+			}
+			if (firstrun)
+			{
+				tasks = threadpools[i].getQueuedTasks();
+				index = i;
+				firstrun = false;
+			} else
+			{
+				if (threadpools[i].getQueuedTasks() < tasks)
+				{
+					tasks = threadpools[i].getQueuedTasks();
+					index = i;
+				}
+			}
+		}
+		synchronized (locks0[index])
+		{
+			assignments[index].put(e, threadpools[index]);
+			threadpools[index].addJob(e);
+		}
+		return;
 
 	}
 
-	public void handleEvent(ThreadedJob e)
+	public boolean getResult(ThreadedJob e, Object output)
 	{
-		
-	}
+		try
+		{
+			Integer i = jobindexes.get(e);
+			if(i == null)
+			{
+				return false;
+			}
+			else
+			{
+				ThreadPool tp = null;
+				synchronized(locks0[i])
+				{
+					tp = assignments[i].get(e);
+				}
+				output = tp.getResult(e);
+				return true;
+			}
+		}
+		catch(Throwable t)
+		{
+			t.printStackTrace();
+			return false;
+		}
 
-	/**
-	 * just for testing
-	 * 
-	 * @param index
-	 * @return
-	 */
-	public HashMap<ThreadedJob, ThreadPool> getAssignment(int index)
-	{
-		return (HashMap<ThreadedJob, ThreadPool>) assignments[index];
 	}
 
 	/**

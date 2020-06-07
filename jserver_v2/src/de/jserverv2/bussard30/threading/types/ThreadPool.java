@@ -233,6 +233,11 @@ public class ThreadPool
 			threadpool[index].remove(tpw);
 		}
 	}
+	
+	public int getQueuedTasks()
+	{
+		return jobs.length;
+	}
 
 	private class ThreadPoolWorker
 	{
