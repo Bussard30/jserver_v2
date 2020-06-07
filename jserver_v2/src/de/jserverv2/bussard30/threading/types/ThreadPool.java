@@ -23,7 +23,6 @@ public class ThreadPool
 	private HashMap<ThreadedJob, ThreadedJobResult> jobResults;
 	private Object jobResultsLock;
 
-	@SuppressWarnings("unchecked")
 	private ThreadPool()
 	{
 		jobResults = new HashMap<ThreadedJob, ThreadedJobResult>();

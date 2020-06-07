@@ -1,14 +1,13 @@
 package de.jserverv2.bussard30.threading.manager;
 
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.Random;
 
 import javax.management.InstanceAlreadyExistsException;
 
 import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadPriority;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
-import de.jserverv2.bussard30.threading.types.ThreadedJobResult;
 
 public class ThreadManager
 {
@@ -23,7 +22,15 @@ public class ThreadManager
 	 * of in what hashmap the threadedjob is !
 	 */
 	private HashMap<ThreadedJob, ThreadPool>[] assignments;
-	private HashMap<ThreadedJob, Integer> jobindexes;
+	private HashMap<ThreadedJob, Integer>[] jobIndexes;
+
+	/**
+	 * int[] contains all pool indexes for a certain object so you can identify,
+	 * for example, all event threadpools, and get where they are in the
+	 * assignments array Example for Object would be "{static Object EventPools
+	 * = new Object()}"
+	 */
+
 	private HashMap<Object, int[]> poolAssignments;
 
 	private Object[] locks0;
@@ -38,12 +45,9 @@ public class ThreadManager
 	public static final Object LoggerPools = new Object();
 	public static final Object HashingPools = new Object();
 
-	/**
-	 * int[] contains all pool indexes for a certain object so you can identify,
-	 * for example, all event threadpools, and get where they are in the
-	 * assignments array Example for Object would be "{static Object EventPools
-	 * = new Object()}"
-	 */
+	public static final int maxIndexing = 50;
+
+	private Random r;
 
 	@SuppressWarnings("unchecked")
 	public ThreadManager() throws InstanceAlreadyExistsException
@@ -67,13 +71,23 @@ public class ThreadManager
 
 		assignments = new HashMap[maxThreadPools];
 		poolAssignments = new HashMap<Object, int[]>();
-		jobindexes = new HashMap<>();
+
+		jobIndexes = new HashMap[maxIndexing];
+
+		// TODO Init @assignments and @jobindexes
+		r = new Random();
 	}
 
 	public void handleEvent(Object o, ThreadedJob e)
 	{
 		// diagnostics still necessary but this should be fine for now
 		int[] temp = poolAssignments.get(o);
+
+		if (temp.length == 0)
+		{
+			// TODO create a new threadpool
+		}
+
 		int tasks = 0;
 		int index = 0;
 		boolean firstrun = true;
@@ -88,7 +102,7 @@ public class ThreadManager
 				}
 				synchronized (locks1[i])
 				{
-					jobindexes.put(e, new Integer(i));
+					jobIndexes[e.getIndex()].put(e, new Integer(i));
 				}
 				threadpools[i].addJob(e);
 				return;
@@ -110,8 +124,8 @@ public class ThreadManager
 		synchronized (locks0[index])
 		{
 			assignments[index].put(e, threadpools[index]);
-			threadpools[index].addJob(e);
 		}
+		threadpools[index].addJob(e);
 		return;
 
 	}
@@ -120,28 +134,37 @@ public class ThreadManager
 	{
 		try
 		{
-			Integer i = jobindexes.get(e);
-			if(i == null)
+			Integer i = jobIndexes[e.getIndex()].get(e);
+			if (i == null)
 			{
 				return false;
-			}
-			else
+			} else
 			{
 				ThreadPool tp = null;
-				synchronized(locks0[i])
+				synchronized (locks0[i])
 				{
 					tp = assignments[i].get(e);
 				}
 				output = tp.getResult(e);
 				return true;
 			}
-		}
-		catch(Throwable t)
+		} catch (Throwable t)
 		{
 			t.printStackTrace();
 			return false;
 		}
 
+	}
+
+	public int generateRandomId()
+	{
+		return r.nextInt(maxIndexing);
+
+	}
+
+	public void addThreadPool(Object o, ThreadPool tp)
+	{
+		// TODO
 	}
 
 	/**
@@ -194,4 +217,8 @@ public class ThreadManager
 		return i + 1;
 	}
 
+	public static ThreadManager getInstance()
+	{
+		return instance;
+	}
 }

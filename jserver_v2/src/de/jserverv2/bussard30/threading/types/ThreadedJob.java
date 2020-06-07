@@ -2,6 +2,8 @@ package de.jserverv2.bussard30.threading.types;
 
 import java.util.function.Function;
 
+import de.jserverv2.bussard30.threading.manager.ThreadManager;
+
 public abstract class ThreadedJob
 {
 	public Function<Object, Object> job;
@@ -21,9 +23,12 @@ public abstract class ThreadedJob
 
 	private long delay;
 	private long jobProcessingTime;
+	
+	private int index;
 
 	public ThreadedJob(Runnable r)
 	{
+		index = ThreadManager.getInstance().generateRandomId();
 		this.job = (a) ->
 		{
 			r.run();
@@ -33,6 +38,7 @@ public abstract class ThreadedJob
 
 	public ThreadedJob(Function<Object, Object> r, Object input, boolean noReturn)
 	{
+		index = ThreadManager.getInstance().generateRandomId();
 		this.input = input;
 	}
 
@@ -80,5 +86,10 @@ public abstract class ThreadedJob
 	public void setJobProcessingTime(long jobProcessingTime)
 	{
 		this.jobProcessingTime = jobProcessingTime;
+	}
+
+	public int getIndex()
+	{
+		return index;
 	}
 }
