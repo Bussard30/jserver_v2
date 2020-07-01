@@ -2,22 +2,33 @@ package de.jserverv2.bussard30.networking.logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Vector;
 
 /**
- * TODO new logger system required;
- * make logger create files for every single ip and process
+ * TODO new logger system required; make logger create files for every single ip
+ * and process
+ * 
  * @author Unknown
  *
  */
 public class Logger
 {
 	private static SimpleDateFormat sdf;
-	 
+	public static Vector<LogWrapper> queue;
+
+	public static LogWrapper fetchMessage()
+	{
+		synchronized (queue)
+		{
+			return queue.remove(0);
+		}
+	}
+
 	static
 	{
 		sdf = new SimpleDateFormat("HH:mm:ss:SSS");
 	}
-	
+
 	public static void info(String s)
 	{
 		System.out.println("[" + getTime() + "]" + "[INFO]" + ((s.length() > 100) ? s.substring(0, 99) : s));
@@ -50,6 +61,7 @@ public class Logger
 
 	private static void print(String prefix, String source, String s)
 	{
-		System.out.println("[" + getTime() + "]" + "[" + prefix + "]" + "[" + source + "]" + ((s.length() > 100) ? s.substring(0, 99) : s));
+		System.out.println("[" + getTime() + "]" + "[" + prefix + "]" + "[" + source + "]"
+				+ ((s.length() > 100) ? s.substring(0, 99) : s));
 	}
 }

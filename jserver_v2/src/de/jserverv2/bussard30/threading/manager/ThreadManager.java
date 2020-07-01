@@ -33,7 +33,14 @@ public class ThreadManager
 
 	private HashMap<Object, int[]> poolAssignments;
 
+	/**
+	 * locks for poolAssignments
+	 */
 	private Object[] locks0;
+	
+	/**
+	 * locks for threads in threadpools
+	 */
 	private Object[] locks1;
 	private Object[] locks2;
 
@@ -162,11 +169,20 @@ public class ThreadManager
 
 	}
 
-	public void addThreadPool(Object o, ThreadPool tp)
+	/**
+	 * 
+	 * @param identifier : should be some kind of public static object
+	 * @param tp the new Threadpool
+	 */
+	public void addThreadPool(Object identifier, ThreadPool tp)
 	{
 		// TODO
 	}
 
+	
+	
+	
+	
 	/**
 	 * Quicksort algorithm.
 	 * 

@@ -13,9 +13,5 @@ public class ThreadWorker
 		
 	}
 	
-	@Deprecated
-	public void setPredicate(Predicate<ThreadedJob> fetchJob)
-	{
-		this.fetchJob = fetchJob;
-	}
+
 }

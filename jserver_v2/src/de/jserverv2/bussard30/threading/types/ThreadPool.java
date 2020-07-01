@@ -16,7 +16,6 @@ public class ThreadPool
 	private int[] priorityList;
 
 	private Vector<ThreadedJob>[] jobs;
-	private Object[] jobLocks;
 	/**
 	 * This hashmap is used to only store results.
 	 */
@@ -38,12 +37,6 @@ public class ThreadPool
 
 		jobs = new Vector[priorityList.length];
 		threadpool = new Vector[priorityList.length];
-		jobLocks = new Object[priorityList.length];
-
-		for (int i = 0; i < priorityList.length; i++)
-		{
-			jobLocks[i] = new Object();
-		}
 	}
 
 	/**
@@ -66,9 +59,9 @@ public class ThreadPool
 				index = i;
 			}
 		}
-		synchronized (jobLocks[index])
+		t.setQueueTime(System.currentTimeMillis());
+		synchronized (jobs[index])
 		{
-			t.setQueueTime(System.currentTimeMillis());
 			jobs[index].add(t);
 		}
 	}
@@ -82,12 +75,7 @@ public class ThreadPool
 			{
 				throw new ThreadJobNotDoneException();
 			}
-			o = jobResults.get(t).getResult();
-			if (o == null)
-			{
-
-			}
-			jobResults.remove(t);
+			o = jobResults.remove(t).getResult();
 		}
 		return o;
 	}
@@ -123,10 +111,9 @@ public class ThreadPool
 		}
 		for (int i = 0; i <= index; i++)
 		{
-			synchronized (jobLocks[i])
+			synchronized (jobs[i])
 			{
-				t = jobs[i].firstElement();
-				jobs[i].remove(t);
+				t = jobs[i].remove(0);
 			}
 		}
 		return t;
@@ -141,17 +128,20 @@ public class ThreadPool
 	 */
 	public void finishJob(ThreadedJob t, Object result)
 	{
+		// Diagnostics
+		// t.getDelay()
+		// t.getJobProcessingTime()
 		if (t.keepNotification())
 		{
 			ThreadedJobResult temp;
-			synchronized (jobResultsLock)
+			synchronized (jobResults)
 			{
 				temp = jobResults.get(t);
 			}
 			temp.setResult(result);
 		} else
 		{
-			synchronized (jobResultsLock)
+			synchronized (jobResults)
 			{
 				jobResults.remove(t);
 			}
@@ -227,7 +217,7 @@ public class ThreadPool
 		int index = getIndex(assignment);
 		synchronized (threadpoollock)
 		{
-			ThreadPoolWorker tpw = threadpool[index].firstElement();
+			ThreadPoolWorker tpw = threadpool[index].remove(0);
 			tpw.stop();
 			threadpool[index].remove(tpw);
 		}
