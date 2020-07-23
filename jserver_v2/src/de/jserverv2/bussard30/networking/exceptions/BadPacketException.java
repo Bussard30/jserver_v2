@@ -1,7 +1,5 @@
 package de.jserverv2.bussard30.networking.exceptions;
 
-import de.jserverv2.bussard30.networking.logger.Logger;
-
 public class BadPacketException extends Exception
 {
 	/**
@@ -12,7 +10,6 @@ public class BadPacketException extends Exception
 	public BadPacketException()
 	{
 		super();
-		Logger.error(this);
 	}
 
 	public BadPacketException(String message)

@@ -2,10 +2,12 @@ package de.jserverv2.bussard30.threading.manager;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Vector;
 
 import javax.management.InstanceAlreadyExistsException;
 
 import de.jserverv2.bussard30.threading.types.ThreadPool;
+import de.jserverv2.bussard30.threading.types.ThreadPoolIdentifier;
 import de.jserverv2.bussard30.threading.types.ThreadPriority;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
 
@@ -27,17 +29,16 @@ public class ThreadManager
 	/**
 	 * int[] contains all pool indexes for a certain object so you can identify,
 	 * for example, all event threadpools, and get where they are in the
-	 * assignments array Example for Object would be "{static Object EventPools
-	 * = new Object()}"
+	 * assignments array Example for Object would be
 	 */
 
-	private HashMap<Object, int[]> poolAssignments;
+	private HashMap<ThreadPoolIdentifier, Vector<Integer>> poolAssignments;
 
 	/**
 	 * locks for poolAssignments
 	 */
 	private Object[] locks0;
-	
+
 	/**
 	 * locks for threads in threadpools
 	 */
@@ -77,7 +78,7 @@ public class ThreadManager
 		quickSort(priorityList, 0, priorityList.length);
 
 		assignments = new HashMap[maxThreadPools];
-		poolAssignments = new HashMap<Object, int[]>();
+		poolAssignments = new HashMap<ThreadPoolIdentifier, Vector<Integer>>();
 
 		jobIndexes = new HashMap[maxIndexing];
 
@@ -88,9 +89,9 @@ public class ThreadManager
 	public void handleEvent(Object o, ThreadedJob e)
 	{
 		// diagnostics still necessary but this should be fine for now
-		int[] temp = poolAssignments.get(o);
+		Vector<Integer> temp = poolAssignments.get(o);
 
-		if (temp.length == 0)
+		if (temp.size() == 0)
 		{
 			// TODO create a new threadpool
 		}
@@ -98,9 +99,9 @@ public class ThreadManager
 		int tasks = 0;
 		int index = 0;
 		boolean firstrun = true;
-		for (int i = temp[0]; i < temp[temp.length]; i++)
+		for (int i = temp.get(0); i < temp.size(); i++)
 		{
-			if (threadpools[i].getQueuedTasks() == 0)
+			if (threadpools[temp.get(i)].getQueuedTasks() == 0)
 			{
 				// queues job
 				synchronized (locks0[i])
@@ -117,14 +118,14 @@ public class ThreadManager
 			if (firstrun)
 			{
 				tasks = threadpools[i].getQueuedTasks();
-				index = i;
+				index = temp.get(i);
 				firstrun = false;
 			} else
 			{
 				if (threadpools[i].getQueuedTasks() < tasks)
 				{
 					tasks = threadpools[i].getQueuedTasks();
-					index = i;
+					index = temp.get(i);
 				}
 			}
 		}
@@ -162,27 +163,54 @@ public class ThreadManager
 		}
 
 	}
-
-	public int generateRandomId()
+	
+	private int iterator = 0;
+	/**
+	 * assign every threadedjob a random id
+	 * reduces search time since hashmaps become smaller
+	 * @return
+	 */
+	public int generateId()
 	{
-		return r.nextInt(maxIndexing);
-
+		if(iterator == maxIndexing - 1)
+		{
+			iterator = -1;
+		}
+		return iterator++;
 	}
 
 	/**
 	 * 
-	 * @param identifier : should be some kind of public static object
-	 * @param tp the new Threadpool
+	 * @param identifier
+	 *            : should be some kind of public static object
+	 * @param tp
+	 *            the new Threadpool
 	 */
-	public void addThreadPool(Object identifier, ThreadPool tp)
+	public void addThreadPool(ThreadPoolIdentifier identifier, ThreadPool tp)
 	{
-		// TODO
+		if (poolAssignments.containsKey(identifier))
+		{
+			for (int i = 0; i < maxThreadPools; i++)
+			{
+				if (threadpools[i] == null)
+				{
+					threadpools[i] = tp;
+					poolAssignments.get(identifier).add(i);
+				}
+			}
+		} else
+		{
+			for (int i = 0; i < maxThreadPools; i++)
+			{
+				if (threadpools[i] == null)
+				{
+					threadpools[i] = tp;
+					poolAssignments.put(identifier, new Vector<Integer>());
+				}
+			}
+		}
 	}
 
-	
-	
-	
-	
 	/**
 	 * Quicksort algorithm.
 	 * 

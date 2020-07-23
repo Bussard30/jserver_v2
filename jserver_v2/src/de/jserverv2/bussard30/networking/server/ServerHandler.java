@@ -97,7 +97,14 @@ public class ServerHandler
 
 	public void advance()
 	{
-
+		try
+		{
+			in.read();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public DataInputStream getInputStream()
@@ -342,7 +349,6 @@ public class ServerHandler
 
 	private String[] getStrings(Object o) throws UnsupportedEncodingException
 	{
-		Logger.info(o.getClass().getName());
 //		if (o instanceof Wrapper)
 //		{
 //			String[] s = ((networking.types.Wrapper) o).getStrings();
@@ -442,7 +448,6 @@ public class ServerHandler
 	private Object deserialize(byte[] b) throws UnsupportedEncodingException, BadPacketException
 	{
 		String s = new String(b, "UTF8");
-		Logger.info(s);
 		String[] temp = s.split(";");
 		String[] info = new String[]
 		{ temp[0], temp[1] };

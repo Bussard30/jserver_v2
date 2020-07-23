@@ -1,5 +1,7 @@
 package de.jserverv2.bussard30.networking.logger;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
@@ -16,6 +18,11 @@ public class Logger
 	private static SimpleDateFormat sdf;
 	public static Vector<LogWrapper> queue;
 
+	public static String info = "INFO";
+	public static String warning = "WARNING";
+	public static String error = "ERROR";
+	public static String fatal = "FATAL";
+
 	public static LogWrapper fetchMessage()
 	{
 		synchronized (queue)
@@ -29,14 +36,122 @@ public class Logger
 		sdf = new SimpleDateFormat("HH:mm:ss:SSS");
 	}
 
-	public static void info(String s)
+	public static void info(Object caster, String message)
 	{
-		System.out.println("[" + getTime() + "]" + "[INFO]" + ((s.length() > 100) ? s.substring(0, 99) : s));
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), info, caster));
+		}
 	}
 
-	public static void info(String source, String info)
+	public static void info(Object caster, String message, String ip)
 	{
-		print("INFO", source, info);
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), info, ip, caster));
+		}
+	}
+
+	public static void warning(Object caster, String message)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), warning, caster));
+		}
+	}
+
+	public static void warning(Object caster, String message, String ip)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), warning, ip, caster));
+		}
+	}
+
+	public static void error(Object caster, String message)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), error, caster));
+		}
+	}
+
+	public static void error(Object caster, String message, String ip)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), error, ip, caster));
+		}
+	}
+
+	public static void fatal(Object caster, String message)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), fatal, caster));
+		}
+	}
+
+	public static void fatal(Object caster, String message, String ip)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message, getTime(), fatal, ip, caster));
+		}
+		Throwable t = null;
+
+	}
+
+	public static void error(Object caster, Throwable t)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(getMessage(t), getTime(), error, caster));
+		}
+	}
+
+	public static void error(Object caster, Throwable t, String ip)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(getMessage(t), getTime(), error, ip, caster));
+		}
+	}
+
+	public static void fatal(Object caster, Throwable t)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(getMessage(t), getTime(), fatal, caster));
+		}
+	}
+
+	public static void fatal(Object caster, Throwable t, String ip)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(getMessage(t), getTime(), fatal, ip, caster));
+		}
+	}
+
+	/**
+	 * If time is null, this method sets the time.<br>
+	 * </br>
+	 * Sets type to info.
+	 * 
+	 * @param lw
+	 */
+	public static void info(LogWrapper lw)
+	{
+		if (lw.getTime() == null)
+		{
+			lw.setTime(getTime());
+		}
+		lw.setType(info);
+		synchronized (queue)
+		{
+			queue.add(lw);
+		}
 	}
 
 	protected static String getTime()
@@ -44,24 +159,12 @@ public class Logger
 		return sdf.format(Calendar.getInstance().getTime());
 	}
 
-	public static void error(Throwable t)
+	public static String getMessage(Throwable t)
 	{
-		print("ERROR", t.getMessage());
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		t.printStackTrace(pw);
+		return sw.toString();
 	}
 
-	public static void error(String source, Throwable error)
-	{
-		print("ERROR", source, error.getMessage());
-	}
-
-	private static void print(String prefix, String s)
-	{
-		System.out.println("[" + getTime() + "]" + "[" + prefix + "]" + ((s.length() > 100) ? s.substring(0, 99) : s));
-	}
-
-	private static void print(String prefix, String source, String s)
-	{
-		System.out.println("[" + getTime() + "]" + "[" + prefix + "]" + "[" + source + "]"
-				+ ((s.length() > 100) ? s.substring(0, 99) : s));
-	}
 }

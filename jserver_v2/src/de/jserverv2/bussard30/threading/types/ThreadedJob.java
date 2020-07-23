@@ -28,7 +28,7 @@ public abstract class ThreadedJob
 
 	public ThreadedJob(Runnable r)
 	{
-		index = ThreadManager.getInstance().generateRandomId();
+		index = ThreadManager.getInstance().generateId();
 		this.job = (a) ->
 		{
 			r.run();
@@ -38,7 +38,7 @@ public abstract class ThreadedJob
 
 	public ThreadedJob(Function<Object, Object> r, Object input, boolean noReturn)
 	{
-		index = ThreadManager.getInstance().generateRandomId();
+		index = ThreadManager.getInstance().generateId();
 		this.input = input;
 	}
 
