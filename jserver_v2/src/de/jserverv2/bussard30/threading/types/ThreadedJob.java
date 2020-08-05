@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import de.jserverv2.bussard30.threading.manager.ThreadManager;
 
-public abstract class ThreadedJob
+public class ThreadedJob
 {
 	public Function<Object, Object> job;
 
@@ -12,7 +12,7 @@ public abstract class ThreadedJob
 	 * After executing the job, the ThreadedManager is going to discard the
 	 * results instantly.
 	 */
-	public boolean noNotification = false;
+	public boolean noNotification = true;
 
 	public Object input;
 
@@ -23,8 +23,10 @@ public abstract class ThreadedJob
 
 	private long delay;
 	private long jobProcessingTime;
-	
+
 	private int index;
+
+	private ThreadProcessingBehaviour tpb;
 
 	public ThreadedJob(Runnable r)
 	{
@@ -38,8 +40,10 @@ public abstract class ThreadedJob
 
 	public ThreadedJob(Function<Object, Object> r, Object input, boolean noReturn)
 	{
+		job = r;
 		index = ThreadManager.getInstance().generateId();
 		this.input = input;
+		noNotification = noReturn;
 	}
 
 	public ThreadedJob(Runnable r, boolean noReturn, boolean noNotification)
@@ -91,5 +95,20 @@ public abstract class ThreadedJob
 	public int getIndex()
 	{
 		return index;
+	}
+
+	public void setIndex(int index)
+	{
+		this.index = index;
+	}
+
+	public ThreadProcessingBehaviour getProcessingBehaviour()
+	{
+		return tpb;
+	}
+
+	public void setProcessingBehaviour(ThreadProcessingBehaviour tpb)
+	{
+		this.tpb = tpb;
 	}
 }

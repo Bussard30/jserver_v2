@@ -16,6 +16,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="F:/spigot-1.16.1/spigot-1.16.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -6,7 +6,7 @@ import de.jserverv2.bussard30.threading.exceptions.ThreadJobNotDoneException;
 public class ThreadedJobResult
 {
 	private Object result;
-	private volatile boolean hasFailed;
+	private boolean hasFailed;
 
 	public ThreadedJobResult(Object result)
 	{

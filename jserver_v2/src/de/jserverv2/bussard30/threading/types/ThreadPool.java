@@ -10,12 +10,17 @@ import de.jserverv2.bussard30.threading.exceptions.ThreadJobNotDoneException;
 
 public class ThreadPool
 {
+	public static ThreadProcessingBehaviour defaultProcessingBehaviour = ThreadProcessingBehaviour.SLEEPUNTILCONTINUE;
+
 	private Vector<ThreadPoolWorker>[] threadpool;
-	private Object threadpoollock;
 
 	private int[] priorityList;
 
 	private Vector<ThreadedJob>[] jobs;
+
+	private int queuedJobs = 0;
+	private int workingOnJobs = 0;
+
 	/**
 	 * This hashmap is used to only store results.
 	 */
@@ -37,6 +42,26 @@ public class ThreadPool
 
 		jobs = new Vector[priorityList.length];
 		threadpool = new Vector[priorityList.length];
+
+		for (int i = 0; i < jobs.length; i++)
+		{
+			jobs[i] = new Vector<ThreadedJob>();
+		}
+
+		for (int i = 0; i < threadpool.length; i++)
+		{
+			threadpool[i] = new Vector<ThreadPoolWorker>();
+		}
+		addWorker(ThreadPriority.LOW);
+		addWorker(ThreadPriority.LOW);
+		addWorker(ThreadPriority.LOW);
+		addWorker(ThreadPriority.NORMAL);
+		addWorker(ThreadPriority.NORMAL);
+		addWorker(ThreadPriority.NORMAL);
+		addWorker(ThreadPriority.NORMAL);
+		addWorker(ThreadPriority.NORMAL);
+		addWorker(ThreadPriority.HIGH);
+
 	}
 
 	/**
@@ -51,6 +76,7 @@ public class ThreadPool
 
 	public void addJob(ThreadedJob t, ThreadPriority tp)
 	{
+		System.out.println("[ThreadPool]Adding job in ThreadPool.");
 		int index = 0;
 		for (int i = 0; i < priorityList.length; i++)
 		{
@@ -63,7 +89,9 @@ public class ThreadPool
 		synchronized (jobs[index])
 		{
 			jobs[index].add(t);
+			System.out.println("[ThreadPool]Added job at " + index);
 		}
+		queuedJobs++;
 	}
 
 	public Object getResult(ThreadedJob t) throws ThreadJobException, ThreadJobNotDoneException
@@ -109,14 +137,27 @@ public class ThreadPool
 				index = i;
 			}
 		}
+
 		for (int i = 0; i <= index; i++)
 		{
+			if (jobs[i].size() == 0)
+			{
+				continue;
+			}
 			synchronized (jobs[i])
 			{
 				t = jobs[i].remove(0);
 			}
+			queuedJobs--;
+			workingOnJobs++;
 		}
-		return t;
+		if (t == null)
+		{
+			throw new NoSuchElementException();
+		} else
+		{
+			return t;
+		}
 	}
 
 	/**
@@ -128,24 +169,28 @@ public class ThreadPool
 	 */
 	public void finishJob(ThreadedJob t, Object result)
 	{
+		System.out.println("[ThreadPool] Executing finish job method...");
 		// Diagnostics
 		// t.getDelay()
 		// t.getJobProcessingTime()
 		if (t.keepNotification())
 		{
-			ThreadedJobResult temp;
+			System.out.println(
+					"[ThreadPool] result[type:\"" + result.getClass().getName() + "\";sysout:\"" + result + "\"]");
+			ThreadedJobResult temp = new ThreadedJobResult(result);
 			synchronized (jobResults)
 			{
-				temp = jobResults.get(t);
+				System.out.println("[ThreadPool] Adding job result to map...");
+				jobResults.put(t, temp);
 			}
-			temp.setResult(result);
 		} else
 		{
-			synchronized (jobResults)
-			{
-				jobResults.remove(t);
-			}
+			// synchronized (jobResults)
+			// {
+			// jobResults.remove(t);
+			// }
 		}
+		workingOnJobs--;
 	}
 
 	/**
@@ -170,11 +215,12 @@ public class ThreadPool
 			temp.throwException(e);
 		} else
 		{
-			synchronized (jobResultsLock)
-			{
-				jobResults.remove(t);
-			}
+			// synchronized (jobResultsLock)
+			// {
+			// jobResults.remove(t);
+			// }
 		}
+		workingOnJobs--;
 	}
 
 	public int getIndex(ThreadPriority tp)
@@ -199,7 +245,7 @@ public class ThreadPool
 	public void addWorker(ThreadPriority assignment)
 	{
 		int index = getIndex(assignment);
-		synchronized (threadpoollock)
+		synchronized (threadpool[index])
 		{
 			threadpool[index].add(new ThreadPoolWorker(this, assignment));
 		}
@@ -215,25 +261,29 @@ public class ThreadPool
 	public void removeWorker(ThreadPriority assignment)
 	{
 		int index = getIndex(assignment);
-		synchronized (threadpoollock)
+		synchronized (threadpool[index])
 		{
 			ThreadPoolWorker tpw = threadpool[index].remove(0);
-			tpw.stop();
+			tpw.join();
 			threadpool[index].remove(tpw);
 		}
 	}
-	
+
 	public int getQueuedTasks()
 	{
-		return jobs.length;
+		return queuedJobs + workingOnJobs;
 	}
 
-	private class ThreadPoolWorker
+	protected class ThreadPoolWorker
 	{
 		private ThreadPool tp;
 		private Thread t;
 		private boolean running;
 		private ThreadPriority min;
+		private boolean suspended;
+		private Object sync = new Object();
+
+		private volatile ThreadProcessingBehaviour currentBehaviour = defaultProcessingBehaviour;
 
 		private ThreadPoolWorker(ThreadPool tp, ThreadPriority minimum)
 		{
@@ -244,27 +294,62 @@ public class ThreadPool
 			{
 				while (running)
 				{
-					ThreadedJob t = tp.getThreadedJob(min);
+					if(suspended)
+					{
+						synchronized (sync)
+						{
+							try
+							{
+								sync.wait();
+							} catch (InterruptedException e)
+							{
+								e.printStackTrace();
+							}
+						}
+					}
+					ThreadedJob t = null;
+					try
+					{
+						t = tp.getThreadedJob(min);
+					} catch (NoSuchElementException e)
+					{
+						try
+						{
+							Thread.sleep(1);
+						} catch (InterruptedException e1)
+						{
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						continue;
+					}
+					setCurrentBehaviour(t.getProcessingBehaviour());
 					t.setDelay(System.currentTimeMillis() - t.getQueueTime());
+					// DEBUG
+					System.out.println("[Worker]working on job with index:" + t.getIndex());
 					try
 					{
 						finishJob(t, t.run());
 					} catch (Throwable e)
 					{
+						// DEBUG
+						System.out.println("Exception...");
+						e.printStackTrace();
 						finishJob(t, null, e);
 					}
+					setCurrentBehaviour(defaultProcessingBehaviour);
 				}
 			});
 			start();
 		}
 
-		private void start()
+		protected void start()
 		{
 			running = true;
 			t.start();
 		}
 
-		private void stop()
+		protected void join()
 		{
 			running = false;
 			try
@@ -274,6 +359,33 @@ public class ThreadPool
 			{
 				e.printStackTrace();
 			}
+		}
+
+		protected void interrupt()
+		{
+			running = false;
+			t.interrupt();
+		}
+		
+		protected void suspend()
+		{
+			suspended = true;
+		}
+		
+		protected void resume()
+		{
+			sync.notify();
+			suspended = false;
+		}
+
+		protected ThreadProcessingBehaviour getCurrentBehaviour()
+		{
+			return currentBehaviour;
+		}
+
+		protected void setCurrentBehaviour(ThreadProcessingBehaviour currentBehaviour)
+		{
+			this.currentBehaviour = currentBehaviour;
 		}
 
 	}
