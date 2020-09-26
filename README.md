@@ -1,5 +1,7 @@
 # jserver_v2
 Server java application that is designed for handling large-scale custom-protocol tcp data traffic.
+Makes most sense to use with CPUs with more threads (>16 Threads, scales basically infinitely).
+Might have trouble using less than ~8 Threads efficiently.
 Currently work in progress.
 
 Features:
