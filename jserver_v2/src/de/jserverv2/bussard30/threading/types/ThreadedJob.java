@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import de.jserverv2.bussard30.threading.manager.ThreadManager;
 
-public class ThreadedJob
+public abstract class ThreadedJob
 {
 	public Function<Object, Object> job;
 
@@ -28,6 +28,14 @@ public class ThreadedJob
 
 	private ThreadProcessingBehaviour tpb;
 
+	/**
+	 * Since the threading system uses runtime analysis on ThreadedJobs to
+	 * calculate appx. queue time,<br>
+	 * extend this class to create new jobs.
+	 * 
+	 * @param r
+	 *            Runnable to be executed
+	 */
 	public ThreadedJob(Runnable r)
 	{
 		index = ThreadManager.getInstance().generateId();
@@ -38,6 +46,19 @@ public class ThreadedJob
 		};
 	}
 
+	/**
+	 * Since the threading system uses runtime analysis on ThreadedJobs to
+	 * calculate appx. queue time,<br>
+	 * extend this class to create new jobs.
+	 * 
+	 * @param r
+	 *            Function to be executed
+	 * @param input
+	 *            Input object for function
+	 * @param noReturn
+	 *            bool to determine if this job has a result which needs to be
+	 *            stored
+	 */
 	public ThreadedJob(Function<Object, Object> r, Object input, boolean noReturn)
 	{
 		job = r;
@@ -62,6 +83,12 @@ public class ThreadedJob
 		return job.apply(input);
 	}
 
+	/**
+	 * point of time where job has been queued, not delta of how long the queue
+	 * time was
+	 * 
+	 * @return
+	 */
 	public long getQueueTime()
 	{
 		return queueTime;
@@ -72,6 +99,11 @@ public class ThreadedJob
 		this.queueTime = queueTime;
 	}
 
+	/**
+	 * delta of when job has been queued and when it was started
+	 * 
+	 * @return
+	 */
 	public long getDelay()
 	{
 		return delay;
@@ -102,13 +134,16 @@ public class ThreadedJob
 		this.index = index;
 	}
 
-	public ThreadProcessingBehaviour getProcessingBehaviour()
-	{
-		return tpb;
-	}
+	public abstract ThreadProcessingBehaviour getProcessingBehaviour();
 
+	/**
+	 * unused?? might have to be removed
+	 * @param tpb
+	 */
 	public void setProcessingBehaviour(ThreadProcessingBehaviour tpb)
 	{
 		this.tpb = tpb;
 	}
+
+	public abstract long getTimeOut();
 }

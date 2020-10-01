@@ -12,6 +12,9 @@ public class ThreadPool
 {
 	public static ThreadProcessingBehaviour defaultProcessingBehaviour = ThreadProcessingBehaviour.SLEEPUNTILCONTINUE;
 
+	/**
+	 * Sorted after descending priority e.g. index 0 = ThreadPriority.HIGH, index 1 = ThreadPriority.NORMAL
+	 */
 	private Vector<ThreadPoolWorker>[] threadpool;
 
 	private int[] priorityList;
@@ -61,7 +64,6 @@ public class ThreadPool
 		addWorker(ThreadPriority.NORMAL);
 		addWorker(ThreadPriority.NORMAL);
 		addWorker(ThreadPriority.HIGH);
-
 	}
 
 	/**
@@ -109,8 +111,8 @@ public class ThreadPool
 	}
 
 	/**
-	 * Works, should not be used though.
-	 * 
+	 * Returns function that fetches and returns a job on execution.
+	 * Deprecated due to new worker system.
 	 * @return function that fetches a threadedjob
 	 */
 	@Deprecated

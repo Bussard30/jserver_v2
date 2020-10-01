@@ -125,6 +125,7 @@ public class ThreadManager
 					System.out.println("[ThreadManager]Put job in threadpool" + i);
 					assignments[i].put(e, threadpools[i]);
 				}
+				
 				synchronized (jobIndexes[e.getIndex()])
 				{
 					System.out.println("[ThreadManager]Put job index in map" + e.getIndex());
@@ -188,11 +189,11 @@ public class ThreadManager
 				return false;
 			} else
 			{
-				Integer i = jobIndexes[e.getIndex()].get(e);
+				Integer i = jobIndexes[e.getIndex()].remove(e);
 				ThreadPool tp = null;
 				synchronized (assignments[i])
 				{
-					tp = assignments[i].get(e);
+					tp = assignments[i].remove(e);
 				}
 				output.setResult(tp.getResult(e));
 				return true;
@@ -203,6 +204,22 @@ public class ThreadManager
 			return false;
 		}
 
+	}
+	
+	public void removeMapping(ThreadedJob tj)
+	{
+		try
+		{
+			Integer i = jobIndexes[tj.getIndex()].remove(tj);
+			synchronized (assignments[i])
+			{
+				assignments[i].remove(tj);
+			}
+		}
+		catch(Throwable t)
+		{
+			t.printStackTrace();
+		}
 	}
 
 	private int iterator = 0;
