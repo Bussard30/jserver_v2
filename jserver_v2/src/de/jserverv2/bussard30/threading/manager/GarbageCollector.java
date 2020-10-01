@@ -1,25 +1,33 @@
 package de.jserverv2.bussard30.threading.manager;
 
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
+import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
 
 public class GarbageCollector
 {
-	public void gc(Vector<ThreadedJob>[] v)
+	public void gc(HashMap<ThreadedJob, ThreadPool>[] hm)
 	{
 		ArrayList<ThreadedJob> tbr = new ArrayList<>();
-		for(Vector<ThreadedJob> e : v)
+		for(HashMap<ThreadedJob, ThreadPool> e : hm)
 		{
-			for(ThreadedJob t : e)
+			synchronized(e)
 			{
-				if(System.currentTimeMillis() - t.getQueueTime() >= t.getTimeOut())
+				for(Map.Entry<ThreadedJob, ThreadPool> m : e.entrySet())
 				{
-					tbr.add(t);
+					if(System.currentTimeMillis() - m.getKey().getFinishedTime() > m.getKey().getTimeOut())
+					{
+						tbr.add(m.getKey());
+					}
 				}
 			}
-			e.removeAll(tbr);
+		}
+		for(ThreadedJob tj : tbr)
+		{
+			ThreadManager.getInstance().removeMapping(tj);
 		}
 	}
 }

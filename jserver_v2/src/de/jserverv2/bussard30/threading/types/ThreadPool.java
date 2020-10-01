@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import de.jserverv2.bussard30.threading.exceptions.ThreadJobException;
 import de.jserverv2.bussard30.threading.exceptions.ThreadJobNotDoneException;
+import de.jserverv2.bussard30.threading.manager.ThreadDiag;
 
 public class ThreadPool
 {
@@ -56,14 +57,6 @@ public class ThreadPool
 			threadpool[i] = new Vector<ThreadPoolWorker>();
 		}
 		addWorker(ThreadPriority.LOW);
-		addWorker(ThreadPriority.LOW);
-		addWorker(ThreadPriority.LOW);
-		addWorker(ThreadPriority.NORMAL);
-		addWorker(ThreadPriority.NORMAL);
-		addWorker(ThreadPriority.NORMAL);
-		addWorker(ThreadPriority.NORMAL);
-		addWorker(ThreadPriority.NORMAL);
-		addWorker(ThreadPriority.HIGH);
 	}
 
 	/**
@@ -185,12 +178,10 @@ public class ThreadPool
 				System.out.println("[ThreadPool] Adding job result to map...");
 				jobResults.put(t, temp);
 			}
+			ThreadDiag.addEntry(t, this);
 		} else
 		{
-			// synchronized (jobResults)
-			// {
-			// jobResults.remove(t);
-			// }
+			ThreadDiag.addEntry(t, this);
 		}
 		workingOnJobs--;
 	}
@@ -217,10 +208,6 @@ public class ThreadPool
 			temp.throwException(e);
 		} else
 		{
-			// synchronized (jobResultsLock)
-			// {
-			// jobResults.remove(t);
-			// }
 		}
 		workingOnJobs--;
 	}

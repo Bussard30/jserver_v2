@@ -144,6 +144,11 @@ public abstract class ThreadedJob
 	{
 		this.tpb = tpb;
 	}
+	
+	public long getFinishedTime()
+	{
+		return jobProcessingTime + delay + queueTime;
+	}
 
 	public abstract long getTimeOut();
 }
