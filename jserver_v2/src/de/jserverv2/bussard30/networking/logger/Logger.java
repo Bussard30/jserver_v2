@@ -117,6 +117,14 @@ public class Logger
 			queue.add(new LogWrapper(getMessage(t), getTime(), error, ip, caster));
 		}
 	}
+	
+	public static void error(Object caster, String message, Throwable t)
+	{
+		synchronized (queue)
+		{
+			queue.add(new LogWrapper(message + "\n" + getMessage(t), getTime(), error, caster));
+		}
+	}
 
 	public static void fatal(Object caster, Throwable t)
 	{

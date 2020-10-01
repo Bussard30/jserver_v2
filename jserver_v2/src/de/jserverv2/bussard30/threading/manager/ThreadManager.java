@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import javax.management.InstanceAlreadyExistsException;
 
+import de.jserverv2.bussard30.networking.logger.Logger;
 import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadPoolIdentifier;
 import de.jserverv2.bussard30.threading.types.ThreadPriority;
@@ -43,12 +44,12 @@ public class ThreadManager
 	 * Example object for pool seperation
 	 */
 	public static final Object EventPools = new Object();
-	
+
 	/**
 	 * Example object for pool seperation
 	 */
 	public static final Object LoggerPools = new Object();
-	
+
 	/**
 	 * Example object for pool seperation
 	 */
@@ -125,7 +126,7 @@ public class ThreadManager
 					System.out.println("[ThreadManager]Put job in threadpool" + i);
 					assignments[i].put(e, threadpools[i]);
 				}
-				
+
 				synchronized (jobIndexes[e.getIndex()])
 				{
 					System.out.println("[ThreadManager]Put job index in map" + e.getIndex());
@@ -200,25 +201,30 @@ public class ThreadManager
 			}
 		} catch (Throwable t)
 		{
-			t.printStackTrace();
+			Logger.error(this,"Could not get result.", t);
 			return false;
 		}
 
 	}
-	
-	public void removeMapping(ThreadedJob tj)
+
+	public boolean removeMapping(ThreadedJob tj)
 	{
 		try
 		{
-			Integer i = jobIndexes[tj.getIndex()].remove(tj);
+			Integer i = null;
+			synchronized (jobIndexes[tj.getIndex()])
+			{
+				i = jobIndexes[tj.getIndex()].remove(tj);
+			}
 			synchronized (assignments[i])
 			{
 				assignments[i].remove(tj);
 			}
-		}
-		catch(Throwable t)
+			return true;
+		} catch (Throwable t)
 		{
-			t.printStackTrace();
+			Logger.error(this, "Could not remove mapping.", t);
+			return false;
 		}
 	}
 
