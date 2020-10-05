@@ -1,7 +1,9 @@
 package de.jserverv2.bussard30.threading.manager;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import de.jserverv2.bussard30.threading.types.ThreadPool;
@@ -9,6 +11,11 @@ import de.jserverv2.bussard30.threading.types.ThreadedJob;
 
 public class ThreadDiag
 {
+	/**
+	 * in what interval in ms the update method is supposed to be executed
+	 */
+	public static final long interval = 60000;
+
 	public static HashMap<Class<? extends ThreadedJob>, Vector<Long>> timings = new HashMap<>();
 	public static HashMap<Class<? extends ThreadedJob>, Double> median = new HashMap<>();
 	public static HashMap<Class<? extends ThreadedJob>, Double> avg = new HashMap<>();
@@ -213,6 +220,35 @@ public class ThreadDiag
 		synchronized (ThreadDiag.poolT01p)
 		{
 			ThreadDiag.poolT01p.put(tp, t01p);
+		}
+	}
+
+	public static void recalculateAll()
+	{
+		ArrayList<Class<? extends ThreadedJob>> al = new ArrayList<>();
+		synchronized (timings)
+		{
+			for (Map.Entry<Class<? extends ThreadedJob>, Vector<Long>> me : timings.entrySet())
+			{
+				al.add(me.getKey());
+			}
+		}
+		for (Class<? extends ThreadedJob> c : al)
+		{
+			recalculate(c);
+		}
+
+		ArrayList<ThreadPool> all = new ArrayList<>();
+		synchronized (poolQueue)
+		{
+			for (Map.Entry<ThreadPool, Vector<Long>> me : poolQueue.entrySet())
+			{
+				all.add(me.getKey());
+			}
+		}
+		for (ThreadPool t : all)
+		{
+			recalculate(t);
 		}
 	}
 }

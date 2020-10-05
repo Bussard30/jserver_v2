@@ -293,7 +293,17 @@ public class ThreadManager
 	{
 		return instance;
 	}
-
+	
+	/**
+	 * Returns the result hashmap (not a copy!)
+	 * @return
+	 */
+	public HashMap<ThreadedJob, ThreadPool>[] getResultMap()
+	{
+		return assignments;
+		
+	}
+	
 	public static int[] reverse(int a[], int n)
 	{
 		int[] b = new int[n];
