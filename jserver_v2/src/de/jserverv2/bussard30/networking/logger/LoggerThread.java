@@ -14,7 +14,7 @@ public class LoggerThread
 	private Thread t;
 	private HashMap<Object, File> assignments0;
 	private HashMap<String, File> assignments1;
-	private static String docPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
+	private static String docPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "\\jserver_data";
 	private boolean running;
 
 	public static SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy-");
@@ -89,6 +89,11 @@ public class LoggerThread
 				}
 			}
 		});
+	}
+	
+	public void start()
+	{
+		t.start();
 	}
 
 	private static String getFinalMessage(LogWrapper lw)

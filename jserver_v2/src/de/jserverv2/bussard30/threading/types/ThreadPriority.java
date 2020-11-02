@@ -3,16 +3,16 @@ package de.jserverv2.bussard30.threading.types;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
+/**
+ * ThreadPriority determines in which order ThreadedJob(s) inside ThreadPool(s) are being processed.
+ * @author Bussard30
+ *
+ */
 public interface ThreadPriority
 {
 	public static ThreadPriority LOW = new ThreadPriority()
 	{
 		
-		@Override
-		public ThreadProcessingBehaviour getProcessingBehaviour()
-		{
-			return ThreadProcessingBehaviour.SLOWDOWN;
-		}
 		
 		@Override
 		public int getPriority()
@@ -23,11 +23,6 @@ public interface ThreadPriority
 	
 	public static ThreadPriority NORMAL = new ThreadPriority()
 	{
-		@Override
-		public ThreadProcessingBehaviour getProcessingBehaviour()
-		{
-			return ThreadProcessingBehaviour.SLOWDOWN;
-		}
 		
 		@Override
 		public int getPriority()
@@ -39,11 +34,6 @@ public interface ThreadPriority
 	public static ThreadPriority HIGH = new ThreadPriority()
 	{
 		
-		@Override
-		public ThreadProcessingBehaviour getProcessingBehaviour()
-		{
-			return ThreadProcessingBehaviour.SLOWDOWN;
-		}
 		
 		@Override
 		public int getPriority()
@@ -52,7 +42,6 @@ public interface ThreadPriority
 		}
 	};
 	public int getPriority();
-	public ThreadProcessingBehaviour getProcessingBehaviour();
 	
 	
 	static Vector<ThreadPriority> priorities = new Vector<>();

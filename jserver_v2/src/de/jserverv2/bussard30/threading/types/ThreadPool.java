@@ -9,9 +9,13 @@ import de.jserverv2.bussard30.threading.exceptions.ThreadJobException;
 import de.jserverv2.bussard30.threading.exceptions.ThreadJobNotDoneException;
 import de.jserverv2.bussard30.threading.manager.ThreadDiag;
 
+/**
+ * Thread pool that maintains several worker threads to handle ThreadedJob(s)
+ * @author Bussard30
+ *
+ */
 public class ThreadPool
 {
-	public static ThreadProcessingBehaviour defaultProcessingBehaviour = ThreadProcessingBehaviour.SLEEPUNTILCONTINUE;
 
 	/**
 	 * Sorted after descending priority e.g. index 0 = ThreadPriority.HIGH, index 1 = ThreadPriority.NORMAL
@@ -30,6 +34,8 @@ public class ThreadPool
 	 */
 	private HashMap<ThreadedJob, ThreadedJobResult> jobResults;
 	private Object jobResultsLock;
+	
+	private int workers;
 
 	private ThreadPool()
 	{
@@ -238,6 +244,7 @@ public class ThreadPool
 		{
 			threadpool[index].add(new ThreadPoolWorker(this, assignment));
 		}
+		workers++;
 	}
 
 	/**
@@ -256,6 +263,7 @@ public class ThreadPool
 			tpw.join();
 			threadpool[index].remove(tpw);
 		}
+		workers--;
 	}
 
 	public int getQueuedTasks()
@@ -263,6 +271,11 @@ public class ThreadPool
 		return queuedJobs + workingOnJobs;
 	}
 
+	public int getWorkers()
+	{
+		return workers;
+	}
+	
 	protected class ThreadPoolWorker
 	{
 		private ThreadPool tp;
@@ -272,7 +285,6 @@ public class ThreadPool
 		private boolean suspended;
 		private Object sync = new Object();
 
-		private volatile ThreadProcessingBehaviour currentBehaviour = defaultProcessingBehaviour;
 
 		private ThreadPoolWorker(ThreadPool tp, ThreadPriority minimum)
 		{
@@ -312,7 +324,6 @@ public class ThreadPool
 						}
 						continue;
 					}
-					setCurrentBehaviour(t.getProcessingBehaviour());
 					t.setDelay(System.currentTimeMillis() - t.getQueueTime());
 					// DEBUG
 					System.out.println("[Worker]working on job with index:" + t.getIndex());
@@ -326,7 +337,6 @@ public class ThreadPool
 						e.printStackTrace();
 						finishJob(t, null, e);
 					}
-					setCurrentBehaviour(defaultProcessingBehaviour);
 				}
 			});
 			start();
@@ -365,16 +375,6 @@ public class ThreadPool
 		{
 			sync.notify();
 			suspended = false;
-		}
-
-		protected ThreadProcessingBehaviour getCurrentBehaviour()
-		{
-			return currentBehaviour;
-		}
-
-		protected void setCurrentBehaviour(ThreadProcessingBehaviour currentBehaviour)
-		{
-			this.currentBehaviour = currentBehaviour;
 		}
 
 	}

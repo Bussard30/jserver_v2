@@ -16,9 +16,21 @@ public class ThreadDiag
 	 */
 	public static final long interval = 60000;
 
+	/**
+	 * not sorted list for all processing times for 
+	 */
 	public static HashMap<Class<? extends ThreadedJob>, Vector<Long>> timings = new HashMap<>();
+	
+	/**
+	 * contains median for processing time for every ThreadedJob
+	 */
 	public static HashMap<Class<? extends ThreadedJob>, Double> median = new HashMap<>();
+	
+	/**
+	 * contains avg for procesing time for every ThreadedJob
+	 */
 	public static HashMap<Class<? extends ThreadedJob>, Double> avg = new HashMap<>();
+	
 	/**
 	 * top 1 percent
 	 */
@@ -28,9 +40,21 @@ public class ThreadDiag
 	 */
 	public static HashMap<Class<? extends ThreadedJob>, Double> t01p = new HashMap<>();
 
+	/**
+	 * not sorted list for all queue timings for threadpools
+	 */
 	public static HashMap<ThreadPool, Vector<Long>> poolQueue = new HashMap<>();
+	
+	/**
+	 * contains median for queue time for every pool
+	 */
 	public static HashMap<ThreadPool, Double> poolMedian = new HashMap<>();
+	
+	/**
+	 * contains avg for queue time for every pool
+	 */
 	public static HashMap<ThreadPool, Double> poolAvg = new HashMap<>();
+	
 	/**
 	 * top 1 percent
 	 */
@@ -39,7 +63,31 @@ public class ThreadDiag
 	 * top 0.1 percent
 	 */
 	public static HashMap<ThreadPool, Double> poolT01p = new HashMap<>();
-
+	
+	/**
+	 * maximum average queue time for ThreadedJob
+	 * required for threaddiag; value in ms
+	 */
+	public static final double maxAverageQueueTime = 5;
+	
+	/**
+	 * maximum median queue time for ThreadedJob
+	 * required for threaddiag; value in ms
+	 */
+	public static final double maxMedianQueueTime = 5;
+	
+	/**
+	 * maximum top 1 percent queue time for ThreadedJob
+	 * required for threaddiag; value in ms
+	 */
+	public static final double maxT1PQueueTime = 10;
+	
+	/**
+	 * maximum top 0.1 percent queue time for ThreadedJob
+	 * required for threaddiag; value in ms
+	 */
+	public static final double maxT01PQueueTime = 50;
+	
 	public static void register(Class<? extends ThreadedJob> c)
 	{
 		synchronized (timings)
@@ -238,6 +286,38 @@ public class ThreadDiag
 			recalculate(c);
 		}
 
+		ArrayList<ThreadPool> all = new ArrayList<>();
+		synchronized (poolQueue)
+		{
+			for (Map.Entry<ThreadPool, Vector<Long>> me : poolQueue.entrySet())
+			{
+				all.add(me.getKey());
+			}
+		}
+		for (ThreadPool t : all)
+		{
+			recalculate(t);
+		}
+	}
+	
+	public static void recalculateJobs()
+	{
+		ArrayList<Class<? extends ThreadedJob>> al = new ArrayList<>();
+		synchronized (timings)
+		{
+			for (Map.Entry<Class<? extends ThreadedJob>, Vector<Long>> me : timings.entrySet())
+			{
+				al.add(me.getKey());
+			}
+		}
+		for (Class<? extends ThreadedJob> c : al)
+		{
+			recalculate(c);
+		}
+	}
+	
+	public static void recalculatePools()
+	{
 		ArrayList<ThreadPool> all = new ArrayList<>();
 		synchronized (poolQueue)
 		{

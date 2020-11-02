@@ -4,6 +4,11 @@ import java.util.function.Function;
 
 import de.jserverv2.bussard30.threading.manager.ThreadManager;
 
+/**
+ * Abstract class for creating jobs to be performed by the async threading system.
+ * @author Bussard30
+ *
+ */
 public abstract class ThreadedJob
 {
 	public Function<Object, Object> job;
@@ -26,7 +31,6 @@ public abstract class ThreadedJob
 
 	private int index;
 
-	private ThreadProcessingBehaviour tpb;
 
 	/**
 	 * Since the threading system uses runtime analysis on ThreadedJobs to
@@ -133,22 +137,15 @@ public abstract class ThreadedJob
 	{
 		this.index = index;
 	}
-
-	public abstract ThreadProcessingBehaviour getProcessingBehaviour();
-
-	/**
-	 * unused?? might have to be removed
-	 * @param tpb
-	 */
-	public void setProcessingBehaviour(ThreadProcessingBehaviour tpb)
-	{
-		this.tpb = tpb;
-	}
 	
 	public long getFinishedTime()
 	{
 		return jobProcessingTime + delay + queueTime;
 	}
 
+	/**
+	 * timeout for results
+	 * @return
+	 */
 	public abstract long getTimeOut();
 }

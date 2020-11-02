@@ -3,6 +3,11 @@ package de.jserverv2.bussard30.threading.types;
 import de.jserverv2.bussard30.threading.exceptions.ThreadJobException;
 import de.jserverv2.bussard30.threading.exceptions.ThreadJobNotDoneException;
 
+/**
+ * Contains result for ThreadedJob
+ * @author Bussard30
+ *
+ */
 public class ThreadedJobResult
 {
 	private Object result;

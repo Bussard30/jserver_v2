@@ -11,6 +11,8 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Vector;
 
+import de.jserverv2.bussard30.networking.logger.Logger;
+
 public class Server
 {
 	private Thread acceptorThread;
@@ -81,7 +83,6 @@ public class Server
 
 				while (online)
 				{
-
 					Socket s;
 					try
 					{
@@ -101,7 +102,6 @@ public class Server
 						Thread.sleep(0, 500000);
 					} catch (InterruptedException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -211,7 +211,6 @@ public class Server
 						e.printStackTrace();
 					}
 				}
-
 			}
 		}).start();
 		log("Done.");
@@ -292,16 +291,17 @@ public class Server
 
 	private void log(String s)
 	{
+		Logger.info(this, s);
 	}
 
 	private void log(Throwable t)
 	{
-
+		Logger.error(this, t);
 	}
 
 	public void overloadDetected(ServerHandler s)
 	{
-
+		// TODO
 	}
 
 }
