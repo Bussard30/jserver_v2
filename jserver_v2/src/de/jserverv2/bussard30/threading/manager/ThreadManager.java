@@ -13,6 +13,11 @@ import de.jserverv2.bussard30.threading.types.ThreadPriority;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
 import de.jserverv2.bussard30.threading.types.ThreadedJobResult;
 
+/**
+ * Main class of asnyc threading that can be used to queue jobs.
+ * @author Bussard30
+ *
+ */
 public class ThreadManager
 {
 	private static ThreadManager instance;

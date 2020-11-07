@@ -2,6 +2,12 @@ package de.jserverv2.bussard30.networking.server.protocol.message;
 
 import de.jserverv2.bussard30.networking.types.Packet;
 
+/**
+ * Message is more or less a container for several objects inside of a request/ a response
+ * TODO needs some restructuring though, is packet even necessary anymore????
+ * @author Jonas
+ *
+ */
 public class Message
 {
 	private MessagePart[] messageParts;
@@ -16,6 +22,11 @@ public class Message
 	public Message(MessagePart[] m)
 	{
 		this.messageParts = m;
+	}
+	
+	public Message(Object[] o)
+	{
+		
 	}
 
 	public Message(MessagePart[] m, char seperator)

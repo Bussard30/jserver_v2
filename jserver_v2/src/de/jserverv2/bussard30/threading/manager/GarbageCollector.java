@@ -7,6 +7,11 @@ import java.util.Map;
 import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
 
+/**
+ * Deletes job results that haven't been fetched in a certain time period.
+ * @author Bussard30
+ *
+ */
 public class GarbageCollector
 {
 	/**

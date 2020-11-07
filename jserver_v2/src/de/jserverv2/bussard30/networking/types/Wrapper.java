@@ -12,7 +12,8 @@ public class Wrapper
 	
 	public String getString()
 	{
-		// ????
+		// converts object array into string array
+		// TODO type recognition
 		String[] tmp = new String[objects.length];
 		int i = 0;
 		for(Object o : objects)

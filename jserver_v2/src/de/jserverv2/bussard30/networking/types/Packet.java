@@ -1,5 +1,7 @@
 package de.jserverv2.bussard30.networking.types;
 
+// TODO requires rewrite
+@Deprecated
 public abstract class Packet
 {
 	protected int nr;
@@ -9,6 +11,7 @@ public abstract class Packet
 
 	/**
 	 * sets nr to -1
+	 * 
 	 * @param name
 	 * @param buffer
 	 * @param convertedBuffer
@@ -53,8 +56,9 @@ public abstract class Packet
 	{
 		return convertedBuffer;
 	}
-	
-	// packet identifier in actual packet sent to other client, for example "res" for response
+
+	// packet identifier in actual packet sent to other client, for example
+	// "res" for response
 	/**
 	 * 
 	 * @return unique packet identifier

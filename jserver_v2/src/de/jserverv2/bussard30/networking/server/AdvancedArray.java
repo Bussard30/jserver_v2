@@ -25,7 +25,8 @@ public class AdvancedArray<T> implements Iterable<T>
 		{
 			if (index >= length)
 			{
-				throw new ArrayIndexOutOfBoundsException("Index [" + index + "] is out of bounds.");
+				index = index % length;
+				//throw new ArrayIndexOutOfBoundsException("Index [" + index + "] is out of bounds.");
 			}
 			if ((index + offset) >= length)
 			{
@@ -59,8 +60,8 @@ public class AdvancedArray<T> implements Iterable<T>
 		{
 			array[offset] = null;
 			offset += 1;
-			if (offset >= 10)
-				offset -= 10;
+			if (offset >= length)
+				offset -= length;
 		} else
 			throw new ConcurrentModificationException();
 	}

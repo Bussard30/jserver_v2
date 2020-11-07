@@ -1,5 +1,11 @@
 package de.jserverv2.bussard30.networking.server;
 
+@Deprecated
+/**
+ * Rework requrired.
+ * @author Jonas
+ *
+ */
 public class ActiveTime
 {
 	private AdvancedArray<Long> markTimes;

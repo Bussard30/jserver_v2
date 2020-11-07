@@ -9,6 +9,11 @@ import java.util.Vector;
 import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadedJob;
 
+/**
+ * Calculates averages, median etc. for job processing and queueing time.
+ * @author Bussard30
+ *
+ */
 public class ThreadDiag
 {
 	/**
