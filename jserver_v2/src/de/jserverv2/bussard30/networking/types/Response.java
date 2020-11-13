@@ -16,13 +16,6 @@ public interface Response
 	{
 		return identifier;
 	}
-
-	/**
-	 * 
-	 * @param response Response that can processed
-	 * @param request Request on which the Response responded
-	 */
-	public void onResponse(Packet response, Packet request);
 	
 	public Message getResponseMessage();
 }

@@ -22,7 +22,6 @@ public class LoggerThread
 
 	public LoggerThread()
 	{
-		System.out.println("Creating loggerthread...");
 		t = new Thread(() ->
 		{
 			if (!new File(docPath).exists())
@@ -51,7 +50,7 @@ public class LoggerThread
 					}
 					continue;
 				}
-				System.out.println(lw.getMessage());
+				System.out.print(getFinalMessage(lw));
 
 				if (!assignments0.containsKey(lw.getCaster()))
 				{
@@ -80,7 +79,7 @@ public class LoggerThread
 					try
 					{
 						FileWriter myWriter = new FileWriter(assignments1.get(lw.getIP()), true);
-						myWriter.write(getFinalMessage(lw));
+						myWriter.write(getFullFinalMessage(lw));
 						myWriter.close();
 					} catch (IOException e)
 					{
@@ -91,7 +90,7 @@ public class LoggerThread
 				try
 				{
 					FileWriter myWriter = new FileWriter(assignments0.get(lw.getCaster()), true);
-					myWriter.write(getFinalMessage(lw));
+					myWriter.write(getFullFinalMessage(lw));
 					myWriter.close();
 				} catch (IOException e)
 				{
@@ -104,15 +103,21 @@ public class LoggerThread
 	public void start()
 	{
 		running = true;
-		System.out.println("running...");
 		t.start();
 	}
 
 	private static String getFinalMessage(LogWrapper lw)
 	{
 		return "[" + lw.getType() + "]" + "[" + lw.getTime() + "]" + "[" + lw.getCaster().toString() + "]"
-				+ ((lw.getIP() == null) ? "" : ("[" + lw.getCaster().toString() + "]"))
+				+ ((lw.getIP() == null) ? "" : ("[" + lw.getIP() + "]"))
 				+ ((lw.getMessage().length() > 100) ? lw.getMessage().substring(0, 99) : lw.getMessage()) + "\n";
+	}
+	
+	private static String getFullFinalMessage(LogWrapper lw)
+	{
+		return "[" + lw.getType() + "]" + "[" + lw.getTime() + "]" + "[" + lw.getCaster().toString() + "]"
+				+ ((lw.getIP() == null) ? "" : ("[" + lw.getIP() + "]"))
+				+ lw.getMessage() + "\n";
 	}
 
 	public static String getDate()

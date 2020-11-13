@@ -63,12 +63,13 @@ public class ThreadManager
 	public static final Object HashingPools = new Object();
 
 	public static final int maxIndexing = 50;
-	
+
 	public static LoggerThread lt;
 
 	@SuppressWarnings("unchecked")
 	/**
 	 * Instantiates ThreadManager and automatically launches LoggerThread
+	 * 
 	 * @throws InstanceAlreadyExistsException
 	 */
 	public ThreadManager() throws InstanceAlreadyExistsException
@@ -114,15 +115,6 @@ public class ThreadManager
 		lt = new LoggerThread();
 		lt.start();
 		Logger.info(this, "Successfully instantiated ThreadManager!");
-		
-		Logger.info(new Object(){
-			@Override
-			public String toString()
-			{
-				return "ServerHandler";
-				
-			}
-		}, "bra","255.234.77.34");
 	}
 
 	public void handleEvent(ThreadPoolIdentifier o, ThreadedJob e)
@@ -141,20 +133,20 @@ public class ThreadManager
 		{
 			// if one threadpool has 0 queued jobs it instantly queues the job
 			// and returns
-			System.out.println("[ThreadManager]Working on: index<" + temp.get(i) + "> at:" + i);
-			System.out.println("[ThreadManager]Current queued tasks : " + threadpools[temp.get(i)].getQueuedTasks());
+			Logger.info(this, "Working on: index<" + temp.get(i) + "> at:" + i);
+			Logger.info(this, "Current queued tasks : " + threadpools[temp.get(i)].getQueuedTasks());
 			if (threadpools[temp.get(i)].getQueuedTasks() == 0)
 			{
 				// queues job
 				synchronized (assignments[i])
 				{
-					System.out.println("[ThreadManager]Put job in threadpool" + i);
+					Logger.info(this, "Put job in threadpool" + i);
 					assignments[i].put(e, threadpools[i]);
 				}
 
 				synchronized (jobIndexes[e.getIndex()])
 				{
-					System.out.println("[ThreadManager]Put job index in map" + e.getIndex());
+					Logger.info(this, "Put job index in map" + e.getIndex());
 					jobIndexes[e.getIndex()].put(e, new Integer(i));
 				}
 				threadpools[i].addJob(e);
@@ -179,12 +171,12 @@ public class ThreadManager
 
 		synchronized (assignments[index])
 		{
-			System.out.println("[ThreadManager]Put job in threadpool" + index);
+			Logger.info(this, "Put job in threadpool" + index);
 			assignments[index].put(e, threadpools[index]);
 		}
 		synchronized (jobIndexes[e.getIndex()])
 		{
-			System.out.println("[ThreadManager]Put job index in map" + e.getIndex());
+			Logger.info(this, "Put job index in map" + e.getIndex());
 			jobIndexes[e.getIndex()].put(e, new Integer(index));
 		}
 		threadpools[index].addJob(e);
@@ -209,7 +201,7 @@ public class ThreadManager
 			{
 				if (!b)
 				{
-					System.out.println("[SEVERE][ThreadManager]Could not find index " + e.getIndex());
+					Logger.error(this, "Could not find result index: " + e.getIndex());
 					b = true;
 				}
 				return false;
@@ -279,7 +271,7 @@ public class ThreadManager
 	 */
 	public void addThreadPool(ThreadPoolIdentifier identifier, ThreadPool tp)
 	{
-		System.out.println("[ThreadManager]Adding threadpool...");
+		Logger.info(this, "Adding threadpool...");
 		if (poolAssignments.containsKey(identifier))
 		{
 			for (int i = 0; i < maxThreadPools; i++)
@@ -298,7 +290,7 @@ public class ThreadManager
 			{
 				if (threadpools[i] == null)
 				{
-					System.out.println("[ThreadManager]Adding threadpool to list...");
+					Logger.info(this, "Adding threadpool to list...");
 					threadpools[i] = tp;
 					Vector<Integer> temp = new Vector<Integer>();
 					temp.add(i);
@@ -340,5 +332,11 @@ public class ThreadManager
 			j = j - 1;
 		}
 		return b;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "ThreadManager";
 	}
 }

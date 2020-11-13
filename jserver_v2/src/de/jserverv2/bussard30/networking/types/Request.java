@@ -16,12 +16,6 @@ public interface Request
 	{
 		return identifier;
 	}
-	
-	/**
-	 * 
-	 * @param request Request that can be processed.
-	 */
-	public void onRequest(Packet request);
 
 	public Message getRequestMessage();
 }
