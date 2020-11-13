@@ -12,18 +12,28 @@ import javax.swing.JFileChooser;
 public class LoggerThread
 {
 	private Thread t;
-	private HashMap<Object, File> assignments0;
-	private HashMap<String, File> assignments1;
-	private static String docPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "\\jserver_data";
+	private HashMap<Object, File> assignments0 = new HashMap<>();
+	private HashMap<String, File> assignments1 = new HashMap<>();
+	private static String docPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString()
+			+ "\\jserver_data";
 	private boolean running;
 
 	public static SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy-");
 
 	public LoggerThread()
 	{
-		assignments0 = new HashMap<Object, File>();
+		System.out.println("Creating loggerthread...");
 		t = new Thread(() ->
 		{
+			if (!new File(docPath).exists())
+			{
+				new File(docPath).mkdir();
+			}
+			if (!new File(docPath + "\\" + "ips").exists())
+			{
+				new File(docPath + "\\" + "ips").mkdir();
+			}
+
 			while (running)
 			{
 				LogWrapper lw = null;
@@ -45,7 +55,7 @@ public class LoggerThread
 
 				if (!assignments0.containsKey(lw.getCaster()))
 				{
-					File f = new File(docPath + "\\" + getDate() + lw.getCaster().toString() + ".log");
+					File f = new File(docPath + "\\" + getDate() + lw.getCaster().toString().replace(".", "") + ".log");
 					try
 					{
 						f.createNewFile();
@@ -90,9 +100,11 @@ public class LoggerThread
 			}
 		});
 	}
-	
+
 	public void start()
 	{
+		running = true;
+		System.out.println("running...");
 		t.start();
 	}
 
@@ -100,10 +112,10 @@ public class LoggerThread
 	{
 		return "[" + lw.getType() + "]" + "[" + lw.getTime() + "]" + "[" + lw.getCaster().toString() + "]"
 				+ ((lw.getIP() == null) ? "" : ("[" + lw.getCaster().toString() + "]"))
-				+ ((lw.getMessage().length() > 100) ? lw.getMessage().substring(0, 99) : lw.getMessage());
+				+ ((lw.getMessage().length() > 100) ? lw.getMessage().substring(0, 99) : lw.getMessage()) + "\n";
 	}
 
-	public String getDate()
+	public static String getDate()
 	{
 		return date.format(Calendar.getInstance().getTime());
 	}

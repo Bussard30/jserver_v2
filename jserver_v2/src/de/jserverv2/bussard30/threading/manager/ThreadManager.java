@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.management.InstanceAlreadyExistsException;
 
 import de.jserverv2.bussard30.networking.logger.Logger;
+import de.jserverv2.bussard30.networking.logger.LoggerThread;
 import de.jserverv2.bussard30.threading.types.ThreadPool;
 import de.jserverv2.bussard30.threading.types.ThreadPoolIdentifier;
 import de.jserverv2.bussard30.threading.types.ThreadPriority;
@@ -15,6 +16,7 @@ import de.jserverv2.bussard30.threading.types.ThreadedJobResult;
 
 /**
  * Main class of asnyc threading that can be used to queue jobs.
+ * 
  * @author Bussard30
  *
  */
@@ -61,8 +63,14 @@ public class ThreadManager
 	public static final Object HashingPools = new Object();
 
 	public static final int maxIndexing = 50;
+	
+	public static LoggerThread lt;
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * Instantiates ThreadManager and automatically launches LoggerThread
+	 * @throws InstanceAlreadyExistsException
+	 */
 	public ThreadManager() throws InstanceAlreadyExistsException
 	{
 		if (instance == null)
@@ -103,6 +111,18 @@ public class ThreadManager
 		{
 			jobIndexes[i] = new HashMap<ThreadedJob, Integer>();
 		}
+		lt = new LoggerThread();
+		lt.start();
+		Logger.info(this, "Successfully instantiated ThreadManager!");
+		
+		Logger.info(new Object(){
+			@Override
+			public String toString()
+			{
+				return "ServerHandler";
+				
+			}
+		}, "bra","255.234.77.34");
 	}
 
 	public void handleEvent(ThreadPoolIdentifier o, ThreadedJob e)
@@ -206,7 +226,7 @@ public class ThreadManager
 			}
 		} catch (Throwable t)
 		{
-			Logger.error(this,"Could not get result.", t);
+			Logger.error(this, "Could not get result.", t);
 			return false;
 		}
 
@@ -298,17 +318,18 @@ public class ThreadManager
 	{
 		return instance;
 	}
-	
+
 	/**
 	 * Returns the result hashmap (not a copy!)
+	 * 
 	 * @return
 	 */
 	public HashMap<ThreadedJob, ThreadPool>[] getResultMap()
 	{
 		return assignments;
-		
+
 	}
-	
+
 	public static int[] reverse(int a[], int n)
 	{
 		int[] b = new int[n];

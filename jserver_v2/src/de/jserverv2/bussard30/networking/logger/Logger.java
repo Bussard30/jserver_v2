@@ -16,7 +16,7 @@ import java.util.Vector;
 public class Logger
 {
 	private static SimpleDateFormat sdf;
-	public static Vector<LogWrapper> queue;
+	public static Vector<LogWrapper> queue = new Vector<>();
 
 	public static String info = "INFO";
 	public static String warning = "WARNING";
