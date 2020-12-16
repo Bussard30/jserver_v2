@@ -6,4 +6,9 @@ public class MessageReceivedEvent extends Event{
     public String getName() {
         return null;
     }
+
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
 }

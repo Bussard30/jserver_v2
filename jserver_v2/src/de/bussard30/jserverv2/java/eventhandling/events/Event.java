@@ -5,6 +5,8 @@ public abstract class Event {
 
     public abstract String getName();
 
+    public abstract boolean isAsync();
+
     public void setResult(Result r) {
         this.r = r;
     }

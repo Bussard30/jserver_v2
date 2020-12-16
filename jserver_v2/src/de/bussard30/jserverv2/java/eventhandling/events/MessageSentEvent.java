@@ -5,4 +5,9 @@ public class MessageSentEvent extends Event{
     public String getName() {
         return null;
     }
+
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
 }
