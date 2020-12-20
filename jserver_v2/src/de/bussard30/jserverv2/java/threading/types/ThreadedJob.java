@@ -71,7 +71,7 @@ public abstract class ThreadedJob
 		noNotification = noReturn;
 	}
 
-	public ThreadedJob(Runnable r, boolean noReturn, boolean noNotification)
+	public ThreadedJob(Runnable r, boolean noReturn)
 	{
 		this(r);
 		this.noNotification = noNotification;
@@ -145,7 +145,7 @@ public abstract class ThreadedJob
 
 	/**
 	 * timeout for results
-	 * @return
+	 * @return duration for timeout
 	 */
 	public abstract long getTimeOut();
 }

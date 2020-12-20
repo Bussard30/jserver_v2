@@ -7,7 +7,7 @@ import de.bussard30.jserverv2.java.networking.server.protocol.message.Message;
  * @author Bussard30
  *
  */
-public interface Request 
+public interface Request extends Packet
 {
 
 	public static String identifier = "req";

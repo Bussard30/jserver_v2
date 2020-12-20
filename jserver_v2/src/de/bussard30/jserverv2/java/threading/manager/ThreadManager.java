@@ -8,11 +8,7 @@ import javax.management.InstanceAlreadyExistsException;
 
 import de.bussard30.jserverv2.java.networking.logger.Logger;
 import de.bussard30.jserverv2.java.networking.logger.LoggerThread;
-import de.bussard30.jserverv2.java.threading.types.ThreadPool;
-import de.bussard30.jserverv2.java.threading.types.ThreadPoolIdentifier;
-import de.bussard30.jserverv2.java.threading.types.ThreadPriority;
-import de.bussard30.jserverv2.java.threading.types.ThreadedJob;
-import de.bussard30.jserverv2.java.threading.types.ThreadedJobResult;
+import de.bussard30.jserverv2.java.threading.types.*;
 
 /**
  * Main class of asnyc threading that can be used to queue jobs.
@@ -48,19 +44,19 @@ public class ThreadManager
 	public static int maxThreadPools = 30;
 
 	/**
-	 * Example object for pool seperation
+	 * Example object for pool separation
 	 */
-	public static final Object EventPools = new Object();
+	public static final EventHandlerIdent EventPools = new EventHandlerIdent();
 
 	/**
-	 * Example object for pool seperation
+	 * Example object for pool separation
 	 */
-	public static final Object LoggerPools = new Object();
+	public static final EventHandlerIdent LoggerPools = new EventHandlerIdent();
 
 	/**
-	 * Example object for pool seperation
+	 * Example object for pool separation
 	 */
-	public static final Object HashingPools = new Object();
+	public static final EventHandlerIdent HashingPools = new EventHandlerIdent();
 
 	public static final int maxIndexing = 50;
 

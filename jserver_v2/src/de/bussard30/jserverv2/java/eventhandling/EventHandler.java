@@ -16,5 +16,5 @@ public @interface EventHandler
 
 	//TODO ThreadPriority tp() default ThreadPriority.NORMAL;
 
-	ThreadProcessingSpeed tps() default ThreadProcessingSpeed.FAST;
+	boolean ignoreCanceled() default false;
 }

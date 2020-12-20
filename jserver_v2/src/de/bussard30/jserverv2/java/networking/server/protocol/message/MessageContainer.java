@@ -2,6 +2,7 @@ package de.bussard30.jserverv2.java.networking.server.protocol.message;
 
 import de.bussard30.jserverv2.java.networking.types.Packet;
 
+@Deprecated
 public class MessageContainer
 {
 	private String[] s;

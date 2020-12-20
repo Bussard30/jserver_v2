@@ -6,13 +6,13 @@ import de.bussard30.jserverv2.java.networking.server.protocol.message.Message;
  * @author Bussard30
  *
  */
-public interface Response 
+public interface Response extends Packet
 {
 	
-	public static String identifier = "res";
+	String identifier = "res";
 
 
-	public default String getPacketIdentifier()
+	default String getPacketIdentifier()
 	{
 		return identifier;
 	}

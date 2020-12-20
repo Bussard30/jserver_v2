@@ -1,133 +1,133 @@
 package de.bussard30.jserverv2.java.eventhandling;
 
+import de.bussard30.jserverv2.java.eventhandling.events.Event;
+import de.bussard30.jserverv2.java.eventhandling.events.Listener;
+import de.bussard30.jserverv2.java.eventhandling.events.Result;
+import de.bussard30.jserverv2.java.networking.logger.Logger;
+import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
+import de.bussard30.jserverv2.java.networking.types.Packet;
+import de.bussard30.jserverv2.java.networking.types.Request;
+import de.bussard30.jserverv2.java.networking.types.Response;
+import de.bussard30.jserverv2.java.threading.manager.ThreadManager;
+import de.bussard30.jserverv2.java.threading.types.EventThreadedJob;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
-import de.bussard30.jserverv2.java.networking.logger.Logger;
-import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
-import de.bussard30.jserverv2.java.networking.types.Packet;
+public class EventHandling {
 
-public class EventHandling
-{
+    private static final HashMap<Class<?>, DataContainer> hm = new HashMap<>();
 
-	private static HashMap<Class<?>, DataContainer> hm = new HashMap<>();
+    /**
+     * Scans methods of object for following annotations: "@interface<br>
+     * EventHandler, "@interface RequestHandler, "@interface ResponseHandler<br>
+     * Does not throw an error if no method has been found.Does throw an
+     * error<br>
+     * if a method that is handling the exact same condition is found.<br>
+     * Automatically registers parameter as Event<br>
+     *
+     * @param listener Listener to be scanned for methods containing eventhandler annotation
+     */
+    public static void addHandler(Listener listener) {
+        for (Method m : listener.getClass().getMethods()) {
+            EventHandler a = m.getAnnotation(EventHandler.class);
+            if (a != null) {
+                if (m.getParameterTypes().length <= 1) {
+                    if (hm.containsKey(m.getParameterTypes()[0])) {
+                        hm.get(m.getParameterTypes()[0]).addMethod(m);
+                    } else {
+                        hm.put(m.getParameterTypes()[0],
+                                new DataContainer(NetworkPhase.stringsToNetworkPhases(a.networkPhase()), m, listener));
+                    }
+                }
+            }
+        }
+    }
 
-	/**
-	 * Scans methods of object for following annotations: "@interface<br>
-	 * EventHandler, "@interface RequestHandler, "@interface ResponseHandler<br>
-	 * Does not throw an error if no method has been found.Does throw an
-	 * error<br>
-	 * if a method that is handling the exact same condition is found.<br>
-	 * Automatically registers parameter as Event<br>
-	 * 
-	 * @param o
-	 */
-	public static void addHandler(Object o)
-	{
-		for (Method m : o.getClass().getMethods())
-		{
-			EventHandler a = m.getAnnotation(EventHandler.class);
-			if (a != null)
-			{
-				synchronized (hm)
-				{
-					for (Map.Entry<Class<?>, DataContainer> e : hm.entrySet())
-					{
-						if (e.getKey().equals(o.getClass()))
-						{
-							for (NetworkPhase np : e.getValue().getNetworkPhases())
-							{
-								if (np.equals(NetworkPhase.stringsToNetworkPhases(a.networkPhase())))
-								{
-									throw new RuntimeException("Method already present!");
-								}
-							}
-						}
-					}
-				}
-				if (m.getParameterTypes().length <= 1)
-				{
-					hm.put(m.getParameterTypes()[0],
-							new DataContainer(NetworkPhase.stringsToNetworkPhases(a.networkPhase()), m));
-				}
-			}
-		}
-	}
+    /**
+     * Calls all methods for the certain event.
+     *
+     * @param event Event to be thrown.
+     * @param n     Current NetworkPhase.
+     *
+     * @return Event that has been "given through" handlers. If event is async, the event remains unchanged.
+     */
+    public static Event throwEvent(Event event, NetworkPhase n) {
+        synchronized (hm) {
+            for (Map.Entry<Class<?>, DataContainer> e : hm.entrySet()) {
+                if (e.getKey().equals(event.getClass())) {
+                    for (NetworkPhase np : e.getValue().getNetworkPhases()) {
+                        if (np.equals(n)) {
+                            synchronized (e.getValue().getMethods()) {
+                                for (Method m : e.getValue().getMethods()) {
+                                    if (event.isAsync()) {
+                                        ThreadManager.getInstance().handleEvent(ThreadManager.EventPools, new EventThreadedJob(m, event));
+                                    } else {
+                                        try {
+                                            m.invoke(e.getValue().getHandler(), event);
+                                        } catch (IllegalAccessException e1) {
+                                            Logger.error("EventHandling", e1);
+                                        } catch (IllegalArgumentException e1) {
+                                            Logger.error("EventHandling", e1);
+                                        } catch (InvocationTargetException e1) {
+                                            Logger.error("EventHandling", e1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return event;
+    }
 
-	/**
-	 * Due to different event handling methods being available for different
-	 * network phases,<br>
-	 * you have to give the current network phase for differentiation
-	 * purposes.<br>
-	 * Cannot call multiple event handle methods
-	 * 
-	 * @param o
-	 * @param n
-	 */
-	public static void throwEvent(Object o, NetworkPhase n)
-	{
-		synchronized (hm)
-		{
-			for (Map.Entry<Class<?>, DataContainer> e : hm.entrySet())
-			{
-				if (e.getKey().equals(o.getClass()))
-				{
-					for (NetworkPhase np : e.getValue().getNetworkPhases())
-					{
-						if (np.equals(n))
-						{
-							try
-							{
-								e.getValue().getMethod().invoke(null, o);
-								return;
-							} catch (IllegalAccessException e1)
-							{
-								Logger.error("EventHandling", e1);
-							} catch (IllegalArgumentException e1)
-							{
-								Logger.error("EventHandling", e1);
-							} catch (InvocationTargetException e1)
-							{
-								Logger.error("EventHandling", e1);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    public static void handle(Packet p) {
+        if (p instanceof Request) {
+            handleRequest((Request) p);
+        } else if (p instanceof Response) {
+            handleResponse((Response) p);
+        }
+    }
 
-	public static void handleRequest(Packet p)
-	{
+    public static void handleRequest(Request request) {
+        // TODO
+    }
 
-	}
+    public static void handleResponse(Response response) {
+        // TODO
+    }
 
-	public static void handleResponse(Packet p)
-	{
+    private static class DataContainer {
+        private final NetworkPhase[] np;
+        private final Vector<Method> m;
+        private final Listener handler;
 
-	}
+        public DataContainer(NetworkPhase[] np, Method m, Listener handler) {
+            this.np = np;
+            this.m = new Vector<>();
+            this.m.add(m);
+            this.handler = handler;
+        }
 
-	private static class DataContainer
-	{
-		private NetworkPhase[] np;
-		private Method m;
+        public NetworkPhase[] getNetworkPhases() {
+            return np;
+        }
 
-		public DataContainer(NetworkPhase[] np, Method m)
-		{
-			this.np = np;
-			this.m = m;
-		}
+        public Vector<Method> getMethods() {
+            return m;
+        }
 
-		public NetworkPhase[] getNetworkPhases()
-		{
-			return np;
-		}
+        public void addMethod(Method m) {
+            this.m.add(m);
+        }
 
-		public Method getMethod()
-		{
-			return m;
-		}
-	}
+        public Listener getHandler() {
+            return this.handler;
+        }
+    }
 }
