@@ -5,11 +5,11 @@ import java.security.InvalidParameterException;
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
 @ConvertionHandling(target = Double.class)
-public class DoubleConverter extends ConvertionHandler
+public class DoubleConverter extends ConversionHandler
 {
 
 	@Override
-	public String getString(Object o) throws InvalidParameterException
+	public String buildString(Object o) throws InvalidParameterException
 	{
 		if (o instanceof Double)
 		{

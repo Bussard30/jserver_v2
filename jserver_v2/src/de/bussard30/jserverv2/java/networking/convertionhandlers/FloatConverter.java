@@ -5,11 +5,11 @@ import java.security.InvalidParameterException;
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
 @ConvertionHandling(target = Float.class)
-public class FloatConverter extends ConvertionHandler
+public class FloatConverter extends ConversionHandler
 {
 
 	@Override
-	public String getString(Object o) throws InvalidParameterException
+	public String buildString(Object o) throws InvalidParameterException
 	{
 		if (o instanceof Float)
 		{

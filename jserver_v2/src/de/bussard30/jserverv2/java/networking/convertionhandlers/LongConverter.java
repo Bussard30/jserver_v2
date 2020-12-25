@@ -5,15 +5,15 @@ import java.security.InvalidParameterException;
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
 @ConvertionHandling(target = Long.class)
-public class LongConverter extends ConvertionHandler
+public class LongConverter extends ConversionHandler
 {
 
 	@Override
-	public String getString(Object o) throws InvalidParameterException
+	public String buildString(Object o) throws InvalidParameterException
 	{
 		if (o instanceof Long)
 		{
-			return Long.toString((Integer) o);
+			return Long.toString((Long) o);
 		}
 		throw new InvalidParameterException();
 	}

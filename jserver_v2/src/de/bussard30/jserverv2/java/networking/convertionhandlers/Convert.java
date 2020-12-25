@@ -9,26 +9,26 @@ import java.util.Base64;
 import java.util.HashMap;
 
 public class Convert {
-    private static final HashMap<Class<?>, ConvertionHandler> assignments;
+    private static final HashMap<Class<?>, ConversionHandler> assignments;
     private static final HashMap<String, Class<?>> assignmentIndexing;
     private static final String separatorChar = ";";
 
     static {
-        assignments = new HashMap<Class<?>, ConvertionHandler>();
+        assignments = new HashMap<>();
         assignmentIndexing = new HashMap<>();
     }
 
-    public static void register(ConvertionHandler o) throws InvalidParameterException {
+    public static void register(ConversionHandler o) throws InvalidParameterException {
         try {
             if (!assignments.containsKey(o.getClass().getAnnotation(ConvertionHandling.class).target())) {
                 assignments.put(o.getClass().getAnnotation(ConvertionHandling.class).target(), o);
                 assignmentIndexing.put(o.getClass().getAnnotation(ConvertionHandling.class).target().getName(),
                         o.getClass().getAnnotation(ConvertionHandling.class).target());
             } else {
-                throw new InvalidParameterException("ConvertionHandler for this type already registered!");
+                throw new InvalidParameterException("ConversionHandler for this type already registered!");
             }
         } catch (Throwable t) {
-            throw new InvalidParameterException("Could not register convertion handler");
+            throw new InvalidParameterException("Could not register conversion handler");
 
         }
     }
@@ -40,7 +40,7 @@ public class Convert {
      */
     public static String getStringWithType(Object o) throws InvalidParameterException {
         return (o instanceof String) ? o.getClass().getName() + separatorChar + toBase64((String) o) :
-                o.getClass().getName() + separatorChar + toBase64(assignments.get(o.getClass()).getString(o));
+                o.getClass().getName() + separatorChar + toBase64(assignments.get(o.getClass()).buildString(o));
     }
 
     /**
@@ -51,7 +51,7 @@ public class Convert {
      * @throws InvalidParameterException
      */
     public static String getString(Object o) throws InvalidParameterException {
-        return (o instanceof String) ? toBase64((String) o) : toBase64(assignments.get(o.getClass()).getString(o));
+        return (o instanceof String) ? toBase64((String) o) : toBase64(assignments.get(o.getClass()).buildString(o));
     }
 
     /**
@@ -73,17 +73,20 @@ public class Convert {
         return new String(Base64.getDecoder().decode(s.getBytes()), StandardCharsets.UTF_8);
     }
 
+
     /**
      * Converts given base64 string to an string
      * @param s base64 string to be converted.
      * @param c charset for new string
      * @return string
      */
+    @SuppressWarnings("unused")
     public static String fromBase64(String s, Charset c) {
         return new String(Base64.getDecoder().decode(s.getBytes()), c);
     }
 
-    public static final Object getObject(String s) throws InvalidParameterException {
+    @SuppressWarnings("unused")
+    public static Object getObject(String s) throws InvalidParameterException {
         String[] strings = s.split(separatorChar);
         if (strings.length == 2) {
             return getObject(assignmentIndexing.get(strings[0]), fromBase64(strings[1]));
@@ -100,9 +103,9 @@ public class Convert {
      * @param c Expected class of object
      * @param s Formatted string
      * @return an object (which is an instance of c)
-     * @throws InvalidParameterException
+     * @throws InvalidParameterException on invalid parameters
      */
-    public static final Object getObject(Class<?> c, String s) throws InvalidParameterException {
+    public static Object getObject(Class<?> c, String s) throws InvalidParameterException {
         return (c.equals(String.class)) ? s : assignments.get(c).getObject(s);
     }
 
@@ -112,7 +115,7 @@ public class Convert {
      * @param c Class to be checked
      * @return a boolean if c has been found.
      */
-    public static final boolean containsClass(Class<?> c) {
+    public static boolean containsClass(Class<?> c) {
         return assignments.containsKey(c);
     }
 }

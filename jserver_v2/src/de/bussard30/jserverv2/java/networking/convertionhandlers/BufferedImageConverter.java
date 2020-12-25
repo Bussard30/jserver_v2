@@ -12,16 +12,14 @@ import javax.imageio.ImageIO;
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
 @ConvertionHandling(target = BufferedImage.class)
-public class BufferedImageConverter extends ConvertionHandler
+public class BufferedImageConverter extends ConversionHandler
 {
 
 	@Override
-	public String getString(Object o) throws InvalidParameterException
+	public String buildString(Object o) throws InvalidParameterException
 	{
 		if (o instanceof BufferedImage)
 		{
-			String string = null;
-
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			try
 			{
@@ -39,8 +37,7 @@ public class BufferedImageConverter extends ConvertionHandler
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
-			string = Base64.getEncoder().encodeToString(baos.toByteArray());
+			String string = Base64.getEncoder().encodeToString(baos.toByteArray());
 			try
 			{
 				baos.close();

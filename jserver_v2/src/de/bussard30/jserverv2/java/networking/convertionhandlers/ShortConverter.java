@@ -6,11 +6,11 @@ import java.util.Base64;
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
 @ConvertionHandling(target = Short.class)
-public class ShortConverter extends ConvertionHandler
+public class ShortConverter extends ConversionHandler
 {
 
 	@Override
-	public String getString(Object o) throws InvalidParameterException
+	public String buildString(Object o) throws InvalidParameterException
 	{
 		if (o instanceof Short)
 		{
