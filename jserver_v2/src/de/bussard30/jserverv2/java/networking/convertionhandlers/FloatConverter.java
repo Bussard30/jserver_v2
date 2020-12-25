@@ -19,7 +19,7 @@ public class FloatConverter extends ConversionHandler
 	}
 
 	@Override
-	public Object getObject(String s) throws InvalidParameterException
+	public Object buildObject(String s) throws InvalidParameterException
 	{
 		try
 		{

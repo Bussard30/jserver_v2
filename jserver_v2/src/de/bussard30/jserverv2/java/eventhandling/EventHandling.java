@@ -21,6 +21,7 @@ public class EventHandling {
     private static final HashMap<Class<?>, Vector<Handler>> hm = new HashMap<>();
 
     public static final int standard_priority = 1;
+
     /**
      * defines if handlers may be registered (events can always be thrown)
      */

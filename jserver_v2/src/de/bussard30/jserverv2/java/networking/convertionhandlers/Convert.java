@@ -106,7 +106,7 @@ public class Convert {
      * @throws InvalidParameterException on invalid parameters
      */
     public static Object getObject(Class<?> c, String s) throws InvalidParameterException {
-        return (c.equals(String.class)) ? s : assignments.get(c).getObject(s);
+        return (c.equals(String.class)) ? s : assignments.get(c).buildObject(s);
     }
 
     /**
