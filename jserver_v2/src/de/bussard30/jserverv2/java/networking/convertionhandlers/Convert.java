@@ -35,7 +35,7 @@ public class Convert {
 
     /**
      * @param o Object to be converted to an string.
-     * @return a string : [type;convertedObject]
+     * @return a string : "type;convertedObject" (not including quotation mark)
      * @throws InvalidParameterException
      */
     public static String getStringWithType(Object o) throws InvalidParameterException {
@@ -45,7 +45,7 @@ public class Convert {
 
     /**
      * Returns a string for an object that can be converted back to an object using {@link Convert#getObject(Class, String)}
-     *
+     * <br> uses base64 charset.
      * @param o Object to be formatted.
      * @return String of formatted object.
      * @throws InvalidParameterException

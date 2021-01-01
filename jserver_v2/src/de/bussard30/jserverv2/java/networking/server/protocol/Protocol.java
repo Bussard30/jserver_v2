@@ -10,6 +10,7 @@ public class Protocol
 {
 	// problem with current conditionwrapper system: logical operator in last
 	// condition is redundant
+	// prob fine though
 	private HashMap<NetworkPhase, ProtocolCondition> conditions;
 
 	// TODO

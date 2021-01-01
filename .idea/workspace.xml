@@ -2,16 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19a3f7b7-65c8-4c26-aed9-852786b2094d" name="Default Changelist" comment="Basic events.">
+      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ProtocolManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/KeepStored.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/Session.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionInjector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventHandling.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventHandling.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/BufferedImageConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/BufferedImageConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/ConversionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/ConversionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/Convert.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/Convert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/DoubleConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/DoubleConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/FloatConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/FloatConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/IntegerConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/IntegerConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/LongConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/LongConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/ShortConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/convertionhandlers/ShortConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/HandlerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/HandlerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/Protocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/Protocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Body.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Body.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Header.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Header.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/MessageContainer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/MessagePart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Packet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +29,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -120,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608854680587</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Renaming.">
+      <created>1608854810814</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1608854810814</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,7 +157,8 @@
     <MESSAGE value="Converter changes." />
     <MESSAGE value="Some updates." />
     <MESSAGE value="Commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit." />
+    <MESSAGE value="Renaming." />
+    <option name="LAST_COMMIT_MESSAGE" value="Renaming." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

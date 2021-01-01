@@ -7,6 +7,10 @@ import java.util.function.Consumer;
 import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
 import de.bussard30.jserverv2.java.networking.types.Packet;
 
+/**
+ * TODO
+ * find purpose? what was i thinking...?
+ */
 public class HandlerManager
 {
 	/**
@@ -15,7 +19,7 @@ public class HandlerManager
 	 */
 	private HashMap<Class<? extends Packet>, HandlerWrapper<Object>> assignments;
 
-	Vector<Class<? extends Packet>> temp = new Vector<>();
+	private Vector<Class<? extends Packet>> temp = new Vector<>();
 
 	/**
 	 * 

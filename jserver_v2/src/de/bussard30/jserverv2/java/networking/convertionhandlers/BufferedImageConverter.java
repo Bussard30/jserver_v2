@@ -37,7 +37,7 @@ public class BufferedImageConverter extends ConversionHandler
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			String string = Base64.getEncoder().encodeToString(baos.toByteArray());
+			String string  = baos.toString();
 			try
 			{
 				baos.close();

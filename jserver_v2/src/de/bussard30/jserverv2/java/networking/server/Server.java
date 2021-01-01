@@ -27,10 +27,10 @@ public class Server
 
 	private Vector<ServerThread> threads;
 
-	private volatile Vector<ServerHandler> handlers;
-	private volatile Vector<ServerHandler> unassignedHandlers;
-	private volatile HashMap<ServerThread, Vector<ServerHandler>> assignments;
-	private volatile HashMap<String, ServerHandler> uuidAssignments;
+	private Vector<ServerHandler> handlers;
+	private Vector<ServerHandler> unassignedHandlers;
+	private HashMap<ServerThread, Vector<ServerHandler>> assignments;
+	private HashMap<String, ServerHandler> uuidAssignments;
 
 	private volatile Vector<Integer> numbers;
 	public Object dsmlock = new Object();
@@ -168,51 +168,6 @@ public class Server
 		});
 		distributorThread.setName("Connection-distributor");
 		distributorThread.start();
-
-		new Thread(new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				while (online)
-				{
-					// Logger.info("Doing something");
-					// Field[] attributes =
-					// server.getClass().getDeclaredFields();
-					// Logger.info("Count" + attributes.length);
-					// for (Field field : attributes)
-					// {
-					// // Dynamically read Attribute Name
-					// System.out.print("ATTRIBUTE NAME: " + field.getName());
-					//
-					// try
-					// {
-					// Object o = new Object();
-					// field.get(o);
-					// printObjectSize(o);
-					// System.out.println();
-					// } catch (Exception e)
-					// {
-					// System.out.println("<ERROR;Could not retrieve object.>");
-					// }
-					//
-					// }
-
-					// System.out.println(VM.current().details());
-					// assignments.forEach((k,v)-> v.forEach(h ->
-					// System.out.println(ClassLayout.parseClass(h.getClass()).toPrintable())));
-					try
-					{
-						Thread.sleep(1500);
-					} catch (InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
 		log("Done.");
 	}
 

@@ -8,47 +8,40 @@ import de.bussard30.jserverv2.java.networking.types.Packet;
  *
  * @author Jonas
  */
-@Deprecated
-public class Message {
-    private MessagePart[] messageParts;
 
-    private char seperator = '|';
+public class Message {
+    private Body body;
+    private Header header;
+
+    private Packet packet;
+
+    public static char seperator = '|';
+
+    private int length = 0;
+
+    public Message(Packet p)
+    {
+        this.packet = p;
+        this.body = p.getBody();
+        this.header = this.body.getHeader(this.packet);
+    }
 
     /**
-     * Order in array matters.
-     *
-     * @param m
+     * Converts incoming string to a Message.
+     * @param msg incoming string from client (not including length)
      */
-    public Message(MessagePart[] m) {
-        this.messageParts = m;
+    public Message(String msg)
+    {
+        // convert message
     }
 
-
-    public Message(Object[] o) {
-
+    public int getLength()
+    {
+        return length;
     }
 
-    public Message(MessagePart[] m, char seperator) {
-        this(m);
-        this.seperator = seperator;
-    }
-
-    @Deprecated
-    public String constructMessage(Packet p) {
-        String temp = new String();
-        for (int i = 0; i < messageParts.length; i++) {
-            temp += messageParts[i].getString(p);
-        }
-        return temp;
-    }
-
-    @Deprecated
-    public Packet getPacket(String s) {
-        String[] parts = s.split(String.valueOf(seperator));
-        MessageContainer mc = new MessageContainer(parts, null);
-        for (int i = 0; i < messageParts.length; i++) {
-            mc = messageParts[i].getPacket(mc.getStrings(), mc.getPacket());
-        }
-        return mc.getPacket();
+    public Packet getPacket()
+    {
+        return null;
     }
 }
