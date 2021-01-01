@@ -1,8 +1,5 @@
 package de.bussard30.jserverv2.java.hashing.pbkdf2;
 
-import jcuda.Pointer;
-import jcuda.runtime.JCuda;
-
 public class PBKDF2Hasher
 {
 	public static void hash(byte[] b)
@@ -26,9 +23,6 @@ public class PBKDF2Hasher
 	 */
 	public static void hash(Number n)
 	{
-		Pointer pointer = new Pointer();
-		JCuda.cudaMalloc(pointer, 4);
-		System.out.println("Pointer: " + pointer);
-		JCuda.cudaFree(pointer);
+
 	}
 }

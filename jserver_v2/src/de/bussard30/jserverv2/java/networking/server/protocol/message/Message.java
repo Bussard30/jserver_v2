@@ -42,6 +42,6 @@ public class Message {
 
     public Packet getPacket()
     {
-        return null;
+        return packet;
     }
 }

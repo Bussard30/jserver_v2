@@ -38,7 +38,7 @@ public class ServerThread
 				{
 					try
 					{
-						for(ServerHandler h : Server.getInstance().getAssigments(st))
+						for(ServerHandler h : Server.getInstance().getAssignments(st))
 						{
 							try
 							{

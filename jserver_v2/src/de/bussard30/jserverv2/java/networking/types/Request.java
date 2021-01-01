@@ -3,19 +3,15 @@ package de.bussard30.jserverv2.java.networking.types;
 import de.bussard30.jserverv2.java.networking.server.protocol.message.Message;
 
 /**
- * 
  * @author Bussard30
- *
  */
-public interface Request extends Packet
-{
+public abstract class Request extends Packet {
 
-	public static String identifier = "req";
-	
-	public default String getPacketIdentifier()
-	{
-		return identifier;
-	}
+    public static String identifier = "req";
 
-	public Message getRequestMessage();
+    public String getPacketIdentifier() {
+        return identifier;
+    }
+
+    public abstract Message getRequestMessage();
 }

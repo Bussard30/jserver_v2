@@ -7,10 +7,6 @@ import java.util.function.Consumer;
 import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
 import de.bussard30.jserverv2.java.networking.types.Packet;
 
-/**
- * TODO
- * find purpose? what was i thinking...?
- */
 public class HandlerManager
 {
 	/**

@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Vector;
 
 /**
- * TODO new logger system required; make logger create files for every single ip
- * and process
  * 
  * @author Unknown
  *

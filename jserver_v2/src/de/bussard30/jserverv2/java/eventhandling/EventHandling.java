@@ -102,6 +102,7 @@ public class EventHandling {
      * @return Event that has been "given through" handlers. If event is async, the event remains unchanged.
      */
     public static Event throwEvent(Event event, NetworkPhase n) {
+        // TODO there needs to be a sorted list for priority
         for (Map.Entry<Class<?>, Vector<Handler>> e : hm.entrySet()) {
             if (e.getKey().equals(event.getClass())) {
                 Vector<Handler> shallow_copy = (Vector<Handler>) e.getValue().clone();

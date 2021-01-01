@@ -16,7 +16,7 @@ public class Protocol
 	// TODO
 	private NetworkPhase currentNetworkPhase;
 
-	// this were only implemented for faster execution speed
+	// indexing maps
 	private HashMap<Class<? extends Packet>, ConditionWrapper> map0;
 	private HashMap<ConditionWrapper, NetworkPhase> map1;
 
@@ -86,10 +86,7 @@ public class Protocol
 		this.header = h;
 	}
 
-	public String getHeader(Header h, Packet p)
-	{
-		//TODO method that creates string header by taking standard header or something and packet
+	public ProtocolHeader getProtocolHeader() {
 		return null;
 	}
-
 }

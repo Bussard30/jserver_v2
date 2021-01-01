@@ -1,12 +1,18 @@
 package de.bussard30.jserverv2.java.networking.server.protocol.message;
 
 import de.bussard30.jserverv2.java.networking.convertionhandlers.Convert;
+import de.bussard30.jserverv2.java.networking.server.protocol.Protocol;
 import de.bussard30.jserverv2.java.networking.types.Packet;
 
 public class Body {
     private Object[] objects;
     private String converted;
     private int length;
+
+    /**
+     * might be unnecessary
+     */
+    private Protocol protocol;
 
     private boolean isBuilt;
 

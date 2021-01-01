@@ -11,8 +11,14 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Vector;
 
+import de.bussard30.jserverv2.java.eventhandling.Handler;
+import de.bussard30.jserverv2.java.eventhandling.events.Listener;
 import de.bussard30.jserverv2.java.networking.logger.Logger;
+import de.bussard30.jserverv2.java.networking.server.protocol.Protocol;
 
+/**
+ * Main class for this project.
+ */
 public class Server
 {
 	private Thread acceptorThread;
@@ -25,12 +31,12 @@ public class Server
 
 	// private int threadAmount;
 
-	private Vector<ServerThread> threads;
+	private final Vector<ServerThread> threads;
 
-	private Vector<ServerHandler> handlers;
-	private Vector<ServerHandler> unassignedHandlers;
-	private HashMap<ServerThread, Vector<ServerHandler>> assignments;
-	private HashMap<String, ServerHandler> uuidAssignments;
+	private final Vector<ServerHandler> handlers;
+	private final Vector<ServerHandler> unassignedHandlers;
+	private final HashMap<ServerThread, Vector<ServerHandler>> assignments;
+	private final HashMap<String, ServerHandler> uuidAssignments;
 
 	private volatile Vector<Integer> numbers;
 	public Object dsmlock = new Object();
@@ -65,104 +71,93 @@ public class Server
 	{
 		log("Starting Server ...");
 		// starts server thread
-		acceptorThread = new Thread()
-		{
-			@Override
-			public void run()
+		acceptorThread = new Thread(() -> {
+			online = true;
+			try
 			{
-				online = true;
+				serverSocket = new ServerSocket(port);
+
+			} catch (IOException e)
+			{
+				log(e);
+				e.printStackTrace();
+			}
+
+			while (online)
+			{
+				Socket s;
 				try
 				{
-					serverSocket = new ServerSocket(port);
-
+					s = serverSocket.accept();
+					log(s.getInetAddress().getHostAddress() + " connected.");
+					ServerHandler sh = new ServerHandler(s, new DataInputStream(s.getInputStream()),
+							new DataOutputStream(s.getOutputStream()));
+					handlers.addElement(sh);
+					unassignedHandlers.addElement(sh);
 				} catch (IOException e)
 				{
 					log(e);
 					e.printStackTrace();
 				}
-
-				while (online)
-				{
-					Socket s;
-					try
-					{
-						s = serverSocket.accept();
-						log(s.getInetAddress().getHostAddress() + " connected.");
-						ServerHandler sh = new ServerHandler(s, new DataInputStream(s.getInputStream()),
-								new DataOutputStream(s.getOutputStream()));
-						handlers.addElement(sh);
-						unassignedHandlers.addElement(sh);
-					} catch (IOException e)
-					{
-						log(e);
-						e.printStackTrace();
-					}
-					try
-					{
-						Thread.sleep(0, 500000);
-					} catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-				}
-
-				// shutdown
-
 				try
 				{
-					serverSocket.close();
-				} catch (IOException e)
+					Thread.sleep(0, 500000);
+				} catch (InterruptedException e)
 				{
-					log(e);
 					e.printStackTrace();
 				}
 			}
-		};
+
+			// shutdown
+
+			try
+			{
+				serverSocket.close();
+			} catch (IOException e)
+			{
+				log(e);
+				e.printStackTrace();
+			}
+		});
 		acceptorThread.setName("Connection-negotiator");
 		acceptorThread.start();
-		distributorThread = new Thread(new Runnable()
-		{
+		distributorThread = new Thread(() -> {
+			/**
+			 * to be removed
+			 */
+			Vector<ServerHandler> tbr = new Vector<>();
 
-			@Override
-			public void run()
+			while (online)
 			{
-				/**
-				 * to be removed
-				 */
-				Vector<ServerHandler> tbr = new Vector<>();
-
-				while (online)
+				unassignedHandlers.forEach(h ->
 				{
-					unassignedHandlers.forEach(h ->
-					{
-						try
-						{
-							assignments.get(Diagnostics.getInstance().getThread()).add(h);
-						} catch (NoSuchElementException e)
-						{
-							log("First handler is being assigned ...");
-							ServerThread st = new ServerThread();
-							Vector<ServerHandler> hs = new Vector<ServerHandler>();
-							hs.add(h);
-
-							Diagnostics.getInstance().assign(st, h);
-
-							threads.add(st);
-							assignments.put(st, hs);
-						}
-
-						tbr.add(h);
-						log("Assigned ServerHandler to state: UNASSIGNED");
-					});
-					tbr.forEach(h -> unassignedHandlers.remove(h));
 					try
 					{
-						Thread.sleep(0, 500000);
-					} catch (InterruptedException e)
+						assignments.get(Diagnostics.getInstance().getThread()).add(h);
+					} catch (NoSuchElementException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log("First handler is being assigned ...");
+						ServerThread st = new ServerThread();
+						Vector<ServerHandler> hs = new Vector<ServerHandler>();
+						hs.add(h);
+
+						Diagnostics.getInstance().assign(st, h);
+
+						threads.add(st);
+						assignments.put(st, hs);
 					}
+
+					tbr.add(h);
+					log("Assigned ServerHandler to state: UNASSIGNED");
+				});
+				tbr.forEach(h -> unassignedHandlers.remove(h));
+				try
+				{
+					Thread.sleep(0, 500000);
+				} catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -239,7 +234,7 @@ public class Server
 		});
 	}
 
-	public Vector<ServerHandler> getAssigments(ServerThread t)
+	public Vector<ServerHandler> getAssignments(ServerThread t)
 	{
 		return assignments.get(t);
 	}
@@ -257,6 +252,11 @@ public class Server
 	public void overloadDetected(ServerHandler s)
 	{
 		// TODO
+	}
+
+	public static void registerListener(Listener listener, Protocol protocol)
+	{
+
 	}
 
 }
