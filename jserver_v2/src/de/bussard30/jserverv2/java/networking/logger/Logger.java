@@ -13,13 +13,13 @@ import java.util.Vector;
  */
 public class Logger
 {
-	private static SimpleDateFormat sdf;
-	public static Vector<LogWrapper> queue = new Vector<>();
+	private static final SimpleDateFormat sdf;
+	public static final Vector<LogWrapper> queue = new Vector<>();
 
-	public static String info = "INFO";
-	public static String warning = "WARNING";
-	public static String error = "ERROR";
-	public static String fatal = "FATAL";
+	public static final String info = "INFO";
+	public static final String warning = "WARNING";
+	public static final String error = "ERROR";
+	public static final String fatal = "FATAL";
 
 	public static LogWrapper fetchMessage()
 	{

@@ -6,8 +6,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public class SessionManager {
-    public static HashMap<UUID, Session> uuidSessionHashMap;
-    public static HashSet<Session> sessionHashSet;
+    public static final HashMap<UUID, Session> uuidSessionHashMap;
+    public static final HashSet<Session> sessionHashSet;
 
     public static HashMap<Long, Session> deadSessions;
 

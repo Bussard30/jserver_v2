@@ -6,9 +6,9 @@ import java.util.Iterator;
 
 public class AdvancedArray<T> implements Iterable<T>
 {
-	private T[] array;
+	private final T[] array;
 	private volatile int offset = 0;
-	private volatile int length;
+	private final int length;
 	private volatile boolean concurrentModification;
 
 	public AdvancedArray(Class<T> c, int length)
@@ -21,7 +21,7 @@ public class AdvancedArray<T> implements Iterable<T>
 
 	public void put(T object, int index)
 	{
-		if (concurrentModification == false)
+		if (!concurrentModification)
 		{
 			if (index >= length)
 			{
@@ -41,7 +41,7 @@ public class AdvancedArray<T> implements Iterable<T>
 
 	public T get(int index)
 	{
-		if (concurrentModification == false)
+		if (!concurrentModification)
 		{
 			if ((index + offset) >= length)
 			{
@@ -56,7 +56,7 @@ public class AdvancedArray<T> implements Iterable<T>
 
 	public void removeFirst()
 	{
-		if (concurrentModification == false)
+		if (!concurrentModification)
 		{
 			array[offset] = null;
 			offset += 1;
@@ -84,16 +84,13 @@ public class AdvancedArray<T> implements Iterable<T>
 	@Override
 	public Iterator<T> iterator()
 	{
-		return new Iterator<T>()
-		{
+		return new Iterator<>() {
 			private int currentIndex = offset;
-			private int l = length;
+			private final int l = length;
 
 			@Override
-			public boolean hasNext()
-			{
-				if (currentIndex == (offset + l))
-				{
+			public boolean hasNext() {
+				if (currentIndex == (offset + l)) {
 					concurrentModification = false;
 					return false;
 				} else
@@ -102,19 +99,15 @@ public class AdvancedArray<T> implements Iterable<T>
 			}
 
 			@Override
-			public T next()
-			{
+			public T next() {
 				concurrentModification = true;
 				T object = null;
-				if (currentIndex >= length)
-				{
+				if (currentIndex >= length) {
 					object = get(currentIndex - length);
-					currentIndex++;
-				} else
-				{
+				} else {
 					object = get(currentIndex);
-					currentIndex++;
 				}
+				currentIndex++;
 
 				return object;
 			}

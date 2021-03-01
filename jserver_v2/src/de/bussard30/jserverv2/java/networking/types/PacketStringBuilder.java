@@ -13,6 +13,7 @@ public class PacketStringBuilder {
 
     public static String getString(String[] strings, String seperatorChar, String charSet) {
         StringBuilder s = new StringBuilder();
+        //noinspection SwitchStatementWithTooFewBranches
         switch (charSet) {
             case "base64":
                 for (int i = 0; i < strings.length; i++) {

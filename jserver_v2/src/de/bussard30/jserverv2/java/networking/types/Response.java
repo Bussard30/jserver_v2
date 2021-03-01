@@ -7,7 +7,7 @@ import de.bussard30.jserverv2.java.networking.server.protocol.message.Message;
  */
 public abstract class Response extends Packet {
 
-    String identifier = "res";
+    final String identifier = "res";
 
     public String getPacketIdentifier() {
         return identifier;

@@ -105,7 +105,7 @@ public class EventHandling {
         // TODO there needs to be a sorted list for priority
         for (Map.Entry<Class<?>, Vector<Handler>> e : hm.entrySet()) {
             if (e.getKey().equals(event.getClass())) {
-                Vector<Handler> shallow_copy = (Vector<Handler>) e.getValue().clone();
+                @SuppressWarnings("unchecked") Vector<Handler> shallow_copy = (Vector<Handler>) e.getValue().clone();
                 for (Handler h : shallow_copy) {
                     for (NetworkPhase np : h.getNetworkPhases()) {
                         if (np.equals(n)) {

@@ -6,16 +6,16 @@ import java.util.Vector;
 public interface NetworkPhase
 {
 
-	public default String getName()
+	default String getName()
 	{
 
 		return this.getClass().getTypeName();
 	}
 
-	public static Vector<NetworkPhase> registeredNetworkPhases = new Vector<>();
-	static HashMap<String, NetworkPhase> convertionHash = new HashMap<>();
+	Vector<NetworkPhase> registeredNetworkPhases = new Vector<>();
+	HashMap<String, NetworkPhase> convertionHash = new HashMap<>();
 
-	public static void registerNetworkPhase(NetworkPhase np)
+	static void registerNetworkPhase(NetworkPhase np)
 	{
 		registeredNetworkPhases.add(np);
 		synchronized (convertionHash)
@@ -30,7 +30,7 @@ public interface NetworkPhase
 	 * @param s
 	 * @return
 	 */
-	public static NetworkPhase[] stringsToNetworkPhases(String[] s)
+	static NetworkPhase[] stringsToNetworkPhases(String[] s)
 	{
 		NetworkPhase[] temp = new NetworkPhase[s.length];
 		for (int i = 0; i < s.length; i++)

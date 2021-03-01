@@ -15,14 +15,14 @@ public class Diagnostics
 {
 	private static Diagnostics instance;
 
-	private boolean noThread;
-	private HashMap<ServerThread, Vector<ServerHandler>> handlers;
-	private HashMap<ServerHandler, ActiveTime> uptime;
-	private HashMap<ServerThread, Double> ranking;
+	private final boolean noThread;
+	private final HashMap<ServerThread, Vector<ServerHandler>> handlers;
+	private final HashMap<ServerHandler, ActiveTime> uptime;
+	private final HashMap<ServerThread, Double> ranking;
 
 	int i = 0;
 
-	private long threshhold = 30000;
+	private final long threshhold = 30000;
 
 	public Diagnostics()
 	{
@@ -47,7 +47,7 @@ public class Diagnostics
 			handlers.get(t).add(h);
 		} else
 		{
-			Vector<ServerHandler> hh = new Vector<ServerHandler>();
+			Vector<ServerHandler> hh = new Vector<>();
 			hh.add(h);
 			handlers.put(t, hh);
 		}
@@ -58,25 +58,17 @@ public class Diagnostics
 		if (state)
 		{
 
-			if (uptime.containsKey(h))
-			{
-				uptime.get(h).setMark(true);
-			} else
-			{
+			if (!uptime.containsKey(h)) {
 				uptime.put(h, new ActiveTime());
-				uptime.get(h).setMark(true);
 			}
+			uptime.get(h).setMark(true);
 
 		} else
 		{
-			if (uptime.containsKey(h))
-			{
-				uptime.get(h).setMark(false);
-			} else
-			{
+			if (!uptime.containsKey(h)) {
 				uptime.put(h, new ActiveTime());
-				uptime.get(h).setMark(false);
 			}
+			uptime.get(h).setMark(false);
 		}
 	}
 
@@ -100,13 +92,13 @@ public class Diagnostics
 					}
 				}
 			}
-			if (l / threshhold > 0.15 && b)
+			if ((double)l / (double)threshhold > 0.15d && b)
 			{
 				// reallocate half of the handlers to a new serverthread when
 				// approximate active time is 15%
 				// "overload"
 				Server.getInstance().splitThread(m0.getKey());
-			} else if (l / threshhold > 0.02 && b)
+			} else if ((double)l / (double)threshhold > 0.02 && b)
 			{
 				// close thread and move threads to other handlers when
 				// approximate active time is 2%
@@ -166,10 +158,10 @@ public class Diagnostics
 		return getThread(i++);
 	}
 
-	private class InfoContainer
+	private static class InfoContainer
 	{
-		private boolean b;
-		private long l;
+		private final boolean b;
+		private final long l;
 
 		public InfoContainer(boolean b, long l)
 		{

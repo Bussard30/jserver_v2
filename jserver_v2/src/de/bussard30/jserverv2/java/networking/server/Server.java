@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Vector;
 
-import de.bussard30.jserverv2.java.eventhandling.Handler;
 import de.bussard30.jserverv2.java.eventhandling.events.Listener;
 import de.bussard30.jserverv2.java.networking.logger.Logger;
 import de.bussard30.jserverv2.java.networking.server.protocol.Protocol;
@@ -49,11 +48,11 @@ public class Server
 	{
 		log("Initializing server...");
 		server = this;
-		threads = new Vector<ServerThread>();
-		handlers = new Vector<ServerHandler>();
+		threads = new Vector<>();
+		handlers = new Vector<>();
 		unassignedHandlers = new Vector<>();
-		assignments = new HashMap<ServerThread, Vector<ServerHandler>>();
-		uuidAssignments = new HashMap<String, ServerHandler>();
+		assignments = new HashMap<>();
+		uuidAssignments = new HashMap<>();
 
 		log("Initialized server.");
 	}
@@ -138,7 +137,7 @@ public class Server
 					{
 						log("First handler is being assigned ...");
 						ServerThread st = new ServerThread();
-						Vector<ServerHandler> hs = new Vector<ServerHandler>();
+						Vector<ServerHandler> hs = new Vector<>();
 						hs.add(h);
 
 						Diagnostics.getInstance().assign(st, h);
@@ -150,7 +149,7 @@ public class Server
 					tbr.add(h);
 					log("Assigned ServerHandler to state: UNASSIGNED");
 				});
-				tbr.forEach(h -> unassignedHandlers.remove(h));
+				tbr.forEach(unassignedHandlers::remove);
 				try
 				{
 					Thread.sleep(0, 500000);
@@ -209,7 +208,7 @@ public class Server
 		int i = 0;
 		ServerThread st = new ServerThread();
 		threads.add(st);
-		assignments.put(st, new Vector<ServerHandler>());
+		assignments.put(st, new Vector<>());
 		for (ServerHandler h : assignments.get(t))
 		{
 			if (i++ % 2 == 0)

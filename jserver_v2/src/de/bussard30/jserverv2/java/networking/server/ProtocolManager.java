@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class ProtocolManager {
 
-    private static HashMap<String, Protocol> stringIndex = new HashMap<>();
+    private static final HashMap<String, Protocol> stringIndex = new HashMap<>();
 
     public static boolean protocolExists(String s) {
         // TODO

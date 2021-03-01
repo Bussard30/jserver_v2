@@ -11,14 +11,14 @@ import javax.swing.JFileChooser;
 
 public class LoggerThread
 {
-	private Thread t;
-	private HashMap<Object, File> assignments0 = new HashMap<>();
-	private HashMap<String, File> assignments1 = new HashMap<>();
-	private static String docPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString()
+	private final Thread t;
+	private final HashMap<Object, File> assignments0 = new HashMap<>();
+	private final HashMap<String, File> assignments1 = new HashMap<>();
+	private static final String docPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString()
 			+ "\\jserver_data";
 	private boolean running;
 
-	public static SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy-");
+	public static final SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy-");
 
 	public LoggerThread()
 	{

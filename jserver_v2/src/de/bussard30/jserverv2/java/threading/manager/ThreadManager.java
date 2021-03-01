@@ -28,8 +28,8 @@ public class ThreadManager
 	 * job or something idk or you just assign every threadedjob an id, an index
 	 * of in what hashmap the threadedjob is !
 	 */
-	private HashMap<ThreadedJob, ThreadPool>[] assignments;
-	private HashMap<ThreadedJob, Integer>[] jobIndexes;
+	private final HashMap<ThreadedJob, ThreadPool>[] assignments;
+	private final HashMap<ThreadedJob, Integer>[] jobIndexes;
 
 	/**
 	 * int[] contains all pool indexes for a certain object so you can identify,
@@ -37,11 +37,11 @@ public class ThreadManager
 	 * assignments array Example for Object would be
 	 */
 
-	private HashMap<ThreadPoolIdentifier, Vector<Integer>> poolAssignments;
+	private final HashMap<ThreadPoolIdentifier, Vector<Integer>> poolAssignments;
 
-	private ThreadPool[] threadpools;
+	private final ThreadPool[] threadpools;
 
-	public static int maxThreadPools = 30;
+	public static final int maxThreadPools = 30;
 
 	/**
 	 * Example object for pool separation
@@ -92,7 +92,7 @@ public class ThreadManager
 		priorityList = reverse(priorityList, priorityList.length);
 
 		assignments = new HashMap[maxThreadPools];
-		poolAssignments = new HashMap<ThreadPoolIdentifier, Vector<Integer>>();
+		poolAssignments = new HashMap<>();
 
 		jobIndexes = new HashMap[maxIndexing];
 
@@ -101,12 +101,12 @@ public class ThreadManager
 		// TODO Init @assignments and @jobindexes
 		for (int i = 0; i < assignments.length; i++)
 		{
-			assignments[i] = new HashMap<ThreadedJob, ThreadPool>();
+			assignments[i] = new HashMap<>();
 		}
 
 		for (int i = 0; i < jobIndexes.length; i++)
 		{
-			jobIndexes[i] = new HashMap<ThreadedJob, Integer>();
+			jobIndexes[i] = new HashMap<>();
 		}
 		lt = new LoggerThread();
 		lt.start();
@@ -143,7 +143,7 @@ public class ThreadManager
 				synchronized (jobIndexes[e.getIndex()])
 				{
 					Logger.info(this, "Put job index in map" + e.getIndex());
-					jobIndexes[e.getIndex()].put(e, new Integer(i));
+					jobIndexes[e.getIndex()].put(e, i);
 				}
 				threadpools[i].addJob(e);
 				return;
@@ -173,7 +173,7 @@ public class ThreadManager
 		synchronized (jobIndexes[e.getIndex()])
 		{
 			Logger.info(this, "Put job index in map" + e.getIndex());
-			jobIndexes[e.getIndex()].put(e, new Integer(index));
+			jobIndexes[e.getIndex()].put(e, index);
 		}
 		threadpools[index].addJob(e);
 		return;
@@ -288,7 +288,7 @@ public class ThreadManager
 				{
 					Logger.info(this, "Adding threadpool to list...");
 					threadpools[i] = tp;
-					Vector<Integer> temp = new Vector<Integer>();
+					Vector<Integer> temp = new Vector<>();
 					temp.add(i);
 					poolAssignments.put(identifier, temp);
 					break;
@@ -318,7 +318,7 @@ public class ThreadManager
 
 	}
 
-	public static int[] reverse(int a[], int n)
+	public static int[] reverse(int[] a, int n)
 	{
 		int[] b = new int[n];
 		int j = n;

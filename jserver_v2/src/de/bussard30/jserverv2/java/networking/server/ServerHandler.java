@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -27,8 +27,6 @@ import javax.crypto.SecretKey;
 
 import de.bussard30.jserverv2.java.networking.exceptions.BadPacketException;
 import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
-import de.bussard30.jserverv2.java.networking.types.Request;
-import de.bussard30.jserverv2.java.networking.types.Response;
 
 /**
  * Handles incoming traffic for one client.<br>
@@ -50,7 +48,7 @@ public class ServerHandler
 
 	private NetworkPhase phase;
 
-	private int current = 0;
+	private final int current = 0;
 
 	/**
 	 * TODO conditions
@@ -166,7 +164,7 @@ public class ServerHandler
 	 */
 	private Object deserialize(byte[] b) throws UnsupportedEncodingException, BadPacketException
 	{
-		String s = new String(b, "UTF8");
+		String s = new String(b, StandardCharsets.UTF_8);
 		String[] temp = s.split(";");
 		String[] info = new String[]
 		{ temp[0], temp[1] };
@@ -191,7 +189,7 @@ public class ServerHandler
 	private PrivateKey loadPrivateKey(String key) throws GeneralSecurityException, UnsupportedEncodingException
 	{
 		return KeyFactory.getInstance("RSA")
-				.generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(key.getBytes("UTF8"))));
+				.generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(key.getBytes(StandardCharsets.UTF_8))));
 	}
 
 	/**
@@ -205,7 +203,7 @@ public class ServerHandler
 	public static PublicKey loadPublicKey(String key) throws GeneralSecurityException, UnsupportedEncodingException
 	{
 		return KeyFactory.getInstance("RSA")
-				.generatePublic(new X509EncodedKeySpec(Base64.getDecoder().decode(key.getBytes("UTF8"))));
+				.generatePublic(new X509EncodedKeySpec(Base64.getDecoder().decode(key.getBytes(StandardCharsets.UTF_8))));
 	}
 
 	/**
@@ -217,7 +215,7 @@ public class ServerHandler
 	 */
 	public static String decodePublicKey(PublicKey key) throws UnsupportedEncodingException
 	{
-		return new String(Base64.getEncoder().encode(key.getEncoded()), "UTF8");
+		return new String(Base64.getEncoder().encode(key.getEncoded()), StandardCharsets.UTF_8);
 	}
 
 	/**

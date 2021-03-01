@@ -14,7 +14,7 @@ import de.bussard30.jserverv2.java.threading.types.ThreadPriority;
  */
 public class UtilThread
 {
-	private Thread t;
+	private final Thread t;
 
 	private long lastGc;
 	private long lastDiag;
@@ -48,7 +48,7 @@ public class UtilThread
 						 * 1.05 : 5 % tolerance calculates if one worker can be
 						 * removed
 						 */
-						else if ((m.getKey().getWorkers() - 1) / m.getKey().getWorkers() * 1.05
+						else if (((m.getKey().getWorkers() - 1) / m.getKey().getWorkers()) * 1.05d
 								* m.getValue() < ThreadDiag.maxAverageQueueTime && m.getKey().getWorkers() > 1)
 						{
 							m.getKey().removeWorker(ThreadPriority.NORMAL);

@@ -15,7 +15,7 @@ public class HandlerManager
 	 */
 	private HashMap<Class<? extends Packet>, HandlerWrapper<Object>> assignments;
 
-	private Vector<Class<? extends Packet>> temp = new Vector<>();
+	private final Vector<Class<? extends Packet>> temp = new Vector<>();
 
 	/**
 	 * 
@@ -31,19 +31,12 @@ public class HandlerManager
 	 */
 	public Runnable getRunnable(Class<? extends Packet> c, Object parameter, NetworkPhase n)
 	{
-		return new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				assignments.get(c).getConsumer(n).accept(parameter);
-			}
-		};
+		return () -> assignments.get(c).getConsumer(n).accept(parameter);
 	}
 
 	public synchronized void addConsumer(Class<? extends Packet> c, NetworkPhase n, Consumer<Object> cc)
 	{
-		assignments.put(c, new HandlerWrapper<Object>(n, cc));
+		assignments.put(c, new HandlerWrapper<>(n, cc));
 	}
 
 	/**
@@ -70,7 +63,7 @@ public class HandlerManager
 
 	public synchronized void register(NetworkPhase n, Class<? extends Packet> c, Consumer<Object> cc)
 	{
-		assignments.put(c, new HandlerWrapper<Object>(n, cc));
+		assignments.put(c, new HandlerWrapper<>(n, cc));
 	}
 }
 

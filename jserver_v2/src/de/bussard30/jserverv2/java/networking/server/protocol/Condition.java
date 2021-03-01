@@ -8,11 +8,11 @@ import de.bussard30.jserverv2.java.networking.types.Packet;
 public class Condition
 {
 
-	private HashMap<Class<? extends Packet>, Boolean> packages;
-	private Class<? extends Packet>[] p;
-	private boolean and;
+	private final HashMap<Class<? extends Packet>, Boolean> packages;
+	private final Class<? extends Packet>[] p;
+	private final boolean and;
 	private boolean conditionMet;
-	private PacketState packetState;
+	private final PacketState packetState;
 
 	/**
 	 * 
@@ -32,9 +32,8 @@ public class Condition
 		this.p = p;
 		this.and = and;
 		packages = new HashMap<>();
-		for (int i = 0; i < p.length; i++)
-		{
-			packages.put(p[i], false);
+		for (Class<? extends Packet> aClass : p) {
+			packages.put(aClass, false);
 		}
 	}
 
@@ -67,17 +66,11 @@ public class Condition
 			if (firstTime)
 			{
 				firstTime = false;
-				if (and && m.getValue())
-					b = true;
-				else
-					return false;
-			} else
-			{
-				if (and && m.getValue())
-					b = true;
-				else
-					return false;
 			}
+			if (and && m.getValue())
+				b = true;
+			else
+				return false;
 		}
 		return (conditionMet = b);
 	}

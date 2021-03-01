@@ -2,8 +2,8 @@ package de.bussard30.jserverv2.java.networking.server.protocol;
 
 public class ConditionWrapper
 {
-	private Condition c;
-	private LogicalOperator lO;
+	private final Condition c;
+	private final LogicalOperator lO;
 
 	public ConditionWrapper(Condition c, LogicalOperator lO)
 	{

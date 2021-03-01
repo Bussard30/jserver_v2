@@ -10,9 +10,9 @@ import java.util.ConcurrentModificationException;
  */
 public class ServerThread
 {
-	private String name;
+	private final String name;
 	private Thread t;
-	private ServerThread st;
+	private final ServerThread st;
 
 	public ServerThread()
 	{
@@ -29,47 +29,42 @@ public class ServerThread
 	}
 	public void run()
 	{
-		t = new Thread(new Runnable()
-		{
-			@Override
-			public void run()
+		t = new Thread(() -> {
+			while(Server.getInstance().isOnline())
 			{
-				while(Server.getInstance().isOnline())
+				try
 				{
-					try
+					for(ServerHandler h : Server.getInstance().getAssignments(st))
 					{
-						for(ServerHandler h : Server.getInstance().getAssignments(st))
+						try
 						{
+							Diagnostics.getInstance().process(h, true);
+							h.run();
 							try
 							{
-								Diagnostics.getInstance().process(h, true);
-								h.run();
-								try
-								{
-									Thread.sleep(0, 500000);
-								} catch (InterruptedException e)
-								{
-									e.printStackTrace();
-								}
-								Diagnostics.getInstance().process(h, false);
-							} catch (Exception e)
+								Thread.sleep(0, 500000);
+							} catch (InterruptedException e)
 							{
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+							Diagnostics.getInstance().process(h, false);
+						} catch (Exception e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
-					} catch (ConcurrentModificationException e)
-					{
-						e.printStackTrace();
 					}
-					try
-					{
-						Thread.sleep(0, 500000);
-					} catch (InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} catch (ConcurrentModificationException e)
+				{
+					e.printStackTrace();
+				}
+				try
+				{
+					Thread.sleep(0, 500000);
+				} catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});

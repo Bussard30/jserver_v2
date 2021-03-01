@@ -1,32 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="19a3f7b7-65c8-4c26-aed9-852786b2094d" name="Default Changelist" comment="Commit.">
-      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ProtocolHeader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jserver_v2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_02_2021_12_05_nachm__[Default_Changelist]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventHandling.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/EventHandling.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/hashing/pbkdf2/PBKDF2Hasher.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/hashing/pbkdf2/PBKDF2Hasher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/events/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/eventhandling/events/Result.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/logger/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/logger/Logger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/logger/LoggerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/logger/LoggerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ActiveTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ActiveTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/AdvancedArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/AdvancedArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Diagnostics.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Diagnostics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/HandlerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/HandlerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ProtocolManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ProtocolManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ServerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/ServerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/PacketState.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/PacketState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/Protocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/Protocol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Body.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Body.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Header.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Header.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/Condition.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/Condition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ConditionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ConditionWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/LogicalOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/LogicalOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/NP.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/NP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/NetworkPhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/NetworkPhase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ProtocolCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ProtocolCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ProtocolHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/ProtocolHeader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/message/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/KeepStored.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/Session.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/Session.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionInjector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionState.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionState.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/SessionState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/PacketStringBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/PacketStringBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Request.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/networking/types/Response.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/exceptions/ThreadJobException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/exceptions/ThreadJobException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/manager/ThreadDiag.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/manager/ThreadDiag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/manager/ThreadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/manager/ThreadManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/manager/UtilThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/manager/UtilThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadPriority.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadPriority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadProcessingSpeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadProcessingSpeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadedJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/jserver_v2/src/de/bussard30/jserverv2/java/threading/types/ThreadedJob.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,9 +94,13 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../chatclient/workspace/bitcoinbot_bussard" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../stocks-downloader" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -178,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612868645919</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Merge remote-tracking branch 'origin/develop' into develop&#10;&#10;# Conflicts:&#10;#&#9;jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/Session.java">
+      <created>1612877068786</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1612877068786</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -201,7 +230,8 @@
     <MESSAGE value="Some updates." />
     <MESSAGE value="Renaming." />
     <MESSAGE value="Commit." />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit." />
+    <MESSAGE value="Merge remote-tracking branch 'origin/develop' into develop&#10;&#10;# Conflicts:&#10;#&#9;jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/Session.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/develop' into develop&#10;&#10;# Conflicts:&#10;#&#9;jserver_v2/src/de/bussard30/jserverv2/java/networking/server/protocol/session/Session.java" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

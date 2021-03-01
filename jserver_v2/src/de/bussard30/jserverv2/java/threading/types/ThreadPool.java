@@ -32,14 +32,14 @@ public class ThreadPool
 	/**
 	 * This hashmap is used to only store results.
 	 */
-	private HashMap<ThreadedJob, ThreadedJobResult> jobResults;
-	private Object jobResultsLock;
+	private final HashMap<ThreadedJob, ThreadedJobResult> jobResults;
+	private final Object jobResultsLock;
 	
 	private int workers;
 
 	private ThreadPool()
 	{
-		jobResults = new HashMap<ThreadedJob, ThreadedJobResult>();
+		jobResults = new HashMap<>();
 		jobResultsLock = new Object();
 
 	}
@@ -55,12 +55,12 @@ public class ThreadPool
 
 		for (int i = 0; i < jobs.length; i++)
 		{
-			jobs[i] = new Vector<ThreadedJob>();
+			jobs[i] = new Vector<>();
 		}
 
 		for (int i = 0; i < threadpool.length; i++)
 		{
-			threadpool[i] = new Vector<ThreadPoolWorker>();
+			threadpool[i] = new Vector<>();
 		}
 		addWorker(ThreadPriority.LOW);
 	}
@@ -117,7 +117,7 @@ public class ThreadPool
 	@Deprecated
 	public Function<ThreadPriority, ThreadedJob> getJobFetcher()
 	{
-		return tp -> getThreadedJob(tp);
+		return this::getThreadedJob;
 	}
 
 	/**
@@ -278,12 +278,12 @@ public class ThreadPool
 	
 	protected class ThreadPoolWorker
 	{
-		private ThreadPool tp;
-		private Thread t;
+		private final ThreadPool tp;
+		private final Thread t;
 		private boolean running;
-		private ThreadPriority min;
+		private final ThreadPriority min;
 		private boolean suspended;
-		private Object sync = new Object();
+		private final Object sync = new Object();
 
 
 		private ThreadPoolWorker(ThreadPool tp, ThreadPriority minimum)

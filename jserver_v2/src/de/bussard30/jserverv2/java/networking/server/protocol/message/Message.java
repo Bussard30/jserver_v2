@@ -15,9 +15,9 @@ public class Message {
 
     private Packet packet;
 
-    public static char seperator = '|';
+    public static final char seperator = '|';
 
-    private int length = 0;
+    private final int length = 0;
 
     public Message(Packet p)
     {

@@ -3,8 +3,8 @@ package de.bussard30.jserverv2.java.networking.server.protocol;
 public class ProtocolCondition 
 {
 	
-	private NetworkPhase target;
-	private ConditionWrapper[] conditions;
+	private final NetworkPhase target;
+	private final ConditionWrapper[] conditions;
 	
 	public ProtocolCondition(NetworkPhase target, ConditionWrapper... conditions) 
 	{

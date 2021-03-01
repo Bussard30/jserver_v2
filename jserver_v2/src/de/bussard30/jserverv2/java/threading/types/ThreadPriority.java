@@ -10,43 +10,17 @@ import java.util.Vector;
  */
 public interface ThreadPriority
 {
-	public static ThreadPriority LOW = new ThreadPriority()
-	{
-		
-		
-		@Override
-		public int getPriority()
-		{
-			return 0;
-		}
-	};
+	ThreadPriority LOW = () -> 0;
 	
-	public static ThreadPriority NORMAL = new ThreadPriority()
-	{
-		
-		@Override
-		public int getPriority()
-		{
-			return 1;
-		}
-	};
+	ThreadPriority NORMAL = () -> 1;
 	
-	public static ThreadPriority HIGH = new ThreadPriority()
-	{
-		
-		
-		@Override
-		public int getPriority()
-		{
-			return 2;
-		}
-	};
-	public int getPriority();
+	ThreadPriority HIGH = () -> 2;
+	int getPriority();
 	
 	
-	static Vector<ThreadPriority> priorities = new Vector<>();
+	Vector<ThreadPriority> priorities = new Vector<>();
 	
-	public static void register(ThreadPriority tp)
+	static void register(ThreadPriority tp)
 	{
 		priorities.add(tp);
 	}
@@ -57,7 +31,7 @@ public interface ThreadPriority
 	 * @return
 	 * @throws NoSuchElementException
 	 */
-	public static ThreadPriority getPriority(int i) throws NoSuchElementException
+	static ThreadPriority getPriority(int i) throws NoSuchElementException
 	{
 		for(ThreadPriority tp : priorities)
 		{

@@ -10,5 +10,5 @@ public enum ThreadProcessingSpeed
 	/**
 	 * SLOW : creates a new job that eventually get executed(< 30 ms) on another thread
 	 */
-	SLOW;
+	SLOW
 }

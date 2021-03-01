@@ -13,36 +13,26 @@ public class LogicalOperator implements Comparable<Boolean>, Serializable
 	private static final long serialVersionUID = 4860225388961085458L;
 
 	public static BiPredicate<Comparable<Boolean>, Boolean> and = (b0, b1) ->
-	{
-		return b0 == b1;
-	};
+			b0 == b1;
 
 	public static BiPredicate<Comparable<Boolean>, Boolean> or = (b0, b1) ->
-	{
-		return b1 ? true : b0.compareTo(b1) == 1;
-	};
+			b1 || b0.compareTo(b1) == 1;
 
 	public static BiPredicate<Comparable<Boolean>, Boolean> xor = (b0, b1) ->
-	{
-		return b0 != b1;
-	};
+			b0 != b1;
 
 	public static BiPredicate<Comparable<Boolean>, Boolean> nand = (b0, b1) ->
-	{
-		return b1 ? b0 == b1 : true;
-	};
+			!b1 || b0 == b1;
 
 	public static BiPredicate<Comparable<Boolean>, Boolean> enor = (b0, b1) ->
-	{
-		return b0 == b1;
-	};
+			b0 == b1;
 
 	public static LogicalOperator none = null;
 
-	BiPredicate<Comparable<Boolean>, Boolean> bc;
+	final BiPredicate<Comparable<Boolean>, Boolean> bc;
 
-	private Supplier<Comparable<Boolean>> boolFetcher0;
-	private Supplier<Boolean> boolFetcher1;
+	private final Supplier<Comparable<Boolean>> boolFetcher0;
+	private final Supplier<Boolean> boolFetcher1;
 
 	/**
 	 * 
@@ -76,7 +66,7 @@ public class LogicalOperator implements Comparable<Boolean>, Serializable
 
 	public boolean intToBoolean(int i)
 	{
-		return i == 0 ? true : false;
+		return i == 0;
 	}
 
 }

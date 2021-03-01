@@ -11,7 +11,7 @@ import de.bussard30.jserverv2.java.threading.manager.ThreadManager;
  */
 public abstract class ThreadedJob
 {
-	public Function<Object, Object> job;
+	public final Function<Object, Object> job;
 
 	/**
 	 * After executing the job, the ThreadedManager is going to discard the

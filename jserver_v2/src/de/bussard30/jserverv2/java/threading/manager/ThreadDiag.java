@@ -25,50 +25,50 @@ public class ThreadDiag
 	/**
 	 * not sorted list for all processing times for
 	 */
-	public static HashMap<Class<? extends ThreadedJob>, Vector<Long>> timings = new HashMap<>();
+	public static final HashMap<Class<? extends ThreadedJob>, Vector<Long>> timings = new HashMap<>();
 
 	/**
 	 * contains median for processing time for every ThreadedJob
 	 */
-	public static HashMap<Class<? extends ThreadedJob>, Double> median = new HashMap<>();
+	public static final HashMap<Class<? extends ThreadedJob>, Double> median = new HashMap<>();
 
 	/**
 	 * contains avg for procesing time for every ThreadedJob
 	 */
-	public static HashMap<Class<? extends ThreadedJob>, Double> avg = new HashMap<>();
+	public static final HashMap<Class<? extends ThreadedJob>, Double> avg = new HashMap<>();
 
 	/**
 	 * top 1 percent
 	 */
-	public static HashMap<Class<? extends ThreadedJob>, Double> t1p = new HashMap<>();
+	public static final HashMap<Class<? extends ThreadedJob>, Double> t1p = new HashMap<>();
 	/**
 	 * top 0.1 percent
 	 */
-	public static HashMap<Class<? extends ThreadedJob>, Double> t01p = new HashMap<>();
+	public static final HashMap<Class<? extends ThreadedJob>, Double> t01p = new HashMap<>();
 
 	/**
 	 * not sorted list for all queue timings for threadpools
 	 */
-	public static HashMap<ThreadPool, Vector<Long>> poolQueue = new HashMap<>();
+	public static final HashMap<ThreadPool, Vector<Long>> poolQueue = new HashMap<>();
 
 	/**
 	 * contains median for queue time for every pool
 	 */
-	public static HashMap<ThreadPool, Double> poolMedian = new HashMap<>();
+	public static final HashMap<ThreadPool, Double> poolMedian = new HashMap<>();
 
 	/**
 	 * contains avg for queue time for every pool
 	 */
-	public static HashMap<ThreadPool, Double> poolAvg = new HashMap<>();
+	public static final HashMap<ThreadPool, Double> poolAvg = new HashMap<>();
 
 	/**
 	 * top 1 percent
 	 */
-	public static HashMap<ThreadPool, Double> poolT1p = new HashMap<>();
+	public static final HashMap<ThreadPool, Double> poolT1p = new HashMap<>();
 	/**
 	 * top 0.1 percent
 	 */
-	public static HashMap<ThreadPool, Double> poolT01p = new HashMap<>();
+	public static final HashMap<ThreadPool, Double> poolT01p = new HashMap<>();
 
 	/**
 	 * maximum average queue time for ThreadedJob required for threaddiag; value
@@ -98,13 +98,13 @@ public class ThreadDiag
 	{
 		synchronized (timings)
 		{
-			timings.put(c, new Vector<Long>());
+			timings.put(c, new Vector<>());
 		}
 	}
 
 	public static void addEntry(ThreadedJob t, ThreadPool tp)
 	{
-		Vector<Long> v = null;
+		Vector<Long> v;
 		synchronized (timings)
 		{
 			v = timings.get(t.getClass());
@@ -121,6 +121,9 @@ public class ThreadDiag
 	 * Recalculates median, average, top 1 percent and top 0.1 percent of
 	 * processing times of ThreadedJob class.<br>
 	 * Operation might take a while.
+	 *
+	 *
+	 * Local synchronization to save time locking the hashmap.
 	 * 
 	 * @param c
 	 *            Class of ThreadedJob
@@ -128,11 +131,11 @@ public class ThreadDiag
 	public static void recalculate(Class<? extends ThreadedJob> c,
 			HashMap<Class<? extends ThreadedJob>, Vector<Long>> hm)
 	{
-		double median = 0;
-		double avg = 0;
-		double t1p = 0;
-		double t01p = 0;
-		Vector<Long> v = null;
+		double median;
+		double avg;
+		double t1p;
+		double t01p;
+		Vector<Long> v;
 
 		synchronized (hm)
 		{
@@ -143,7 +146,7 @@ public class ThreadDiag
 			median = v.get((v.size() + 1) / 2);
 		} else
 		{
-			median = (v.get(v.size() / 2) + v.get(v.size() / 2 + 1)) / 2;
+			median = (double)(v.get(v.size() / 2) + v.get(v.size() / 2 + 1)) / 2d;
 		}
 		long l = 0;
 		for (long ll : v)
@@ -203,16 +206,19 @@ public class ThreadDiag
 	 * Recalculates median, average, top 1 percent and top 0.1 percent of queue
 	 * times of certain threadpool.<br>
 	 * Operation might take a while.
+	 *
+	 * Local synchronization to save time locking hashmap.
 	 * 
-	 * @param tp
+	 * @param tp todo
+	 * @param hm todo
 	 */
 	public static void recalculate(ThreadPool tp, HashMap<ThreadPool, Vector<Long>> hm)
 	{
-		double median = 0;
-		double avg = 0;
-		double t1p = 0;
-		double t01p = 0;
-		Vector<Long> v = null;
+		double median;
+		double avg;
+		double t1p;
+		double t01p;
+		Vector<Long> v;
 
 		synchronized (hm)
 		{
@@ -223,6 +229,7 @@ public class ThreadDiag
 			median = v.get((v.size() + 1) / 2);
 		} else
 		{
+			//noinspection IntegerDivisionInFloatingPointContext
 			median = (v.get(v.size() / 2) + v.get(v.size() / 2 + 1)) / 2;
 		}
 		long l = 0;
@@ -294,7 +301,7 @@ public class ThreadDiag
 	public static void recalculateJobs()
 	{
 		ArrayList<Class<? extends ThreadedJob>> al = new ArrayList<>();
-		HashMap<Class<? extends ThreadedJob>, Vector<Long>> copy = null;
+		HashMap<Class<? extends ThreadedJob>, Vector<Long>> copy;
 		synchronized (timings)
 		{
 			copy = (HashMap<Class<? extends ThreadedJob>, Vector<Long>>) timings.clone();
@@ -317,7 +324,7 @@ public class ThreadDiag
 	public static void recalculatePools()
 	{
 		ArrayList<ThreadPool> all = new ArrayList<>();
-		HashMap<ThreadPool, Vector<Long>> copy = null;
+		HashMap<ThreadPool, Vector<Long>> copy;
 		synchronized (poolQueue)
 		{
 			copy = (HashMap<ThreadPool, Vector<Long>>) poolQueue.clone();

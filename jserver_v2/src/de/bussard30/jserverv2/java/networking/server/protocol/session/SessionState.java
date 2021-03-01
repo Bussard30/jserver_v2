@@ -1,12 +1,11 @@
 package de.bussard30.jserverv2.java.networking.server.protocol.session;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class SessionState {
 
-    private Class<? extends Session> type;
-    private HashMap<String, Object> values;
+    private final Class<? extends Session> type;
+    private final HashMap<String, Object> values;
 
     public SessionState(Session session, HashMap<String, Object> hashMap)
     {

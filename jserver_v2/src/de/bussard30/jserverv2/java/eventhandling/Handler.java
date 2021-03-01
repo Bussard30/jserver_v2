@@ -4,14 +4,13 @@ import de.bussard30.jserverv2.java.eventhandling.events.Listener;
 import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
 
 import java.lang.reflect.Method;
-import java.util.Vector;
 
 public class Handler {
 
     private final NetworkPhase[] np;
     private final Method m;
     private final Listener listener;
-    private int priority;
+    private final int priority;
 
     public Handler(NetworkPhase[] np, Method m, Listener listener)
     {

@@ -8,9 +8,9 @@ package de.bussard30.jserverv2.java.networking.server;
  */
 public class ActiveTime
 {
-	private AdvancedArray<Long> markTimes;
-	private AdvancedArray<Boolean> values;
-	private long creationTime;
+	private final AdvancedArray<Long> markTimes;
+	private final AdvancedArray<Boolean> values;
+	private final long creationTime;
 
 	private int index = 0;
 
