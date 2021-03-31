@@ -1,33 +1,27 @@
-package de.bussard30.jserverv2.java.networking.convertionhandlers;
+package networking.convertionhandlers;
+
+import networking.types.ConvertionHandling;
 
 import java.security.InvalidParameterException;
 
-import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
-
 @ConvertionHandling(target = Double.class)
-public class DoubleConverter extends ConversionHandler
-{
+public class DoubleConverter extends ConvertionHandler {
 
-	@Override
-	public String buildString(Object o) throws InvalidParameterException
-	{
-		if (o instanceof Double)
-		{
-			return Double.toString((Double) o);
-		}
-		throw new InvalidParameterException();
-	}
+    @Override
+    public String getString(Object o) throws InvalidParameterException {
+        if (o instanceof Double) {
+            return Double.toString((Double) o);
+        }
+        throw new InvalidParameterException();
+    }
 
-	@Override
-	public Object buildObject(String s) throws InvalidParameterException
-	{
-		try
-		{
-			return Double.parseDouble(s);
-		} catch (Throwable t)
-		{
-			throw new InvalidParameterException();
-		}
-	}
+    @Override
+    public Object getObject(String s) throws InvalidParameterException {
+        try {
+            return Double.parseDouble(s);
+        } catch (Throwable t) {
+            throw new InvalidParameterException();
+        }
+    }
 
 }

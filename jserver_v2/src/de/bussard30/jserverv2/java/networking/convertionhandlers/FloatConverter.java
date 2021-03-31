@@ -1,33 +1,27 @@
-package de.bussard30.jserverv2.java.networking.convertionhandlers;
+package networking.convertionhandlers;
+
+import networking.types.ConvertionHandling;
 
 import java.security.InvalidParameterException;
 
-import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
-
 @ConvertionHandling(target = Float.class)
-public class FloatConverter extends ConversionHandler
-{
+public class FloatConverter extends ConvertionHandler {
 
-	@Override
-	public String buildString(Object o) throws InvalidParameterException
-	{
-		if (o instanceof Float)
-		{
-			return Float.toString((Float) o);
-		}
-		throw new InvalidParameterException();
-	}
+    @Override
+    public String getString(Object o) throws InvalidParameterException {
+        if (o instanceof Float) {
+            return Float.toString((Float) o);
+        }
+        throw new InvalidParameterException();
+    }
 
-	@Override
-	public Object buildObject(String s) throws InvalidParameterException
-	{
-		try
-		{
-			return Float.parseFloat(s);
-		} catch (Throwable t)
-		{
-			throw new InvalidParameterException();
-		}
-	}
+    @Override
+    public Object getObject(String s) throws InvalidParameterException {
+        try {
+            return Float.parseFloat(s);
+        } catch (Throwable t) {
+            throw new InvalidParameterException();
+        }
+    }
 
 }
