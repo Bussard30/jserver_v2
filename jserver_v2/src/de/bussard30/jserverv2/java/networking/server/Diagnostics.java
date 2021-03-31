@@ -11,6 +11,7 @@ import java.util.Vector;
  * @author Bussard30
  *
  */
+@Deprecated
 public class Diagnostics
 {
 	private static Diagnostics instance;

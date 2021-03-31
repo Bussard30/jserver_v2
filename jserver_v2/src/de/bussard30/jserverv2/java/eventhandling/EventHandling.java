@@ -12,6 +12,7 @@ import de.bussard30.jserverv2.java.threading.types.EventThreadedJob;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -31,8 +32,7 @@ public class EventHandling {
     /**
      * Scans methods of object for following annotations: "@interface<br>
      * EventHandler, "@interface RequestHandler, "@interface ResponseHandler<br>
-     * Does not throw an error if no method has been found.Does throw an
-     * error<br>
+     * Does not throw an error if no method has been found.Does throw an error<br>
      * if a method that is handling the exact same condition is found.<br>
      * Automatically registers parameter as Event<br>
      * <br>
@@ -95,6 +95,24 @@ public class EventHandling {
     }
 
     /**
+     * sorts internal hashmap and allows events to be thrown
+     */
+    public static void launch() {
+        //sorts vector inside hashmap with given priority
+        for (Map.Entry<Class<?>, Vector<Handler>> m : hm.entrySet()) {
+            Collections.sort(m.getValue(), (o1, o2) -> (o1.getPriority() > o2.getPriority()) ? 1 : (o1.getPriority() == o2.getPriority()) ? 0 : -1);
+        }
+        launched = true;
+    }
+
+    /**
+     * denies events to be thrown until the launch() method has been executed
+     */
+    public static void stop() {
+        launched = false;
+    }
+
+    /**
      * Calls all methods for the certain event.
      *
      * @param event Event to be thrown.
@@ -102,7 +120,6 @@ public class EventHandling {
      * @return Event that has been "given through" handlers. If event is async, the event remains unchanged.
      */
     public static Event throwEvent(Event event, NetworkPhase n) {
-        // TODO there needs to be a sorted list for priority
         for (Map.Entry<Class<?>, Vector<Handler>> e : hm.entrySet()) {
             if (e.getKey().equals(event.getClass())) {
                 @SuppressWarnings("unchecked") Vector<Handler> shallow_copy = (Vector<Handler>) e.getValue().clone();
@@ -114,12 +131,10 @@ public class EventHandling {
                             } else {
                                 try {
                                     h.getMethod().invoke(h.getListener(), event);
-                                } catch (IllegalAccessException e1) {
+                                } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e1) {
                                     Logger.error("EventHandling", e1);
-                                } catch (IllegalArgumentException e1) {
-                                    Logger.error("EventHandling", e1);
-                                } catch (InvocationTargetException e1) {
-                                    Logger.error("EventHandling", e1);
+                                } catch (Throwable t) {
+                                    Logger.warning("EventHandling", "Throwable thrown in event handling stack invoker. Ignoring.", t);
                                 }
                             }
                         }
