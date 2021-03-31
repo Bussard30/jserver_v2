@@ -20,7 +20,6 @@ public class ThreadedJobResult
 	
 	/**
 	 * 
-	 * @param result
 	 * @param hasFailed
 	 */
 	public ThreadedJobResult(Exception e, boolean hasFailed)

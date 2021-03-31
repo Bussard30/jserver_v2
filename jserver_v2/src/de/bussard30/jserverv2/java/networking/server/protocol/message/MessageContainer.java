@@ -1,7 +1,7 @@
-package networking.server.protocol.message;
+package de.bussard30.jserverv2.java.networking.server.protocol.message;
 
 
-import networking.types.Packet;
+import de.bussard30.jserverv2.java.networking.types.Packet;
 
 public class MessageContainer {
     private final String[] s;

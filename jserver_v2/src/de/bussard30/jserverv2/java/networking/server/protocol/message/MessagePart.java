@@ -1,7 +1,7 @@
-package networking.server.protocol.message;
+package de.bussard30.jserverv2.java.networking.server.protocol.message;
 
 
-import networking.types.Packet;
+import de.bussard30.jserverv2.java.networking.types.Packet;
 
 public interface MessagePart {
     String getString(Packet p);

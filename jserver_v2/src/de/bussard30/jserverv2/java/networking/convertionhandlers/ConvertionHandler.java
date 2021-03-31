@@ -1,4 +1,4 @@
-package networking.convertionhandlers;
+package de.bussard30.jserverv2.java.networking.convertionhandlers;
 
 import java.security.InvalidParameterException;
 
