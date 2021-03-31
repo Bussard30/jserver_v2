@@ -1,7 +1,4 @@
-package eventhandling;
-
-import threading.types.ThreadPriority;
-import threading.types.ThreadProcessingSpeed;
+package de.bussard30.jserverv2.java.eventhandling;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,11 +7,12 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface EventHandler {
-    //all networkphases in which the packet can be handled
-    String[] networkPhase();
+public @interface EventHandler
+{
+	//all networkphases in which the packet can be handled
+	String[] networkPhase();
 
-    ThreadPriority tp() default ThreadPriority.NORMAL;
+	//TODO ThreadPriority tp() default ThreadPriority.NORMAL;
 
-    ThreadProcessingSpeed tps() default ThreadProcessingSpeed.FAST;
+	boolean ignoreCanceled() default false;
 }

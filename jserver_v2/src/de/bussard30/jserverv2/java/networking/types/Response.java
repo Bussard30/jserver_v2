@@ -1,24 +1,17 @@
-package networking.types;
+package de.bussard30.jserverv2.java.networking.types;
 
-import de.jserverv2.bussard30.networking.server.protocol.message.Message;
+import de.bussard30.jserverv2.java.networking.server.protocol.message.Message;
 
 /**
  * @author Bussard30
  */
-public interface Response {
+public abstract class Response extends Packet {
 
-    String identifier = "res";
+    final String identifier = "res";
 
-
-    default String getPacketIdentifier() {
+    public String getPacketIdentifier() {
         return identifier;
     }
 
-    /**
-     * @param response Response that can processed
-     * @param request  Request on which the Response responded
-     */
-    void onResponse(Packet response, Packet request);
-
-    Message getResponseMessage();
+    public abstract Message getResponseMessage();
 }

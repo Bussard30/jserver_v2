@@ -1,81 +1,92 @@
-package networking.server.protocol;
-
-
-import networking.server.protocol.message.Header;
-import networking.types.Packet;
+package de.bussard30.jserverv2.java.networking.server.protocol;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Protocol {
-    // problem with current conditionwrapper system: logical operator in last
-    // condition is redundant
-    private HashMap<NetworkPhase, ProtocolCondition> conditions;
+import de.bussard30.jserverv2.java.networking.server.protocol.message.Header;
+import de.bussard30.jserverv2.java.networking.types.Packet;
 
-    // TODO
-    private NetworkPhase currentNetworkPhase;
+public class Protocol
+{
+	// problem with current conditionwrapper system: logical operator in last
+	// condition is redundant
+	// prob fine though
+	private HashMap<NetworkPhase, ProtocolCondition> conditions;
 
-    // this were only implemented for faster execution speed
-    private HashMap<Class<? extends Packet>, ConditionWrapper> map0;
-    private HashMap<ConditionWrapper, NetworkPhase> map1;
+	// TODO
+	private NetworkPhase currentNetworkPhase;
 
-    private Header header;
+	// indexing maps
+	private HashMap<Class<? extends Packet>, ConditionWrapper> map0;
+	private HashMap<ConditionWrapper, NetworkPhase> map1;
 
-    public Protocol() {
-        // to be used to subclasses for filling conditions hashmap
-    }
+	private Header header;
 
-    public HashMap<NetworkPhase, ProtocolCondition> getConditionsHashMap() {
-        if (conditions != null) {
-            return conditions;
-        } else {
-            return (conditions = new HashMap<>());
-        }
-    }
+	public Protocol()
+	{
+		// to be used to subclasses for filling conditions hashmap
+	}
 
-    /**
-     * Creates new mappings of conditions for faster future processing speed
-     */
-    public void sort() {
-        map0 = new HashMap<>();
-        map1 = new HashMap<>();
-        for (Map.Entry<NetworkPhase, ProtocolCondition> m : conditions.entrySet()) {
-            for (ConditionWrapper c : m.getValue().getConditions()) {
-                map1.put(c, m.getKey());
-                for (Class<? extends Packet> p : c.getCondition().getPackets()) {
-                    map0.put(p, c);
-                }
-            }
-        }
-    }
+	public HashMap<NetworkPhase, ProtocolCondition> getConditionsHashMap()
+	{
+		if (conditions != null)
+		{
+			return conditions;
+		} else
+		{
+			return (conditions = new HashMap<>());
+		}
+	}
 
-    /**
-     * Checks if the packet triggers progresses to another network phase
-     *
-     * @param p
-     * @return
-     */
-    public boolean pass(Packet p, PacketState ps) {
-        if (map0.get(p.getClass()).getCondition().isConditionMet() != map0.get(p).getCondition().check(p, ps)) {
-            ConditionWrapper[] c = conditions.get(currentNetworkPhase).getConditions();
-            boolean b = false;
-            b = c[0].getLogicalOperator().compare(c[0].getCondition().isConditionMet(),
-                    c[1].getCondition().isConditionMet());
-            for (int i = 1; i < c.length - 1; i++) {
-                b = c[i].getLogicalOperator().compare(b, c[i + 1].getCondition().isConditionMet());
-            }
-            return b;
-        }
-        return false;
-    }
+	/**
+	 * Creates new mappings of conditions for faster future processing speed
+	 */
+	public void sort()
+	{
+		map0 = new HashMap<>();
+		map1 = new HashMap<>();
+		for (Map.Entry<NetworkPhase, ProtocolCondition> m : conditions.entrySet())
+		{
+			for (ConditionWrapper c : m.getValue().getConditions())
+			{
+				map1.put(c, m.getKey());
+				for (Class<? extends Packet> p : c.getCondition().getPackets())
+				{
+					map0.put(p, c);
+				}
+			}
+		}
+	}
 
-    public void setHeader(Header h) {
-        this.header = h;
-    }
+	/**
+	 * Checks if the packet triggers progresses to another network phase
+	 * 
+	 * @param p
+	 * @return
+	 */
+	public boolean pass(Packet p, PacketState ps)
+	{
+		if (map0.get(p.getClass()).getCondition().isConditionMet() != map0.get(p).getCondition().check(p, ps))
+		{
+			ConditionWrapper[] c = conditions.get(currentNetworkPhase).getConditions();
+			boolean b = false;
+			b = c[0].getLogicalOperator().compare(c[0].getCondition().isConditionMet(),
+					c[1].getCondition().isConditionMet());
+			for (int i = 1; i < c.length - 1; i++)
+			{
+				b = c[i].getLogicalOperator().compare(b, c[i + 1].getCondition().isConditionMet());
+			}
+			return b;
+		}
+		return false;
+	}
 
-    public String getHeader(Header h, Packet p) {
-        //TODO method that creates string header by taking standard header or something and packet
-        return null;
-    }
+	public void setHeader(Header h)
+	{
+		this.header = h;
+	}
 
+	public ProtocolHeader getProtocolHeader() {
+		return null;
+	}
 }
