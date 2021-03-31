@@ -7,6 +7,9 @@ import java.util.function.Consumer;
 import de.bussard30.jserverv2.java.networking.server.protocol.NetworkPhase;
 import de.bussard30.jserverv2.java.networking.types.Packet;
 
+/**
+ * assess what this is for since "EventHandling" should do everything?
+ */
 public class HandlerManager
 {
 	/**
@@ -14,7 +17,6 @@ public class HandlerManager
 	 * network phase
 	 */
 	private HashMap<Class<? extends Packet>, HandlerWrapper<Object>> assignments;
-
 	private final Vector<Class<? extends Packet>> temp = new Vector<>();
 
 	/**
@@ -46,7 +48,6 @@ public class HandlerManager
 	 */
 	public synchronized void filter(NetworkPhase[] n)
 	{
-
 		assignments.forEach((c, h) ->
 		{
 			for (NetworkPhase nn : n)
