@@ -1,20 +1,24 @@
-package networking.server.protocol;
+package de.bussard30.jserverv2.java.networking.server.protocol;
 
-public class ProtocolCondition {
-
-    private final NetworkPhase target;
-    private final ConditionWrapper[] conditions;
-
-    public ProtocolCondition(NetworkPhase target, ConditionWrapper... conditions) {
-        this.target = target;
-        this.conditions = conditions;
-    }
-
-    public NetworkPhase getTargetPhase() {
-        return target;
-    }
-
-    public ConditionWrapper[] getConditions() {
-        return conditions;
-    }
+public class ProtocolCondition 
+{
+	
+	private final NetworkPhase target;
+	private final ConditionWrapper[] conditions;
+	
+	public ProtocolCondition(NetworkPhase target, ConditionWrapper... conditions) 
+	{
+		this.target = target;
+		this.conditions = conditions;
+	}
+	
+	public NetworkPhase getTargetPhase()
+	{
+		return target;
+	}
+	
+	public ConditionWrapper[] getConditions()
+	{
+		return conditions;
+	}
 }

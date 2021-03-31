@@ -1,34 +1,36 @@
-package networking.exceptions;
+package de.bussard30.jserverv2.java.networking.exceptions;
+
+public class BadRequestException extends Exception
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1329899281949335125L;
 
 
-import networking.logger.Logger;
+	public BadRequestException()
+	{
+		super();
+	}
 
-public class BadRequestException extends Exception {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1329899281949335125L;
+	public BadRequestException(String message)
+	{
+		super(message);
+	}
 
+	public BadRequestException(String message, Throwable cause)
+	{
+		super(message, cause);
+	}
 
-    public BadRequestException() {
-        super();
-        Logger.error(this);
-    }
+	public BadRequestException(Throwable cause)
+	{
+		super(cause);
+	}
 
-    public BadRequestException(String message) {
-        super(message);
-    }
-
-    public BadRequestException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public BadRequestException(Throwable cause) {
-        super(cause);
-    }
-
-    public BadRequestException(String message, Throwable cause, boolean enableSuppression,
-                               boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+	public BadRequestException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace)
+	{
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
 }

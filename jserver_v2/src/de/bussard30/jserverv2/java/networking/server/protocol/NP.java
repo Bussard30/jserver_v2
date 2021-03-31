@@ -1,13 +1,16 @@
-package networking.server.protocol;
+package de.bussard30.jserverv2.java.networking.server.protocol;
 
-public class NP {
+@Deprecated
+public class NP
+{
 
-    /**
-     * Class wrapper for NetworkPhase interface for annotation
-     */
-    public NP() {
+	/**
+	 * Class wrapper for NetworkPhase interface for annotation
+	 */
+	public NP()
+	{
 
-    }
-
+	}
+	
 
 }
