@@ -7,7 +7,7 @@
     <name>jserver_v2</name>
     <description>Java server with custom protocol.</description>
     <build>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src.java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

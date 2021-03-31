@@ -1,0 +1,11 @@
+package de.bussard30.jserverv2.networking.server;
+
+public class Main
+{
+
+	private static final HandlerManager hm = new HandlerManager();
+
+
+	
+	
+}
