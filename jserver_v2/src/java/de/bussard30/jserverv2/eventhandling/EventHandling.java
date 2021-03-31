@@ -28,7 +28,6 @@ public class EventHandling {
      */
     public static volatile boolean launched;
 
-
     /**
      * Scans methods of object for following annotations: "@interface<br>
      * EventHandler, "@interface RequestHandler, "@interface ResponseHandler<br>
