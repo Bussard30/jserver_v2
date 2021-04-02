@@ -76,32 +76,12 @@ public class ServerHandler
 
 	public void run() throws Exception
 	{
-		//FETCH PACKET
+		// FETCH PACKET
+
+		// INTERPRET MESSAGE
+
+		// INVOKE EVENT-HANDLERS
 		
-	}
-
-	private void ping()
-	{
-		// try
-		// {
-		// send(new Request(Requests.REQST_PING.getName(), new
-		// ByteArrayWrapper(ping)));
-		// } catch (Exception e)
-		// {
-		// e.printStackTrace();
-		// }
-	}
-
-	public void advance()
-	{
-		try
-		{
-			in.read();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public DataInputStream getInputStream()
@@ -122,6 +102,17 @@ public class ServerHandler
 	private ByteArrayOutputStream bOut;
 	private ObjectOutputStream os;
 
+	/**
+	 * RSA key encryption.
+	 * @param publicKey key for encrypting
+	 * @param msg byte sequence to be encrypted
+	 * @return encrypted byte sequence
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 * @throws InvalidKeyException
+	 */
 	public static byte[] encrypt(PublicKey publicKey, byte[] msg) throws NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException
 	{
@@ -130,6 +121,17 @@ public class ServerHandler
 		return cipher.doFinal(msg);
 	}
 
+	/**
+	 * RSA key decryption.
+	 * @param privateKey key for decrypting
+	 * @param encrypted byte sequence to be decrypted
+	 * @return decrypted byte sequence
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 * @throws InvalidKeyException
+	 */
 	public static byte[] decrypt(PrivateKey privateKey, byte[] encrypted) throws NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException
 	{
@@ -138,6 +140,17 @@ public class ServerHandler
 		return cipher.doFinal(encrypted);
 	}
 
+	/**
+	 * AES Key encryption.
+	 * @param key key for encrypting
+	 * @param msg byte sequence to be encrypted
+	 * @return encrypted byte sequence
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 * @throws InvalidKeyException
+	 */
 	public static byte[] encrypt(SecretKey key, byte[] msg) throws NoSuchAlgorithmException, NoSuchPaddingException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException
 	{
@@ -146,6 +159,17 @@ public class ServerHandler
 		return cipher.doFinal(msg);
 	}
 
+	/**
+	 * AES key decryption
+	 * @param key key for encrypting
+	 * @param encrypted byte sequence to be decrypted
+	 * @return decrypted byte sequence
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 * @throws InvalidKeyException
+	 */
 	public static byte[] decrypt(SecretKey key, byte[] encrypted) throws NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException
 	{
