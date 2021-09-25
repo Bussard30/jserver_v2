@@ -1,0 +1,33 @@
+package de.bussard30.jserverv2.networking.convertionhandlers;
+
+import java.security.InvalidParameterException;
+
+import de.bussard30.jserverv2.networking.types.ConvertionHandling;
+
+@ConvertionHandling(target = Integer.class)
+public class IntegerSerializer extends Serializer
+{
+
+	@Override
+	public String buildString(Object o) throws InvalidParameterException
+	{
+		if (o instanceof Integer)
+		{
+			return Integer.toString((Integer) o);
+		}
+		throw new InvalidParameterException();
+	}
+
+	@Override
+	public Object buildObject(String s) throws InvalidParameterException
+	{
+		try
+		{
+			return Integer.parseInt(s);
+		} catch (Throwable t)
+		{
+			throw new InvalidParameterException();
+		}
+	}
+
+}
