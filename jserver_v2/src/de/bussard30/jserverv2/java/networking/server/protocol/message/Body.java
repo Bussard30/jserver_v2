@@ -1,6 +1,6 @@
 package de.bussard30.jserverv2.java.networking.server.protocol.message;
 
-import de.bussard30.jserverv2.java.networking.convertionhandlers.Convert;
+import de.bussard30.jserverv2.java.networking.conversionhandlers.Convert;
 import de.bussard30.jserverv2.java.networking.server.protocol.Protocol;
 import de.bussard30.jserverv2.java.networking.types.Packet;
 

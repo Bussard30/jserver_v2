@@ -1,11 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>jserver_v2</groupId>
     <artifactId>jserver_v2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jserver_v2</name>
     <description>Java server with custom protocol.</description>
+
     <build>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
@@ -19,7 +21,23 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <layout>default</layout>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <!-- CUDA DEPENDENCIES-->
+        <!-- ________________________________________-->
+        <!-- ________________________________________-->
         <dependency>
             <groupId>org.jcuda</groupId>
             <artifactId>jcuda</artifactId>
@@ -60,6 +78,8 @@
             <artifactId>jcudnn</artifactId>
             <version>10.1.0</version>
         </dependency>
+        <!-- ________________________________________-->
+        <!-- ________________________________________-->
 
         <!-- https://mvnrepository.com/artifact/it.unimi.dsi/fastutil -->
         <dependency>
@@ -68,10 +88,41 @@
             <version>8.1.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
+
+        <!-- jackson dependencies -->
+        <!-- ________________________________________-->
+        <!-- ________________________________________-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+        <!-- ________________________________________-->
+        <!-- ________________________________________-->
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>19.0.0</version>
         </dependency>
+
     </dependencies>
 </project>

@@ -1,6 +1,6 @@
 package de.bussard30.jserverv2.java.networking.types;
 
-import de.bussard30.jserverv2.java.networking.convertionhandlers.Convert;
+import de.bussard30.jserverv2.java.networking.conversionhandlers.Convert;
 
 public class Wrapper
 {
