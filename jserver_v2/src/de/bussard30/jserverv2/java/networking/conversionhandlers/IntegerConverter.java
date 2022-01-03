@@ -1,21 +1,19 @@
-package de.bussard30.jserverv2.java.networking.convertionhandlers;
+package de.bussard30.jserverv2.java.networking.conversionhandlers;
 
 import java.security.InvalidParameterException;
-import java.util.Base64;
 
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
-@ConvertionHandling(target = Short.class)
-public class ShortConverter extends ConversionHandler
+@ConvertionHandling(target = Integer.class)
+public class IntegerConverter extends ConversionHandler
 {
 
 	@Override
 	public String buildString(Object o) throws InvalidParameterException
 	{
-		if (o instanceof Short)
+		if (o instanceof Integer)
 		{
-			return Base64.getEncoder().encodeToString(new byte[]
-			{ (byte) ((short) o & 0xff), (byte) (((short) o >> 8) & 0xff) });
+			return Integer.toString((Integer) o);
 		}
 		throw new InvalidParameterException();
 	}
@@ -25,8 +23,7 @@ public class ShortConverter extends ConversionHandler
 	{
 		try
 		{
-			byte[] b = Base64.getDecoder().decode(s);
-			return ((b[1] & 0xFF) << 8) | (b[0] & 0xFF);
+			return Integer.parseInt(s);
 		} catch (Throwable t)
 		{
 			throw new InvalidParameterException();

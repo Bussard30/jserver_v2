@@ -1,19 +1,19 @@
-package de.bussard30.jserverv2.java.networking.convertionhandlers;
+package de.bussard30.jserverv2.java.networking.conversionhandlers;
 
 import java.security.InvalidParameterException;
 
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 
-@ConvertionHandling(target = Float.class)
-public class FloatConverter extends ConversionHandler
+@ConvertionHandling(target = Long.class)
+public class LongConverter extends ConversionHandler
 {
 
 	@Override
 	public String buildString(Object o) throws InvalidParameterException
 	{
-		if (o instanceof Float)
+		if (o instanceof Long)
 		{
-			return Float.toString((Float) o);
+			return Long.toString((Long) o);
 		}
 		throw new InvalidParameterException();
 	}
@@ -23,7 +23,7 @@ public class FloatConverter extends ConversionHandler
 	{
 		try
 		{
-			return Float.parseFloat(s);
+			return Long.parseLong(s);
 		} catch (Throwable t)
 		{
 			throw new InvalidParameterException();

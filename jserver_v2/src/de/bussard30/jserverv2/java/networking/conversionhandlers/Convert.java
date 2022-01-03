@@ -1,4 +1,4 @@
-package de.bussard30.jserverv2.java.networking.convertionhandlers;
+package de.bussard30.jserverv2.java.networking.conversionhandlers;
 
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
 

@@ -1,4 +1,4 @@
-package de.bussard30.jserverv2.java.networking.convertionhandlers;
+package de.bussard30.jserverv2.java.networking.conversionhandlers;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
