@@ -10,7 +10,7 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
-
+@Deprecated
 @ConvertionHandling(target = BufferedImage.class)
 public class BufferedImageConverter extends ConversionHandler
 {

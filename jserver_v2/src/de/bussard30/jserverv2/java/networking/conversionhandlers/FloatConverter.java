@@ -3,7 +3,7 @@ package de.bussard30.jserverv2.java.networking.conversionhandlers;
 import java.security.InvalidParameterException;
 
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
-
+@Deprecated
 @ConvertionHandling(target = Float.class)
 public class FloatConverter extends ConversionHandler
 {

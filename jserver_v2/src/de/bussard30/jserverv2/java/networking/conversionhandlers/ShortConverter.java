@@ -4,7 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.Base64;
 
 import de.bussard30.jserverv2.java.networking.types.ConvertionHandling;
-
+@Deprecated
 @ConvertionHandling(target = Short.class)
 public class ShortConverter extends ConversionHandler
 {

@@ -1,7 +1,7 @@
 package de.bussard30.jserverv2.java.networking.conversionhandlers;
 
 import java.security.InvalidParameterException;
-
+@Deprecated
 public abstract class ConvertionHandler {
     /**
      * Converts an object to a string

@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 import java.util.Base64;
 import java.util.HashMap;
-
+@Deprecated
 public class Convert {
     private static final HashMap<Class<?>, ConversionHandler> assignments;
     private static final HashMap<String, Class<?>> assignmentIndexing;
