@@ -2,7 +2,7 @@
 
 Server java application that is designed for handling large-scale custom-protocol tcp data traffic. Makes most sense to
 use with CPUs with more threads (>16 Threads, scales more or less linearly). Might have trouble using less than ~8
-Threads efficiently. Currently work in progress.
+Threads efficiently. Currently work in progress. Mostly created so I learn more about networking, threading and other things.
 
 Features:
 
